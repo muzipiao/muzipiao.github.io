@@ -1,5 +1,4 @@
-# lifei_blog
-# leopard
+# 我的个人博客
 
 本博客是在[leopard](http://baixin.io) 的基础上修改的，是一个简洁的博客模板.
 
