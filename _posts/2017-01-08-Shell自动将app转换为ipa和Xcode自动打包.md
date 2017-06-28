@@ -1,0 +1,88 @@
+
+## 一、利用Shell脚本将.app自动转换为.ipa
+
+说明：利用Xcode开发App时，经常遇到只有开发用的交换证书，而无生产证书的情况；在Archive后，无法`Save for Ad Hoc Deployment`导出IPA包，分享给测试人员。
+
+### 方法1：利用iTunes给测试机安装
+
+* 在Archive的项目上面右键-->Show in Finder-->右键`显示包内容`-->打开文件夹`Products`-->打开文件夹`Applications`-->里面有一个以.app为后缀的文件夹，此文件夹拖入iTunes，亦可当IPA包用，但安装速度，易用性都不好，安装麻烦。
+* 如果关闭了Archive管理界面，想再次进入，只需打开任意Xcode项目，`window －>organizer`即可进入。
+
+### 方法2：将.app后缀的文件夹转换为IPA文件
+
+* 例如xx.app放在桌面上，则进入`终端`，输入`cd desktop`进入桌面，然后把AutoIPA.sh拖入终端，回车运行即可。
+* 桌面将会出现一个`IPAFolder`的文件夹，转换好的IPA包就在里面，可分发给测试人员
+
+### 转换为IPA包的Shell脚本如下
+
+```shell
+#注意：脚本目录和xxx.app要在同一个目录，如果放到其他目录，请自行修改脚本。
+#包名称(以.app为后缀名的包名称)
+#这里请将双引号里面的名称改为你xxx.app的名称
+App_Name="这里替换为你的.app的文件名，不包含后缀"
+
+#进入文件夹，如果你将xx.app包放在桌面AutoIPA文件里面，请将路径拖入下方
+#cd /Users/P85755/Desktop/AutoIPA
+
+# 先删除里面当前的IPAFolder文件夹
+rm -rf IPAFolder
+# 再创建IPAFolder文件夹
+mkdir IPAFolder
+# 在文件夹里面创建Payload文件夹
+mkdir IPAFolder/Payload
+# 将当前目录下的App_Name.app复制到Payload里面
+cp -r $App_Name.app IPAFolder/Payload/$App_Name.app
+# IPA包制作中可忽略iTunesArtwork这个图标，经过发现，可以不要这个图标，打包的时候只吧目录打进去即可
+# cp Icon.png IPAFolder/iTunesArtwork
+# 进入CEB文件夹
+cd IPAFolder
+# 压缩多个目录zip FileName.zip 目录1 目录2 目录3....
+# zip -r $App_Name.ipa Payload iTunesArtwork
+zip -r $App_Name.ipa Payload
+
+exit 0
+```
+<br>
+----
+
+## 二、利用Shell脚本自动打包
+
+**`如果你项目想集成自动化测试和自动打包，这段Shell用的上，但需要开发证书`**
+
+```shell
+#注意：脚本目录和xxxx.xcodeproj要在同一个目录，如果放到其他目录，请自行修改脚本。
+#工程名字(Target名字)
+Project_Name="这里替换为你的项目名称"
+#配置环境，Release或者Debug
+Configuration="Release"
+
+#AdHoc版本的Bundle ID
+AdHocBundleID="xxx.xxx.xxx"
+
+# ADHOC
+#证书名#描述文件
+ADHOCCODE_SIGN_IDENTITY="这里替换为你的证书名称"
+ADHOCPROVISIONING_PROFILE_NAME="这里替换为你的描述文件名称"
+
+#加载各个版本的plist文件
+ADHOCExportOptionsPlist="./Info.plist"
+ADHOCExportOptionsPlist=${ADHOCExportOptionsPlist}
+
+#clean下，防止有缓存
+xcodebuild clean -xcodeproj ./$Project_Name.xcodeproj -configuration $Configuration -alltargets
+
+#${varible:n1:n2}
+#xcodebuild archive -project 项目名称.xcodeproj -scheme 项目名称 -configuration Release -archivePath archive包存储路径 CODE_SIGN_IDENTITY=证书 PROVISIONING_PROFILE=描述文件UUID
+xcodebuild -project $Project_Name.xcodeproj -scheme ${Project_Name:0:3} -configuration $Configuration -archivePath build/$Project_Name-adhoc.xcarchive clean archive build  CODE_SIGN_IDENTITY="${ADHOCCODE_SIGN_IDENTITY}" PROVISIONING_PROFILE="${ADHOCPROVISIONING_PROFILE_NAME}" PRODUCT_BUNDLE_IDENTIFIER="${AdHocBundleID}"
+#xcodebuild -exportArchive -exportFormat ipa文件格式 -archivePath archive包存储路径 -exportPath ipa包存储路径  -exportProvisioningProfile 描述文件名称，同上，在这里就不需要添加了。
+xcodebuild -exportArchive -archivePath build/$Project_Name-adhoc.xcarchive -exportOptionsPlist $ADHOCExportOptionsPlist -exportPath ~/Desktop/$Project_Name-adhoc.ipa
+
+```
+
+------
+
+#### Shell脚本用法：
+
+* 可将Shell脚本保存到以.sh结尾的文本文件中，拖入终端回车即可运行
+* 或者到GitHub直接下载即可，下载链接 **[Shell脚本下载地址](https://github.com/muzipiao/CreateiPhoneIconShell)**
+* 如果您觉得有所帮助，请在GitHub上赏个Star ⭐️，您的鼓励是我前进的动力
