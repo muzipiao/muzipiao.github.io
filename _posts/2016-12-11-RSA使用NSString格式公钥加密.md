@@ -1,6 +1,13 @@
-### iOS简单使用NSString字符串进行RSA加密解密
 
-### 前言：
+---
+layout: post
+title: "RSA使用NSString格式公钥加密"
+date: 2016-12-11 
+description: "iOS使用NSString格式公钥私钥进行加密解密"
+tag: RSA 
+---   
+
+#### 前言：
 
  > RSA加密在iOS中经常用到，麻烦的方法是使用openssl生成所需秘钥文件，需要用到.der和.p12后缀格式的文件，其中.der格式的文件存放的是公钥（Public key）用于加密，.p12格式的文件存放的是私钥（Private key）用于解密。
 
