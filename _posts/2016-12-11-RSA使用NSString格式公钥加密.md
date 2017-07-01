@@ -8,7 +8,10 @@ tag: RSA
 
 #### 前言：
 
- > RSA加密在iOS中经常用到，麻烦的方法是使用openssl生成所需秘钥文件，需要用到.der和.p12后缀格式的文件，其中.der格式的文件存放的是公钥（Public key）用于加密，.p12格式的文件存放的是私钥（Private key）用于解密。
+> RSA加密在iOS中经常用到，麻烦的方法是使用openssl生成所需秘钥文件，
+> 需要用到.der和.p12后缀格式的文件，其中.der格式的文件存放的是公钥（Public key）用于加密，
+> .p12格式的文件存放的是私钥（Private key）用于解密。
+> 
 
 然而，有没有简单的方法，仅仅通过NSString字符串格式的公钥和私钥就可以进行方便的加密解密？答案是肯定的。
 
@@ -38,7 +41,12 @@ tag: RSA
 
 例如：这是一串服务器生成的RSA公钥
 
- > MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDTbZ6cNH9PgdF60aQKveLz3FTalyzHQwbp601y77SzmGHX3F5NoVUZbdK7UMdoCLK4FBziTewYD9DWvAErXZo9BFuI96bAop8wfl1VkZyyHTcznxNJFGSQd/B70/ExMgMBpEwkAAdyUqIjIdVGh1FQK/4acwS39YXwbS+IlHsPSQIDAQAB
+> MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDTbZ6cNH9
+> PgdF60aQKveLz3FTalyzHQwbp601y77SzmGHX3F5NoVUZbd
+> K7UMdoCLK4FBziTewYD9DWvAErXZo9BFuI96bAop8wfl1Vk
+> ZyyHTcznxNJFGSQd/B70/ExMgMBpEwkAAdyUqIjIdVGh1FQ
+> K/4acwS39YXwbS+IlHsPSQIDAQAB
+>
 
 但由于含有`/+=\n`等特殊字符串，网络传输过程中导致转义，进而导致加密解密不成功，解决办法是进行URL特殊符号编码解码(百分号转义)；具体示例，在Demo中有示例，文章最下方有`链接`。
 
