@@ -115,6 +115,4 @@ tag: RSA
 
 @end
 ```
-如果您觉得有所帮助，请在[GitHub](https://github.com/muzipiao/RSAEncrypt)上赏个Star ⭐️，您的鼓励是我前进的动力
-[点击下载RSA加密解密Demo](https://github.com/muzipiao/RSAEncrypt.git)
-https://github.com/muzipiao/RSAEncrypt.git
+如果您觉得有所帮助，请在[GitHub RSADemo](https://github.com/muzipiao/RSAEncrypt)上赏个Star ⭐️，您的鼓励是我前进的动力
