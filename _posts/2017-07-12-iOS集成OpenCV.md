@@ -38,7 +38,7 @@ tag: iOS
 #import <opencv2/imgcodecs/ios.h>
 ```
 
-### 二、CocoaPods方式集成(不推荐)
+### 二、~~CocoaPods方式集成~~(不推荐)
 
 #### 2.1 CocoaPods文件配置
 
