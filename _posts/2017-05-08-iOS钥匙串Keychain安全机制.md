@@ -52,3 +52,19 @@ tag: iOS
 <left class="half">
     <img src="https://raw.githubusercontent.com/muzipiao/GitHubImages/master/keychainImages/keychainSw.png" width="300"/>
 </left>
+
+### **五、App的Keychain清除条件**
+
+|操作条件|更换Apple ID|还原所有设置|抹掉所有内容和设置|还原网络设置|还原键盘字典|还原主屏幕布局|还原位置与隐私|
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|是否清除Keychain数据|否|否|是|否|否|否|否|
+
+> - 更换Apple ID，不会抹去应用App和Keychain内容。这一点我开始有点主观臆断，以为Apple ID和Windows用户一样，不同用户间互不干扰。更换Apple ID后，App仍旧能读取存储在Keychain的内容。更换Apple ID只会抹除照片图库，通讯录，Safari的账户信息等。
+> - 还原所有设置，不能删除App，也不能删除Keychain。
+> - 抹掉所有内容和设置会清空手机，并清空Keychain里面的内容。
+> - 还原网络设置，将删除所有的网络设置，将WiFi，4G等网络设置还原为出厂设置。
+> - 还原键盘字典，将删除键盘上键入的所有自定义字，并将键盘字典恢复为出厂设置。
+> - 还原主屏幕布局，将主屏幕还原为厂家默认的布局。
+> - 还原位置与隐私，会将手机的位置和隐私设置还原为厂家默认值。
+
+
