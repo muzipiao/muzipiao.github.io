@@ -1,11 +1,11 @@
 # Basic
 title: 李飞
 subtitle: 个人站
-description: 欢迎来到我的个人Blog~
+description: 欢迎来到我的Blog~
 # 头像里面的标题
-avatarTitle: muzipiao
+avatarTitle: cocoafei
 # 头像里面的描述
-avatarDesc: iOS / 机器学习
+avatarDesc: iOS / Python
 url: "https://muzipiao.github.io"
 
 # Comment
@@ -16,7 +16,7 @@ comment:
 
 # Social
 social:
-    weibo: 12345678 
+    # weibo: 12345678
     github: muzipiao
     # twitter: 
     mail: lifei_zdjl@126.com
@@ -28,9 +28,9 @@ baidu:
 
 # Google Analytics
 # 使用博客模板请去掉或者更换 id
-ga:
-    id: UA-84134159-3   
-    host: auto  
+# ga:
+#   id: UA-84134159-3   
+#    host: auto  
 
 
 # 《----------------- 上面的信息修改成你自己的 ---------------------------》
