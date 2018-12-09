@@ -17,7 +17,7 @@ title: 关于我
 <p>
 
 推荐一个我的 简书地址
-<a target="_blank" href="http://www.jianshu.com/u/4293b841a67e/"> 简书Blog </a>
+<a target="_blank" href="http://cocoafei.top/"> 我的 Blog </a>
 里面有一些关于 iOS 、Mac 的文章。
 
 <p>
