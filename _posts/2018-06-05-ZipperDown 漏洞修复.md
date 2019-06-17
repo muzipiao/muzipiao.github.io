@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "ZipperDown漏洞修复"
+title: "ZipperDown 漏洞修复"
 date: 2018-06-05 
-description: "ZipperDown漏洞原理和修复"
+description: "ZipperDown 漏洞原理和修复"
 tag: ZipperDown 
 ---   
 

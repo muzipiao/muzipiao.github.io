@@ -2,7 +2,7 @@
 layout: post
 title: " iOS 通用链接(Universal Link)"
 date: 2017-05-20
-description: " iOS通过Universal Link打开App功能"
+description: " iOS 通过 Universal Link 打开 App 功能"
 tag: iOS
 ---
 

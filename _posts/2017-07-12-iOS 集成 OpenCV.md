@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "iOS集成OpenCV"
+title: "iOS 集成 OpenCV"
 date: 2017-07-12 
-description: "iOS项目集成OpenCV及踩过的坑"
+description: "iOS 项目集成 OpenCV 及踩过的坑"
 tag: iOS 
 ---   
 
