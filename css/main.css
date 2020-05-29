@@ -111,10 +111,12 @@ h1 {
   font-size: 2.0em;
   line-height: 1.2em;
   letter-spacing: .05em; 
+  font-weight: bold;
 }
 
 h2 {
   font-size: 1.5em; 
+  font-weight: bold;
   /*background:#B9D3EE;*/
   /*text-align: center;*/
 }
@@ -146,6 +148,7 @@ p {
   margin-top: 5px;
   line-height: 1.7em; 
   padding-left: 20px;
+  font-size: 16px;
 }
 
 strong {
@@ -319,6 +322,13 @@ img::-moz-selection {
     float:left;
   }
 }
+
+.footer-social-icon {
+  width: 30px;
+  height: 30px;
+  background-size: 15px;
+}
+
 /*pager end----------------*/
 
   .date,
@@ -341,7 +351,7 @@ img::-moz-selection {
   }
 
   .excerpt {
-    border-left: 3px solid #458B74; 
+    border-left: 3px solid #12B2F8; 
     margin: 0;
     margin-right: 10px;
     font-size: .9em;
@@ -644,7 +654,7 @@ img::-moz-selection {
     font-size: 1.0em;
     height: 30px;
     margin-left: 20px; 
-    color: #458B74;
+    color: #1289F8;
   }
 
   .btn-secondary {
@@ -741,7 +751,7 @@ img::-moz-selection {
 
   .navigation__item_social {
     display: inline-block;
-    margin-right: 20px;
+    /*margin-right: 20px;*/
     width: 50px;
   }
   .navigation__item_social a {
@@ -811,6 +821,8 @@ img::-moz-selection {
   .post-list li {
     margin: 0 0 2.2em 0;
     float: left;
+    width: 100%;
+    border-radius: 8px;
 
     -moz-box-shadow:4px 4px 4px #efefef, 
     -4px -4px 4px #efefef, 

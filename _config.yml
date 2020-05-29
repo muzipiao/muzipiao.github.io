@@ -1,47 +1,16 @@
 # Basic
-title: 李飞
+title: cocoafei
 subtitle: 个人站
 description: 欢迎来到我的Blog~
-# 头像里面的标题
 avatarTitle: cocoafei
-# 头像里面的描述
 avatarDesc: iOS / Python
 url: "https://muzipiao.github.io"
 
-# Comment
-comment:
-    # disqus: muzipiao
-    # duoshuo: muzipiao 
-    # cloudTie: muzipiao
-
 # Social
 social:
-    # weibo: 12345678
     github: muzipiao
-    # twitter: 
+    juejin: 5b2f1c51f265da59ad439f69
     mail: lifei_zdjl@126.com
-
-# 百度统计 
-# 使用博客模板请去掉或者更换 id 
-baidu:
-    id: 2e26f8fc61919291592e0bd222b81d45  
-
-# Google Analytics
-# 使用博客模板请去掉或者更换 id
-# ga:
-#   id: UA-84134159-3   
-#    host: auto  
-
-
-# 《----------------- 上面的信息修改成你自己的 ---------------------------》
-#
-#
-#  _post/ 下的文章更换成你自己的文章
-#  帮忙star一下，感谢~😆 地址： https://github.com/muzipiao/muzipiao.github.io
-#
-#
-# 《--------------- 下面的信息可以自行选择是否修改 ------------------------》
-
 
 permalink: /:year/:month/:title/
 # Format
@@ -49,7 +18,6 @@ highlighter: rouge
 
 textColor: #FF0000
 
-# supported colors: blue, green, purple, red, orange or slate. If you need clear, leave it empty.
 cover_color: clear
 
 # The blog button should not be removed.
@@ -64,8 +32,6 @@ nav:
     
 
 # Pagination  jekyll-sitemap
-gems: [jekyll-paginate]
+gems: [jekyll-paginate,jekyll-sitemap]
 paginate: 20
 paginate_path: "page/:num/"
-
-
