@@ -326,7 +326,11 @@ img::-moz-selection {
 .footer-social-icon {
   width: 30px;
   height: 30px;
-  background-size: 15px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
 }
 
 /*pager end----------------*/
@@ -751,7 +755,7 @@ img::-moz-selection {
 
   .navigation__item_social {
     display: inline-block;
-    /*margin-right: 20px;*/
+    margin-right: 15px;
     width: 50px;
   }
   .navigation__item_social a {
