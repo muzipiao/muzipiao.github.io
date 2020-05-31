@@ -29,29 +29,21 @@ tag: iOS
 
 3.1、未对应用APP的进行配置时，会默认存储在自身BundleID的条目下，不能相互访问。
 
-<left class="half">
-    <img src="https://raw.githubusercontent.com/muzipiao/GitHubImages/master/keychainImages/appKeychain1.png" width="300"/>
-</left>
+![ ](/images/posts/keychain/appKeychain1.png)
 
 3.2、对APP的进行配置后，APP具有对某个条目的访问权限。
 
-<left class="half">
-    <img src="https://raw.githubusercontent.com/muzipiao/GitHubImages/master/keychainImages/appKeychain2.png" width="300"/>
-</left>
+![ ](/images/posts/keychain/appKeychain2.png)
 
 ### **四、App使用的钥匙串Keychain与iPhone中的的钥匙串的区别**
 
 4.1、iPhone中的钥匙串功能：保存各种密码、WiFi、appleID、网站密码等等。
 
-<left class="half">
-    <img src="https://raw.githubusercontent.com/muzipiao/GitHubImages/master/keychainImages/iosKeychainSw.png" width="300"/>
-</left>
+![ ](/images/posts/keychain/iosKeychainSw.png)
 
 4.2、App中的钥匙串Keychain主要是保存App的用户名密码等重要信息。
 
-<left class="half">
-    <img src="https://raw.githubusercontent.com/muzipiao/GitHubImages/master/keychainImages/keychainSw.png" width="300"/>
-</left>
+![ ](/images/posts/keychain/keychainSw.png)
 
 ### **五、App的Keychain清除条件**
 

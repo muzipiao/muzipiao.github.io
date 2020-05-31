@@ -46,7 +46,7 @@ iOS端修复很简单，下载文件成功后，解压文件时，不用**网络
 
 ## 攻击示意图
 
-![攻击示意图](https://raw.githubusercontent.com/muzipiao/GitHubImages/master/ZipperDown/ZipperDownImg1.png)
+![攻击示意图](/images/posts/zipperdown/ZipperDownImg1.png)
 
 ## 代码示例
 

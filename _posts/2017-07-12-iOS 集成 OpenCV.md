@@ -44,7 +44,7 @@ tag: iOS
 
 导入`#import <opencv2/opencv.hpp>`报 Expected identitier 的错误。这是由于 opencv 的 import 要写在`#import <UIKit/UIKit.h>、#import <Foundation/Foundation.h>`这些系统库 `前面`，否则会出现重命名的冲突。
 
-![导入头文件错误](https://raw.githubusercontent.com/muzipiao/GitHubImages/master/OpenCVImg/OpenCVSetError/OpenCVSetError1.png)
+![导入头文件错误](/images/posts/opencv/OpenCVSetError/OpenCVSetError1.png)
 
 ### Objective-C 和 C++ 的混编的深坑
 
@@ -66,7 +66,7 @@ OpenCV 框架提供是 C++ 的 API 接口，凡是使用 OpenCV 的地方，类�
 
 导入 OpenCV 使用时，Xcode8 或 Xcode9 可能会有一堆类似`warning: empty paragraph passed to '@param' command [-Wdocumentation]`的文档警告，Xcode10 已经没有没有此文档警告。
 
-![文档警告](https://raw.githubusercontent.com/muzipiao/GitHubImages/master/OpenCVImg/OpenCVSetError/OpenCVSetError2.png)
+![文档警告](/images/posts/opencv/OpenCVSetError/OpenCVSetError2.png)
 
 如果编译器报文档警告，有强迫症的小伙伴不能忍。解决办法：导入头文件的时候，忽略文档警告即可；同时只在需要的地方导入 C++ 类，则加上编译器忽略文档警告即可，解决办法如下：
 
