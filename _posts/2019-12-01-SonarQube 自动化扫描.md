@@ -1,12 +1,18 @@
 ---
 layout: post
-title: "SonarQube 自动化扫描"
+title: "SonarQube 自动化扫描 iOS 项目"
 date: 2019-12-01
 description: "iOS 使用 SonarQube 自动化批量扫描。"
-tag: sonar 
+tag: SonarQube 
 --- 
 
-Sonarqube 自动化扫描，主要利用 Jenkins 检测 Git 代码更新，然后配合 oclint 及 Sonarqube 实现自动化扫描展示。
+## 自动扫描概述
+
+SonarQube 是一款用于代码质量管理的开源工具，它主要用于管理源代码的质量。SonarQube 全自动化扫描，主要利用 Jenkins 检测 Git 代码更新，定时拉取代码，然后配合 oclint 及 SonarQube 实现自动化扫描展示。oclint 负责扫描项目，SonarQube 负责将扫描结果存储到数据库，并提供数据可视化。
+
+![SonarQube](/images/posts/sonar/sonar_swift.png)
+
+## 主要步骤
 
 1. Jenkins 定时检测 Git 分支更新，并执行脚本（只有此操作使用 Jenkins，以下步骤使用脚本）；
 2. 脚本检测本地是否已存在项目，不存在`git clone`拉取代码，存在`git pull`拉取更新到本地；
@@ -14,7 +20,8 @@ Sonarqube 自动化扫描，主要利用 Jenkins 检测 Git 代码更新，然�
 4. 使用 xcodebuild 清理工程缓存，并生成新的编译数据，使用 xcpretty 转成 json 格式；
 5. 使用 oclint 设置相关忽略项，并导出 oclint.xml 格式分析报告；
 6. 脚本动态生成 sonar-project.properties 文件，并调用 sonar-scanner 储存到数据库；
-7. 导出 ~/.jenkins/jobs/ 目录下的 config.xml 模板文件，脚本批量创建添加任务。
+7. 导出 ~/.jenkins/jobs/ 目录下的 config.xml 模板文件，脚本批量创建添加任务；
+8. 手动或 Jenkins 自动触发扫描，本机访问 `http://localhost:9000` 查看结果。
 
 ## 安装流程
 
@@ -59,13 +66,13 @@ sudo rm -fr ~/Library/Application\ Support/Oracle/Java
 4. 将下载的 xxxx.tar.gz 拷贝到下载目录，名称命名为和 .tar.gz.incomplete 同样名称，去掉 .incomplete;
 5. 再次安装 brew install xxxx。
 
-**Jenkins 如果安装插件失败，可以更换安装源、手动上传、科学上网，更换网络。**
+**Jenkins 如果安装插件失败，可以更换安装源、手动上传、科学访问外网，更换网络。**
 
 1. 更换安装源路径在 Jenkins 的管理网页中，系统设置-插件管理-高级-修改升级站点。
 eg.安装源：http://mirror.esuni.jp/jenkins/updates/update-center.json
 2. 官网下载后缀 .hpi 插件文件，在系统设置-插件管理-高级-上传插件，选择下载的插件上传。
 eg.Jenkins 插件官网：https://plugins.jenkins.io/
-3. 科学上网，可以选择例如蓝灯或其他进行科学上网。
+3. 科学访问外网，可以选择科学访问外网下载。
 4. 下载失败也可能是连接网络的问题，我使用公司网络无论如何都是失败，使用手机分享 WiFi 下载成功。
 
 **Jenkins 启动停止**
@@ -437,7 +444,7 @@ if __name__ == "__main__":
         auto_sonar(str(sys.argv[1]))
 ```
 
-## OCLint 扫描上传 Sonarqube 脚本
+## OCLint 扫描上传 SonarQube 脚本
 
 自动创建 Sonar 配置文件，扫描结果自动储存到数据库，通过网页查看结果。
 
