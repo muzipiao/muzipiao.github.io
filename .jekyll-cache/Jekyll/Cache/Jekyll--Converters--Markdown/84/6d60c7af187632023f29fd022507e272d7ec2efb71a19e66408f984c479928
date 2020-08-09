@@ -1,0 +1,64 @@
+I"�<h2 id="本地设置角标">本地设置角标</h2>
+
+<p>iOS 显示角标很容易，在 App 中任意地方调用如下方法都可设置，根据自己的需要设定即可。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 显示角标，传入待显示角标的数字</span>
+<span class="p">[[</span><span class="n">UIApplication</span> <span class="nf">sharedApplication</span><span class="p">]</span> <span class="nf">setApplicationIconBadgeNumber</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="n">value</span><span class="p">];</span>
+<span class="c1">// 清除角标，传入 0 即可</span>
+<span class="p">[[</span><span class="n">UIApplication</span> <span class="nf">sharedApplication</span><span class="p">]</span> <span class="nf">setApplicationIconBadgeNumber</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span> 
+</code></pre></div></div>
+
+<h2 id="不精确显示角标">不精确显示角标</h2>
+
+<p>普通 App 对角标数字要求没那么高，服务端或控制台推送时，总是将推送个数设置为 1，用户点击进入 App 时清除角标。这样简单的做法，能满足大部分 App 的需求。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 进入 App 时清除角标</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">application</span><span class="p">:(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="nf">didFinishLaunchingWithOptions</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">launchOptions</span>
+<span class="p">{</span>
+    <span class="n">application</span><span class="p">.</span><span class="n">applicationIconBadgeNumber</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">// 从后台进入前台时清除角标</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">applicationWillEnterForeground</span><span class="p">:(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span>
+<span class="p">{</span>
+    <span class="n">application</span><span class="p">.</span><span class="n">applicationIconBadgeNumber</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>这样做的缺点也很明显，收到多条推送角标数量时角标永远显示 1，用户进入 App 不管是否点击推送的消息，都消除角标。如果要求较高，如何做到精确显示角标呢？</p>
+
+<h2 id="精确显示角标">精确显示角标</h2>
+
+<p>首先我们要了解一下，手机收到推送消息是如何显示角标数量的。如下所示APNS 按照此格式推送到手机，客户端显示的角标数量为推送的 badge 数值。手机收到推送消息，badge 的值是多少，角标显示的个数就是多少（最大 99999）。</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"aps"</span><span class="p">:{</span><span class="w">
+        </span><span class="nl">"alert"</span><span class="p">:</span><span class="s2">"这里是推送显示的消息串"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"badge"</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"sound"</span><span class="p">:</span><span class="s2">"default"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"custom"</span><span class="p">:</span><span class="s2">"http://www.baidu.com"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>所以，我们想要精准显示角标数量，必须在客户端读取消息后，客户端上报用户已读消息，将推送消息阅读情况同步到服务器，如极光或者个推。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 极光和个推同步到服务器的 API 相同，调用可同步到服务器</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">setBadge</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span>  <span class="c1">// value 取值范围：[0,99999]</span>
+<span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">resetBadge</span><span class="p">;</span>          <span class="c1">// 相当于 [setBadge:0]，清空角标</span>
+</code></pre></div></div>
+
+<p>假设服务器推送了 6 条消息，客户点击阅读了 2 条，那我们在设置 App 角标的同时，将未读个数同步到服务器</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 调用系统方法设置 App 显示的角标个数 4</span>
+<span class="p">[[</span><span class="n">UIApplication</span> <span class="nf">sharedApplication</span><span class="p">]</span> <span class="nf">setApplicationIconBadgeNumber</span><span class="p">:</span><span class="mi">4</span><span class="p">];</span>
+<span class="c1">// 个推 SDK 同步到服务器</span>
+<span class="p">[</span><span class="n">GeTuiSdk</span> <span class="nf">setBadge</span><span class="p">:</span><span class="mi">4</span><span class="p">];</span>
+<span class="c1">// 极光 SDK 同步到服务器</span>
+<span class="p">[</span><span class="n">JPush</span> <span class="nf">setBadge</span><span class="p">:</span><span class="mi">4</span><span class="p">];</span>
+</code></pre></div></div>
+
+<h2 id="参考文档">参考文档</h2>
+
+<p><a href="https://community.jiguang.cn/t/topic/13924">极光文档 - 角标控制</a>
+<a href="http://docs.getui.com/getui/mobile/ios/api/">个推文档 - 角标控制</a></p>
+:ET

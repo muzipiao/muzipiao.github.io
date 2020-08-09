@@ -1,0 +1,81 @@
+I"�<p>总结一些使用 Python 开发过程过程中的环境配置，常用操作，常见错误处理等等。</p>
+
+<h2 id="虚拟环境搭建virtualenv">虚拟环境搭建(virtualenv)</h2>
+
+<p>Python 开发过程中，经常需要安装各种依赖库，Python 的第三方包成千上万，在一个 Python 环境下开发时间越久、安装依赖越多，就越容易出现依赖包冲突的问题。为了解决这个问题，开发者们开发出了 virtualenv，可以搭建虚拟且独立的 Python 环境。
+virtualenv 为每个项目提供了隔离的 Python 运行环境，解决了不同项目间多版本的冲突问题。而且，依赖包不安装在系统环境下，也保持了系统环境的干净。</p>
+
+<p>首先确认是否安装 Python，通过执行<code class="language-plaintext highlighter-rouge">python -V</code>或<code class="language-plaintext highlighter-rouge"> python3 -V</code>查看当前 python 版本。如果没有安装，Mac 可通过<code class="language-plaintext highlighter-rouge">brew install python3</code>来安装。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 安装 python3</span>
+brew <span class="nb">install </span>python3
+<span class="c"># 查看 python2 和 python3 版本</span>
+python <span class="nt">-V</span>
+python3 <span class="nt">-V</span>
+<span class="c"># 查看 python2 和 python3 安装位置</span>
+which python
+which python3
+</code></pre></div></div>
+
+<p>Python3 对 virtualenv 原生支持，不用安装任何依赖即可搭建虚拟环境。通过命令<code class="language-plaintext highlighter-rouge">python3 -m venv 虚拟环境名称例如venv</code>即可创建虚拟环境，<code class="language-plaintext highlighter-rouge">-m venv</code>选项是一独立的脚本运行标准库的 venv 包。如果是 Ubuntu Linux 系统预装 Python 3，则需要安装 python3-venv 包。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 创建名称为 venv 的虚拟环境</span>
+python3 <span class="nt">-m</span> venv venv
+<span class="c"># 激活虚拟环境</span>
+<span class="nb">source </span>venv/bin/activate
+</code></pre></div></div>
+
+<p>Python 2 安装 virtualenv 则需要安装依赖包 virtualenv。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 安装 virtualenv</span>
+pip <span class="nb">install </span>virtualenv
+<span class="c"># 初始化 virtualenv 环境 </span>
+virtualenv venv
+<span class="c"># 激活虚拟环境</span>
+<span class="nb">source </span>venv/bin/activate
+</code></pre></div></div>
+
+<p>其他命令，deactivate 退出虚拟环境，如果安装有多个 python 库，可指定版本<code class="language-plaintext highlighter-rouge">virtualenv -p /usr/bin/python venv</code>，将<code class="language-plaintext highlighter-rouge">/usr/bin/python</code>更换为需要指定的 python 库即可。</p>
+
+<h2 id="依赖">依赖</h2>
+
+<p>安装依赖库，使用<code class="language-plaintext highlighter-rouge">pip install</code>十分方便，例如需要安装 numpy 库和 matplotlib 库，执行：</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>numpy
+pip <span class="nb">install </span>matplotlib
+</code></pre></div></div>
+
+<p>如果需要从测试环境切换到生产环境，如何导出 python 项目的全部依赖。使用<code class="language-plaintext highlighter-rouge">pip freeze</code>生成一个依赖记录文件 requirements.txt，名称随意，用于记录所有依赖包及其精确的版本号。以便新环境部署。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 生成一个名称为 requirements.txt 依赖包记录文件</span>
+<span class="o">(</span>venv<span class="o">)</span> <span class="nv">$ </span>pip freeze&gt;requirements.txt
+</code></pre></div></div>
+
+<p>那到一个新环境，如何一次安装项目需要的全部依赖，这时依赖记录文件 requirements.txt 就排上了用场。使用<code class="language-plaintext highlighter-rouge">pip install -r 依赖文件名称</code>命令即可一次安装全部所需依赖。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>venv<span class="o">)</span> <span class="nv">$ </span>pip <span class="nb">install</span> <span class="nt">-r</span> requirements.txt
+</code></pre></div></div>
+
+<h2 id="其他">其他</h2>
+
+<p>查看 Python 文档，执行命令<code class="language-plaintext highlighter-rouge">python -m pydoc -p xxxx(任意闲置端口号)</code>即可。</p>
+
+<p>修改环境变量，或将一些值保存到环境变量，临时更改可通过 export 命令更改，重启后失效。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 将变量增加至环境变量</span>
+<span class="nb">export </span><span class="nv">MAIL_USERNAME</span><span class="o">=</span><span class="s1">'lifei_zdjl@126.com'</span>
+<span class="nb">export </span><span class="nv">MAIL_PASSWORD</span><span class="o">=</span><span class="s1">'lifei888888888888'</span>
+<span class="c"># 使新环境变量生效</span>
+<span class="nb">source</span> /etc/profile
+<span class="c"># 检查环境变量是否生效</span>
+<span class="nb">echo</span> <span class="nv">$MAIL_USERNAME</span>
+<span class="nb">echo</span> <span class="nv">$MAIL_PASSWORD</span>
+</code></pre></div></div>
+
+<p>若想永久添加，则需要修改系统环境变量配置文件 profile文件 或 .bash_profile文件。配置文件作用域：</p>
+
+<ol>
+  <li>/etc/profile 为全局共有配置文件，所有用户共享。</li>
+  <li>~/.bash_profile 为用户级配置文件，对当前用户有效。</li>
+</ol>
+:ET

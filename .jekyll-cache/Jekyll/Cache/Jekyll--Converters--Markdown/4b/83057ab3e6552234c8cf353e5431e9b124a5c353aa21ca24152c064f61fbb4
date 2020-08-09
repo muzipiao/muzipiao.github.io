@@ -1,0 +1,247 @@
+I"�N<h2 id="shell-声名">shell 声名</h2>
+
+<p>解析器声名，<code class="language-plaintext highlighter-rouge">#!/bin/sh</code>是指此脚本使用<code class="language-plaintext highlighter-rouge">/bin/sh</code>来解释执行，<code class="language-plaintext highlighter-rouge">#!</code>是特殊的表示符，其后面根的是此解释此脚本的 shell 解释器的路径。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+<span class="c"># 默认：执行脚本的时候，如果遇到不存在的变量，默认忽略它，继续向下执行。</span>
+<span class="c"># 设置执行脚本如果遇到不存在的变量，则报错</span>
+<span class="nb">set</span> <span class="nt">-u</span>
+<span class="c"># 设执行输出结果前，打印执行的是哪一条指令</span>
+<span class="nb">set</span> <span class="nt">-x</span>
+</code></pre></div></div>
+
+<p>shell 解释器有很多，常用的是 Bash(解释器<code class="language-plaintext highlighter-rouge">#!/bin/bash</code>) 和 Dash(解释器<code class="language-plaintext highlighter-rouge">#!/bin/sh</code>)，Linux 操作系统缺省的 shell 是 Bash，但 Bash 过于复杂，便基于 Bash 精简出符合 POSIX 标准的 Dash，二者大体相同，但标记为<code class="language-plaintext highlighter-rouge">#!/bin/sh</code>的脚本不应使用任何 POSIX 没有规定的特性（如 let 等命令, 只有<code class="language-plaintext highlighter-rouge">#!/bin/bash</code>可以）。</p>
+
+<p>不同系统下书写的 shell 脚本可能有有细微差距，例如在 Windows 下写的的 shell 脚本，可能会由于空格不一致的原因，在 Mac 环境运行报错。解决办法，转换格式即可，假设 shell-test.sh 脚本是 Windows 下生成的脚本，我们使用 vim 转换为 Mac 下可运行的脚本。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vi shell-test.sh
+<span class="c"># 显示 dos</span>
+:set ff
+<span class="c"># 转换为unix格式</span>
+:set <span class="nv">ff</span><span class="o">=</span>unix
+<span class="c"># 退出并保存</span>
+:wq
+</code></pre></div></div>
+
+<h2 id="shell-变量">shell 变量</h2>
+
+<p>shell 变量的声名</p>
+
+<ol>
+  <li>只能使用数字，字母和下划线，且不能以数字开头；</li>
+  <li>变量名区分大小写；</li>
+  <li>声名变量”=“前后不能有空格（初学者很容易踩此坑）。</li>
+</ol>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+<span class="nb">echo</span> <span class="s2">"测试变量声名"</span>
+<span class="c"># 声名字符串变量 hello world!</span>
+<span class="nv">myVar</span><span class="o">=</span><span class="s2">"hello world!"</span>
+<span class="c"># 声名数字变量 88 </span>
+<span class="nv">muNum</span><span class="o">=</span>88
+<span class="c"># 打印结果 hello world!</span>
+<span class="nb">echo</span> <span class="nv">$myVar</span>
+<span class="nb">echo</span> <span class="nv">$muNum</span>
+</code></pre></div></div>
+
+<h2 id="-关键字的使用">$ 关键字的使用</h2>
+
+<p>$ 关键字有很多用途，例如<code class="language-plaintext highlighter-rouge">cd "$(dirname "$0")"</code>命令可将执行环境切换到当前 shell 文件所在目录。</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">$0</code>当前脚本的文件名；</li>
+  <li><code class="language-plaintext highlighter-rouge">$n</code>传递给脚本或函数的参数。n 是一个数字，表示第几个参数。例如，第一个参数是<code class="language-plaintext highlighter-rouge">$1</code>，第二个参数是<code class="language-plaintext highlighter-rouge">$2</code>；</li>
+  <li><code class="language-plaintext highlighter-rouge">$#</code>传递给脚本或函数的参数个数；</li>
+  <li><code class="language-plaintext highlighter-rouge">$*</code>和<code class="language-plaintext highlighter-rouge">$@</code>传递给脚本或函数的所有参数；</li>
+  <li><code class="language-plaintext highlighter-rouge">$?</code>上个命令的退出状态，或函数的返回值；</li>
+  <li><code class="language-plaintext highlighter-rouge">$!</code>当前 shell 最后运行的后台 PID；</li>
+  <li><code class="language-plaintext highlighter-rouge">$$</code>获取当前shell的进程号（PID）</li>
+  <li><code class="language-plaintext highlighter-rouge">$()</code>与``(反引号)都是用来做命令替换的；</li>
+  <li><code class="language-plaintext highlighter-rouge">${var}</code>返回变量值；</li>
+  <li><code class="language-plaintext highlighter-rouge">${#var}</code>计算 shell 字符串变量的长度；</li>
+  <li><code class="language-plaintext highlighter-rouge">$(())</code>是用来作整数运算的。</li>
+</ol>
+
+<p>我们使用 shell-test.sh 脚本进行测试。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+
+<span class="c"># 定义一个变量 my_var</span>
+<span class="nv">my_var</span><span class="o">=</span><span class="s2">"abcdefg"</span>
+
+<span class="c"># 自定义方法 MyFunc</span>
+MyFunc<span class="o">()</span> <span class="o">{</span>
+<span class="c"># 输出当前脚本的文件名 /Users/lifei/Desktop/shell-test.sh</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$0</span><span class="s2">"</span>
+<span class="c"># 输出函数的第 1 个参数 qwertyuiop</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+<span class="c"># 输出函数的第 2 个参数 1234</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$2</span><span class="s2">"</span>
+<span class="c"># 输出函数的第 3 个参数 7890</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$3</span><span class="s2">"</span>
+<span class="c"># 输出传递给脚本或函数的参数个数 3 </span>
+<span class="nb">echo</span> <span class="s2">"$#"</span>
+<span class="c"># 输出传递给脚本或函数的所有参数 qwertyuiop 1234 7890</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$*</span><span class="s2">"</span>
+<span class="c"># 输出传递给脚本或函数的所有参数 qwertyuiop 1234 7890</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$@</span><span class="s2">"</span>
+<span class="c"># 输出上个命令的退出状态，或函数的返回值，输出 0 表示上个命令执行成功</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$?</span><span class="s2">"</span>
+<span class="c"># 输出当前 shell 最后运行的后台 PID，可能为空</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$!</span><span class="s2">"</span>
+<span class="c"># 输出获取当前shell的进程号（PID），不固定，例如 29488</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="nv">$$</span><span class="s2">"</span>
+<span class="c"># 输出命令 1234 + 1 的执行结果 1235</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="si">$(</span><span class="nb">expr</span> <span class="nv">$2</span> + 1<span class="si">)</span><span class="s2">"</span>
+<span class="c"># 输出命令 1234 + 1 的执行结果 1235</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="sb">`</span><span class="nb">expr</span> <span class="nv">$2</span> + 1<span class="sb">`</span><span class="s2">"</span>
+<span class="c"># 输出 echo mmmmmm 命令的执行结果 mmmmmm</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="sb">`</span><span class="nb">echo </span>mmmmmm<span class="sb">`</span><span class="s2">"</span>
+<span class="c"># 输出 my_var 变量的值的长度 7</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="k">${#</span><span class="nv">my_var</span><span class="k">}</span><span class="s2">"</span>
+<span class="c"># 输出 88 + 11 的结果 99</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="k">$((</span><span class="m">88</span> <span class="o">+</span> <span class="m">11</span><span class="k">))</span><span class="s2">"</span>
+<span class="o">}</span>
+
+<span class="c"># 切换到当前目录下，这样讲脚本拖入终端即可运行</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="si">$(</span><span class="nb">dirname</span> <span class="s2">"</span><span class="nv">$0</span><span class="s2">"</span><span class="si">)</span><span class="s2">"</span> <span class="o">||</span> <span class="nb">exit </span>0
+<span class="c"># 执行函数 myFunc，并传入 3 个参数</span>
+MyFunc <span class="s2">"qwertyuiop"</span> 1234 7890
+</code></pre></div></div>
+
+<h2 id="字符串截取">字符串截取</h2>
+
+<p>使用 # 和 % 可快速的匹配截取字符串，其中 # 去掉左边字符，% 是去掉右边字符，单一符号是最小匹配，两个符号是最大匹配。假设我们定义了一个变量为：</p>
+
+<p>file=/dir1/dir2/dir3/my.file.txt</p>
+
+<p>可以用${ }分别替换得到不同的值：</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">${file#*/}</code>：删掉第一个 / 及其左边的字符串：dir1/dir2/dir3/my.file.txt</li>
+  <li><code class="language-plaintext highlighter-rouge">${file##*/}</code>：删掉最后一个 / 及其左边的字符串：my.file.txt</li>
+  <li><code class="language-plaintext highlighter-rouge">${file#*.}</code>：删掉第一个 . 及其左边的字符串：file.txt</li>
+  <li><code class="language-plaintext highlighter-rouge">${file##*.}</code>：删掉最后一个 . 及其左边的字符串：txt</li>
+  <li><code class="language-plaintext highlighter-rouge">${file%/*}</code>：删掉最后一个 /  及其右边的字符串：/dir1/dir2/dir3</li>
+  <li><code class="language-plaintext highlighter-rouge">${file%%/*}</code>：删掉第一个 / 及其右边的字符串：(空值)</li>
+  <li><code class="language-plaintext highlighter-rouge">${file%.*}</code>：删掉最后一个 . 及其右边的字符串：/dir1/dir2/dir3/my.file</li>
+  <li><code class="language-plaintext highlighter-rouge">${file%%.*}</code>：删掉第一个 . 及其右边的字符串：/dir1/dir2/dir3/my</li>
+  <li><code class="language-plaintext highlighter-rouge">${file:0:5}</code>：提取最左边的5个字节：/dir1</li>
+  <li><code class="language-plaintext highlighter-rouge">${file:5:5}</code>：提取第5个字节右边的连续5个字节：/dir2</li>
+  <li><code class="language-plaintext highlighter-rouge">${file/dir/path}</code>：将第一个dir替换为path：/path1/dir2/dir3/my.file.txt</li>
+  <li><code class="language-plaintext highlighter-rouge">${file//dir/path}</code>：将全部dir替换为path：/path1/path2/path3/my.file.txt</li>
+</ul>
+
+<h2 id="sed-的使用">sed 的使用</h2>
+
+<p>sed 可以说是最有用的 shell 命令之一了，但在 Mac 上使用 sed 命令还是有一些坑需要注意的。</p>
+
+<h3 id="mac-强制要求备份">Mac 强制要求备份</h3>
+
+<p>例如有一个 test.txt 的文本文件，我们需要将文本里面所有的 abcd 更换为 xyzw，当我们执行 sed 编辑命令：</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 将文本里面所有的 abcd 更换为 xyzw</span>
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s/abcd/xyzw/g'</span> test.txt
+</code></pre></div></div>
+
+<p>报错：sed: 1: “test.txt”: undefined label ‘est.txt’。原因是 Mac 强制要求备份，否则报错，解决方案加上一个备份文件名即可。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 备份文件名任意即可，也可为空，以下写法都可以</span>
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">''</span> <span class="s1">'s/abcd/xyzw/g'</span> test.txt
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'.bak'</span> <span class="s1">'s/abcd/xyzw/g'</span> test.txt
+</code></pre></div></div>
+
+<h3 id="转义字符-">转义字符 \</h3>
+
+<p>例如在 test.txt 的文本文件中搜索以 abcd 开头的行，并在前面加上双斜杠//，当我们执行 sed 编辑命令：</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 搜索所有以 abcd 开头的行，并在前面加上双斜杠//</span>
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s2">""</span> <span class="s2">"s/^abcd///&amp;/g"</span> test.txt
+</code></pre></div></div>
+
+<p>报错：sed: 1: “s/^abcd///&amp;/g”: bad flag in substitute command: ‘/’。原因是 / 发生了转义，我们需要使用 \/ 来进行转义。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># ^abcd 表示以 abcd开头的行,\/ 表示 /，&amp; 表示匹配到字符串，g 表示替换全部</span>
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s2">""</span> <span class="s2">"s/^abcd/</span><span class="se">\/\/</span><span class="s2">&amp;/g"</span> test.txt
+</code></pre></div></div>
+
+<h3 id="sed-基本使用">sed 基本使用</h3>
+
+<p>sed 模式选择的区别，经常使用的选项是<code class="language-plaintext highlighter-rouge">sed -n</code>和<code class="language-plaintext highlighter-rouge">sed -i</code>，其他的作为了解。</p>
+
+<ul>
+  <li>-n∶使用安静(silent)模式。在一般 sed 的用法中，所有来自 STDIN的资料一般都会被列出到萤幕上。但如果加上 -n 参数后，则只有经过 sed 特殊处理的那一行(或者动作)才会被列出来；</li>
+  <li>-e∶直接在指令列模式上进行 sed 的动作编辑；</li>
+  <li>-f∶直接将 sed 的动作写在一个档案内， -f filename 则可以执行 filename 内的sed 动作；</li>
+  <li>-r∶sed 的动作支援的是延伸型正规表示法的语法(预设是基础正规表示法语法)；</li>
+  <li>-i∶直接修改读取的档案内容，而不是由萤幕输出。</li>
+</ul>
+
+<p>还有常用命令，例如删除命令<code class="language-plaintext highlighter-rouge">sed '1d' test</code>表示删除第一行。</p>
+
+<ul>
+  <li>a∶新增，a 的后面可以接字串，而这些字串会在新的一行出现(目前的下一行)；</li>
+  <li>c∶取代，c 的后面可以接字串，这些字串可以取代 n1,n2 之间的行；</li>
+  <li>d∶删除，因为是删除啊，所以 d 后面通常不接任何咚咚；</li>
+  <li>i∶插入， i 的后面可以接字串，而这些字串会在新的一行出现(目前的上一行)；</li>
+  <li>p∶列印，亦即将某个选择的资料印出。通常 p 会与参数 sed -n 一起运作；</li>
+  <li>s∶取代，可以直接进行取代的工作哩！通常这个 s 的动作可以搭配正规表示法，例如 1,20s/old/new/g。</li>
+</ul>
+
+<p>使用 test.txt 的文本文件举例。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 读取 test.txt 文本，并删除第一行，输出剩余的行</span>
+<span class="nb">sed</span> <span class="s1">'1d'</span> test.txt
+<span class="c"># 直接编辑 test.txt 文本，并删除第一行</span>
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">''</span> <span class="s1">'1d'</span> test.txt
+<span class="c"># 读取 test.txt 文本，删除最后一行，输出剩余的行</span>
+<span class="nb">sed</span> <span class="s1">'$d'</span> test.txt
+<span class="c"># 读取 test.txt 文本，删除第一行到第五行，输出剩余的行</span>
+<span class="nb">sed</span> <span class="s1">'1,5d'</span> test.txt
+<span class="c"># 读取 test.txt 文本，删除第二行到最后一行，输出剩余的行</span>
+<span class="nb">sed</span> <span class="s1">'2,$d'</span> test.txt
+<span class="c"># 显示第一行</span>
+<span class="nb">sed</span> <span class="nt">-n</span> <span class="s1">'1p'</span> test.txt
+<span class="c"># 显示最后一行</span>
+<span class="nb">sed</span> <span class="nt">-n</span> <span class="s1">'$p'</span> test.txt
+<span class="c"># 显示第一行到第二行</span>
+<span class="nb">sed</span> <span class="nt">-n</span> <span class="s1">'1,2p'</span> test.txt
+<span class="c"># 显示第二行到最后一行</span>
+<span class="nb">sed</span> <span class="nt">-n</span> <span class="s1">'2,$p'</span> test.txt
+<span class="c"># 查询并输出包括关键字 abcd 所有所在行</span>
+<span class="nb">sed</span> <span class="nt">-n</span> <span class="s1">'/abcd/p'</span> test.txt
+<span class="c"># 查询包括关键字 \ 所在所有行，使用反斜线 \ 屏蔽特殊含义</span>
+<span class="nb">sed</span> <span class="nt">-n</span> <span class="s1">'/\\/p'</span> test.txt
+<span class="c"># 在 1 到 10 行搜索所有以 abcd 开头的行，并在前面加上双斜杠//</span>
+<span class="nb">sed</span> <span class="nt">-i</span> <span class="s2">""</span> <span class="s2">"1,10s/^abcd/</span><span class="se">\/\/</span><span class="s2">&amp;/g"</span> test.txt
+</code></pre></div></div>
+
+<h2 id="其他">其他</h2>
+
+<p>shell 使用过程中可能会遇到各种各样的情况，例如需要拷贝至剪贴板等需求，这里只是总结一些常用操作，如下 shell 使用示例。</p>
+
+<p>假设有这样一个需求，逐行读取文件 test.txt 里面的文本，判断是否是空行，如果不是空行，就保存到另外一个文件里面 dst.txt 里面，并在文本前面加上来源行号，最后将 dst.txt 文本文件的所有行拷贝至剪贴板。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+<span class="c"># 切换运行环境至当前 shell 文件所在目录</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="si">$(</span><span class="nb">dirname</span> <span class="s2">"</span><span class="nv">$0</span><span class="s2">"</span><span class="si">)</span><span class="s2">"</span> <span class="o">||</span> <span class="nb">exit </span>0
+<span class="c"># 定义当前读取的行为1</span>
+<span class="nv">row</span><span class="o">=</span>1
+<span class="c"># 逐行读取当前目录下的test.txt</span>
+<span class="k">while </span><span class="nb">read</span> <span class="nt">-r</span> line
+<span class="k">do
+</span><span class="nv">row</span><span class="o">=</span><span class="k">$((</span>row <span class="o">+</span> <span class="m">1</span><span class="k">))</span>
+<span class="c"># 判断当前行是否为空行，空行继续</span>
+<span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="k">${</span><span class="nv">line</span><span class="k">}</span><span class="s2">x"</span> <span class="o">=</span> <span class="s2">"x"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+continue
+fi</span>
+<span class="c"># 保存有字符的行到另外一个文件</span>
+<span class="nb">echo</span> <span class="s2">"</span><span class="k">${</span><span class="nv">row</span><span class="k">}</span><span class="s2">:</span><span class="k">${</span><span class="nv">line</span><span class="k">}</span><span class="s2">"</span><span class="o">&gt;&gt;</span>dst.txt
+<span class="k">done</span> &lt; test.txt
+
+<span class="c"># 将新文本第一行至最后一行拷贝至剪贴板</span>
+<span class="nb">sed</span> <span class="nt">-n</span> <span class="s1">'1,$p'</span> dst.txt | pbcopy
+</code></pre></div></div>
+
+<p>如果您觉得有所帮助，请在<a href="https://github.com/muzipiao/dev-shell">GitHub Shell</a>上赏个Star ⭐️，您的鼓励是我前进的动力。</p>
+:ET

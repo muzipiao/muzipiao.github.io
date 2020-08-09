@@ -1,0 +1,121 @@
+I"F%<h2 id="宏与内联函数区别">宏与内联函数区别</h2>
+
+<p>在 iOS 开发中宏似乎是不可缺少的，尤其是替换一些重复文本字段时，简单实用。那内联函数呢，如果一些简单却需要频繁调用的函数，不断地有函数入栈，即函数栈，会造成栈空间或栈内存的大量消耗。C++ 语言为了解决这个问题，特别的引入了 inline 修饰符，表示为内联函数，内联扩展是用来消除函数调用时的时间开销。</p>
+
+<p>宏定义和内联函数有什么区别？对比一下。</p>
+
+<ul>
+  <li>内联函数在编译时展开，宏在预编译时展开；</li>
+  <li>内联函数直接嵌入到目标代码中，宏是简单的做文本替换；</li>
+  <li>内联函数有类型检测、语法判断等功能，而宏没有；</li>
+  <li>inline函数是函数，宏不是；</li>
+  <li>宏定义时要注意书写（参数要括起来）否则容易出现歧义，内联函数不会产生歧义。</li>
+</ul>
+
+<p>宏比较容易理解，而内联函数从源代码层看，有函数的结构，而在编译后，却不具备函数的性质。内联函数不是在调用时发生控制转移，而是在编译时将函数体嵌入在每一个调用处。编译时，类似宏替换，使用函数体替换调用处的函数名。</p>
+
+<h2 id="宏">宏</h2>
+
+<p>宏会在预编译的时候，将所有出现宏名的地方都替换为宏名对应值。</p>
+
+<h3 id="宏定义">宏定义</h3>
+
+<p>宏定义时命名一般为全部大写多个单词中使用_隔开或者 k 开头驼峰标识。宏定义分为带参数和不带参数，不带参数的宏较简单，格式为<code class="language-plaintext highlighter-rouge">#define 宏名称 宏的值</code>，带参数的宏格式为<code class="language-plaintext highlighter-rouge">#define 宏名(参数列表) 参数表达式</code>。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">/// 不带参数的宏，宏名称与值之间空格任意</span>
+<span class="cp">#define TOTAL_NUM     8
+#define kTotalNum     8
+#define APP_VERSION   @"8.0.0"
+#define GM_PUBKEY     @"SdFTF3Y8fghjklfghjkl56789qpGfxogIDIoa6P47"
+#define HOME_URL      @"https:\/\/www.baidu.com"
+#define kHomeURLCopy  HOME_URL
+</span><span class="c1">/// 带参数的宏较复杂，注意宏名称与()之间不可以有空格</span>
+<span class="cp">#define SUM(x,y) (x + y)
+#define PF(x,y)  ((x) * (y))
+</span><span class="c1">/// 用于终止宏定义的作用范围</span>
+<span class="cp">#undef TOTAL_NUM
+</span></code></pre></div></div>
+
+<p>注意点：</p>
+
+<ol>
+  <li>宏名与()之间不可以有空格；</li>
+  <li>参数列表中不可以有数据类型；</li>
+  <li>一般情况下参数表达式中的所有成员及结果都需要加上()；</li>
+  <li>若运算比较复杂还是使用函数。</li>
+</ol>
+
+<h3 id="宏条件编译">宏条件编译</h3>
+
+<p>因宏展开发生在预编译阶段，所以使用宏条件编译，可以读取不同的配置，比如区分测试环境和生产环境。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">/// #if 条件判断，当判断条件 &gt; 0 时成立</span>
+<span class="cp">#define kDebugSwitch 1
+#if kDebugSwitch
+</span><span class="n">NSLog</span><span class="p">(</span><span class="s">@"此时判断条件 kDebugSwitch 的值 &gt; 0"</span><span class="p">);</span>
+<span class="cp">#else
+</span><span class="n">NSLog</span><span class="p">(</span><span class="s">@"此时判断条件 kDebugSwitch 的值 &lt;= 0"</span><span class="p">);</span>
+<span class="cp">#endif
+</span>
+<span class="c1">/// #ifdef 条件判断，当定义了宏，无论宏为任何值，都成立；未定义宏则不成立。</span>
+<span class="cp">#define kSW xxx
+#ifdef kSW
+</span><span class="n">NSLog</span><span class="p">(</span><span class="err">@“此时宏</span> <span class="n">kSW</span> <span class="err">定义存在，不管</span> <span class="n">kSW</span> <span class="err">为任何值或者无值”</span><span class="p">);</span>
+<span class="cp">#else
+</span><span class="n">NSLog</span><span class="p">(</span><span class="err">@“此时宏</span> <span class="n">kSW</span> <span class="err">未定义”</span><span class="p">);</span>
+<span class="cp">#endif
+</span></code></pre></div></div>
+
+<h2 id="内联函数">内联函数</h2>
+
+<p>内联函数是 C++ 中的一种特殊函数，它可以像普通函数一样被调用，但是在调用时并不通过函数调用的机制，而是通过将函数体直接插入调用处来实现的，这样可以大大减少由函数调用带来的开销，从而提高程序的运行效率。一般来说 inline 用于定义类的成员函数。</p>
+
+<h3 id="内联函数特点">内联函数特点</h3>
+
+<ol>
+  <li>内联函数可声名在任何文件中，但不适用复杂的逻辑，以空间换取速度，因为内联函数会在任何调用它的地方展开，复杂代码会使代码膨胀（复制代码）；</li>
+  <li>不能包含复杂的结构控制语句例如 while、switch，并且内联函数本身不能是直接递归函数（自己内部还调用自己的函数）。如果包含复杂的结构控制语句，则视为普通函数。原因可能是复杂结构语句展开后会占用过多栈空间；</li>
+  <li>inline 字段必须与函数体放在一起才能成为内联函数，声名时放在一起不起作用。</li>
+</ol>
+
+<h3 id="内联函数定义">内联函数定义</h3>
+
+<p>内联函数的使用比较简单，只需要在声明或者定义函数时在头部加上inline关键字即可，格式如下:</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">inline</span> <span class="err">返回值类型</span> <span class="err">函数</span><span class="p">(</span><span class="err">函数参数</span><span class="p">){</span>
+<span class="c1">/// 此处定义函数体</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>具体示例，定义不同内联函数。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">/// 将尺寸转换为像素</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">CGFloat</span> <span class="nf">TransToPixel</span><span class="p">(</span><span class="n">CGFloat</span> <span class="n">size</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">return</span> <span class="n">size</span> <span class="o">*</span> <span class="p">[</span><span class="n">UIScreen</span> <span class="nf">mainScreen</span><span class="p">].</span><span class="n">scale</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">/// 字符串判空</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">NSString</span> <span class="o">*</span> <span class="n">_Nullable</span> <span class="nf">AdvoidStr</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span> <span class="n">_Nullable</span> <span class="n">str</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">str</span><span class="p">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">return</span> <span class="n">str</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">return</span> <span class="s">@""</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">/// 读取语言配置的示例</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">NSDictionary</span> <span class="o">*</span> <span class="n">_Nullable</span> <span class="nf">ReadDebugConfig</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span> <span class="n">_Nullable</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">static</span> <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">configDict</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+<span class="k">static</span> <span class="n">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+<span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+<span class="n">configDict</span> <span class="o">=</span> <span class="p">@{</span><span class="s">@"zh"</span><span class="o">:</span><span class="s">@"zh.plist"</span><span class="p">,</span>
+<span class="s">@"en"</span><span class="o">:</span><span class="s">@"en.plist"</span><span class="p">,</span>
+<span class="s">@"fr"</span><span class="o">:</span><span class="s">@"fr.plist"</span><span class="p">};</span>
+<span class="p">});</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">return</span> <span class="n">configDict</span><span class="p">[</span><span class="nf">key</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="k">return</span> <span class="n">configDict</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+:ET

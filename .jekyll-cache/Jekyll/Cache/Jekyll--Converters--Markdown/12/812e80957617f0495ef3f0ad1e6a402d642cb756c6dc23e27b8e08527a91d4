@@ -1,0 +1,586 @@
+I"(�<h2 id="自动扫描概述">自动扫描概述</h2>
+
+<p>SonarQube 是一款用于代码质量管理的开源工具，它主要用于管理源代码的质量。SonarQube 全自动化扫描，主要利用 Jenkins 检测 Git 代码更新，定时拉取代码，然后配合 oclint 及 SonarQube 实现自动化扫描展示。oclint 负责扫描项目，SonarQube 负责将扫描结果存储到数据库，并提供数据可视化。</p>
+
+<p><img src="/images/posts/sonar/sonar_swift.png" alt="SonarQube" /></p>
+
+<h2 id="主要步骤">主要步骤</h2>
+
+<ol>
+  <li>Jenkins 定时检测 Git 分支更新，并执行脚本（只有此操作使用 Jenkins，以下步骤使用脚本）；</li>
+  <li>脚本检测本地是否已存在项目，不存在<code class="language-plaintext highlighter-rouge">git clone</code>拉取代码，存在<code class="language-plaintext highlighter-rouge">git pull</code>拉取更新到本地；</li>
+  <li>查找定位后缀为<code class="language-plaintext highlighter-rouge">.xcodeproj</code>的工程文件，使用<code class="language-plaintext highlighter-rouge">xcodebuild -list</code>获取 Schemes 列表；</li>
+  <li>使用 xcodebuild 清理工程缓存，并生成新的编译数据，使用 xcpretty 转成 json 格式；</li>
+  <li>使用 oclint 设置相关忽略项，并导出 oclint.xml 格式分析报告；</li>
+  <li>脚本动态生成 sonar-project.properties 文件，并调用 sonar-scanner 储存到数据库；</li>
+  <li>导出 ~/.jenkins/jobs/ 目录下的 config.xml 模板文件，脚本批量创建添加任务；</li>
+  <li>手动或 Jenkins 自动触发扫描，本机访问 <code class="language-plaintext highlighter-rouge">http://localhost:9000</code> 查看结果。</li>
+</ol>
+
+<h2 id="安装流程">安装流程</h2>
+
+<ol>
+  <li>官网下载 dmg 安装 Java 8，Jenkins 依赖 Java 8，多版本可共存。</li>
+  <li>安装 Jenkins 和相关 Git 组件，brew 安装失败可迅雷下载替换，插件安装失败可换源换网。</li>
+  <li>brew 安装 postgresql，并创建数据库名、表名、用户名和密码为 sonar 的数据库。</li>
+  <li>下载 sonarqube 实现可视化，放在 /opt 或其他目录下，配置 sonar.properties 文件。</li>
+  <li>下载 sonar-swift 三方插件，将插件放在 sonarqube 的 plugins 目录下。</li>
+  <li>安装 sonar-scanner 并配置 sonar-scanner.properties 文件的 URL 和编码。</li>
+  <li>配置 Jenkins 的 jobs 任务和 shell 运行。</li>
+</ol>
+
+<h2 id="java-安装">Java 安装</h2>
+
+<p>访问 <a href="https://www.oracle.com/technetwork/java/javase/downloads/index.html">Java官网</a>，并下载 Java 8 版本的 dmg 安装包，双击安装即可。注意，不要仅安装最新版本 JDK，Jenkins 要求 Java 8，如果需要可以同时安装多版本 Java。</p>
+
+<p>若需要完全删除旧的 Java 版本，可执行下面的命令和操作。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo rm</span> <span class="nt">-fr</span> /Library/Internet<span class="se">\ </span>Plug-Ins/JavaAppletPlugin.plugin
+<span class="nb">sudo rm</span> <span class="nt">-fr</span> /Library/PreferencePanes/JavaControlPanel.prefPane
+<span class="nb">sudo rm</span> <span class="nt">-fr</span> ~/Library/Application<span class="se">\ </span>Support/Oracle/Java
+</code></pre></div></div>
+
+<p>并在 /Library/Java/JavaVirtualMachines/ 目录下删除对应 Java 版本缓存。</p>
+
+<h2 id="jenkins-安装">Jenkins 安装</h2>
+
+<p><strong>网络上安装教程很多，不再详细赘述，仅说明简要步骤。</strong></p>
+
+<ol>
+  <li>使用 brew 安装简单，执行<code class="language-plaintext highlighter-rouge">brew install jenkins</code>安装，终端执行 <code class="language-plaintext highlighter-rouge">jenkins</code> 启动；</li>
+  <li>启动完成，浏览器输入<code class="language-plaintext highlighter-rouge">localhost:8080</code>浏览，进入 Jenkins 管理网页；</li>
+  <li>首次会提示输入初始密码，若无提示可在<code class="language-plaintext highlighter-rouge">~/.jenkins/secrets/initialAdminPassword</code>路径找到；</li>
+  <li>根据提示输入初始密码，并创建用户名和密码，例如选择账户名和密码都是 sonar；</li>
+  <li>在 Jenkins 系统设置-插件管理中，选择 Git 和 Xcode 等相关插件；</li>
+  <li>选择 新建-自由风格项目，按照提示配置 Git 和 Shell 脚本即可。</li>
+</ol>
+
+<p><strong>使用 brew 安装 Jenkins 失败，可手动安装，迅雷下载，手动复制到指定目录下。</strong></p>
+
+<ol>
+  <li>brew install xxxx 失败时返回对应 xxxx.tar.gz 的链接，迅雷下载；</li>
+  <li>brew –cache 查看缓存(/Users/lif/Library/Caches/Homebrew);</li>
+  <li>点击任意链接，显示原身找到下载目录<code class="language-plaintext highlighter-rouge">~/Library/Caches/Homebrew/downloads/</code>;</li>
+  <li>将下载的 xxxx.tar.gz 拷贝到下载目录，名称命名为和 .tar.gz.incomplete 同样名称，去掉 .incomplete;</li>
+  <li>再次安装 brew install xxxx。</li>
+</ol>
+
+<p><strong>Jenkins 如果安装插件失败，可以更换安装源、手动上传、科学访问外网，更换网络。</strong></p>
+
+<ol>
+  <li>更换安装源路径在 Jenkins 的管理网页中，系统设置-插件管理-高级-修改升级站点。
+eg.安装源：http://mirror.esuni.jp/jenkins/updates/update-center.json</li>
+  <li>官网下载后缀 .hpi 插件文件，在系统设置-插件管理-高级-上传插件，选择下载的插件上传。
+eg.Jenkins 插件官网：https://plugins.jenkins.io/</li>
+  <li>科学访问外网，可以选择科学访问外网下载。</li>
+  <li>下载失败也可能是连接网络的问题，我使用公司网络无论如何都是失败，使用手机分享 WiFi 下载成功。</li>
+</ol>
+
+<p><strong>Jenkins 启动停止</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 启动 jenkins，Ctrl + C 强制终止</span>
+jenkins
+<span class="c"># brew 启动 jenkins 服务的方式（注意此操作可能会导致执行 Shell 存在用户权限问题）</span>
+brew services restart jenkins
+<span class="c"># brew 停止 jenkins 服务的方式</span>
+brew services stop jenkins
+</code></pre></div></div>
+<p>注意：使用此方式启动可能导致执行 Shell 脚本失败，若失败可以在终端使用<code class="language-plaintext highlighter-rouge">jenkins</code>命令启动。</p>
+
+<p>网页启动/停止/重启服务：</p>
+
+<div class="language-rb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">http</span><span class="ss">:/</span><span class="o">/</span><span class="n">localhost</span><span class="p">:</span><span class="mi">8080</span><span class="o">/</span><span class="nb">exit</span> <span class="sr">//</span><span class="err">停止服务</span>
+<span class="n">http</span><span class="ss">:/</span><span class="o">/</span><span class="n">localhost</span><span class="p">:</span><span class="mi">8080</span><span class="o">/</span><span class="n">restart</span> <span class="sr">//</span><span class="err">重启服务</span>
+<span class="n">http</span><span class="ss">:/</span><span class="o">/</span><span class="n">localhost</span><span class="p">:</span><span class="mi">8080</span><span class="o">/</span><span class="n">reload</span> <span class="sr">//</span> <span class="err">重新载入服务</span>
+</code></pre></div></div>
+
+<h2 id="postgresql">postgresql</h2>
+
+<p>sonarqube 默认数据库为 h2，用于测试，我们可以在 sonarqube 的安装目录 conf/sonar.properties 文件中找到支持的数据库的说明，postgresql 就是支持的一种。</p>
+
+<blockquote>
+  <p>The embedded H2 database is used by default. It is recommended for tests but not for production use. Supported databases are Oracle, PostgreSQL and Microsoft SQLServer.</p>
+</blockquote>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 安装</span>
+brew <span class="nb">install </span>postgresql
+<span class="c"># 初始化，可省略</span>
+initdb /usr/local/var/postgres
+<span class="c"># 启动服务</span>
+pg_ctl <span class="nt">-D</span> /usr/local/var/postgres <span class="nt">-l</span> /usr/local/var/postgres/server.log start
+<span class="c"># 设置开机启动（此操作也可能会导致用户权限问题，导致 sonarqube 启动失败）</span>
+<span class="nb">ln</span> <span class="nt">-sfv</span> /usr/local/opt/postgresql/<span class="k">*</span>.plist ~/Library/LaunchAgents
+launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
+<span class="c"># 给当前用户创建数据库，postgres 不会自动创建数据库，需手动创建</span>
+createdb
+<span class="c"># 创建用户</span>
+CREATE USER sonar WITH PASSWORD <span class="s1">'sonar'</span><span class="p">;</span>
+<span class="c"># 创建数据库</span>
+CREATE DATABASE sonar WITH OWNER sonar ENCODING <span class="s1">'UTF8'</span><span class="p">;</span>
+<span class="c"># 给 sonar 用户添加创建数据库的属性</span>
+ALTER ROLE sonar CREATEDB<span class="p">;</span>
+<span class="c"># 测试当前用户</span>
+psql <span class="nt">-U</span> sonar <span class="nt">-W</span>
+<span class="c"># 登录控制台</span>
+psql
+<span class="c"># 删除数据库（备用）</span>
+DROP DATABASE sonar<span class="p">;</span>
+<span class="c"># 所有权及所有权转换（备用）</span>
+CREATE DATABASE sonar OWNER sonar<span class="p">;</span>
+GRANT ALL PRIVILEGES ON DATABASE sonar to sonar<span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="sonarqube">sonarqube</h2>
+
+<p>下载 <a href="https://www.sonarqube.org/downloads/">sonarqube</a> 源码到指定目录，例如可放在 /opt 或其他目录下，初始账号密码 admin。配置 conf/sonar.properties 文件中的数据库账号、密码和 URL。</p>
+
+<div class="language-rb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sonar</span><span class="p">.</span><span class="nf">jdbc</span><span class="p">.</span><span class="nf">username</span><span class="o">=</span><span class="n">sonar</span>
+<span class="n">sonar</span><span class="p">.</span><span class="nf">jdbc</span><span class="p">.</span><span class="nf">password</span><span class="o">=</span><span class="n">sonar</span>
+<span class="n">sonar</span><span class="p">.</span><span class="nf">jdbc</span><span class="p">.</span><span class="nf">url</span><span class="o">=</span><span class="n">jdbc</span><span class="ss">:postgresql:/</span><span class="o">/</span><span class="n">localhost</span><span class="o">/</span><span class="n">sonar</span>
+</code></pre></div></div>
+
+<p>启动方式为执行安装目录下对应系统的 shell 文件，例如我的电脑为 Mac，sonarqube 放在 /opt 目录下，可以执行 bin 目录下的 macosx-universal-64/sonar.sh 脚本启动。注意 /opt 为 Mac 系统隐藏根目录，同时按 <code class="language-plaintext highlighter-rouge">command shift = .</code> 四个按键可以显示系统隐藏文件，再按一次隐藏系统隐藏文件。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 启动 sonarqube</span>
+sh /opt/sonarqube/bin/macosx-universal-64/sonar.sh start
+<span class="c"># 如果执行 shell 存在权限问题，可使用 chmod 777 获取对应文件或目录系统权限</span>
+<span class="nb">chmod </span>777 /opt/sonarqube/bin/macosx-universal-64/sonar.sh
+<span class="c"># 获取目录 /opt 系统权限</span>
+<span class="nb">sudo chmod</span> <span class="nt">-R</span> 777 /opt
+</code></pre></div></div>
+
+<h2 id="安装-sonar-swift-插件">安装 sonar-swift 插件</h2>
+
+<p>由于 sonarqube 的 ObjectiveC 插件收费，使用三方插件<a href="https://github.com/Backelite/sonar-swift">sonar-swift</a>，并按照官方文档安装相关插件，将下载的 .jar 包放在 sonarqube的 extensions/plugins 目录下。旧版插件 sonar-objective-c 已不支持最新版 sonarqube，而 sonar-swift 同时支持 swift 和 objective-c。</p>
+
+<p>sonar-swift 要求安装的插件较多，可以选择安装 sonar-scanner，oclint 和 xcpretty。</p>
+
+<div class="language-rb highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">brew</span> <span class="n">install</span> <span class="n">swiftlint</span>
+<span class="n">brew</span> <span class="n">install</span> <span class="n">tailor</span>
+<span class="n">brew</span> <span class="n">install</span> <span class="n">sonar</span><span class="o">-</span><span class="n">scanner</span>
+<span class="c1"># 安装 oclint</span>
+<span class="n">brew</span> <span class="n">tap</span> <span class="n">oclint</span><span class="o">/</span><span class="n">formulae</span>
+<span class="n">brew</span> <span class="n">install</span> <span class="n">oclint</span>
+<span class="c1"># 更新 oclint</span>
+<span class="n">brew</span> <span class="n">update</span>
+<span class="n">brew</span> <span class="n">upgrade</span> <span class="n">oclint</span>
+<span class="n">sudo</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">xcpretty</span>
+<span class="n">sudo</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">slather</span>
+<span class="n">sudo</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">lizard</span>
+</code></pre></div></div>
+
+<p>sonar-scanner 安装完成后需要配置一下，终端输入<code class="language-plaintext highlighter-rouge">where sonar-scanner</code>，找到安装路径（/usr/local/Cellar/sonar-scanner/），在目录下找到配置文件 sonar-scanner.properties，配置扫描结果上传地址和编码。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># sonar-scanner 扫描结果上传地址（sonarqube 地址为 http://localhost:9000）</span>
+sonar.host.url<span class="o">=</span>http://localhost:9000
+<span class="c"># 编码格式</span>
+sonar.sourceEncoding<span class="o">=</span>UTF-8
+</code></pre></div></div>
+
+<h2 id="启动扫描">启动扫描</h2>
+
+<p>所有插件已安装完毕，可以执行 sonar-scan 进行</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 启动postgres服务</span>
+pg_ctl <span class="nt">-D</span> /usr/local/var/postgres <span class="nt">-l</span> /usr/local/var/postgres/server.log start
+<span class="c"># 启动 Jenkins</span>
+brew services start jenkins
+<span class="c"># 启动 sonar</span>
+<span class="nb">chmod </span>777 /opt/sonarqube/bin/macosx-universal-64/sonar.sh
+sh /opt/sonarqube/bin/macosx-universal-64/sonar.sh start
+<span class="c"># Jenkins 执行的脚本，自动拉取分支代码，分析，上传 sonar，传入本地仓库地址和 Git 地址即可</span>
+/usr/bin/python /Users/lf/Documents/auto-scanner/auto-sonar.py publicplugingoup/gbcheckup.git
+</code></pre></div></div>
+
+<p>原理很简单，创建一个 jenkins 任务，定时检查更新，如果有更新，就执行脚本去拉取代码，并扫描上传结果。
+例如需要将所有分支保存到当前用户桌面的 Git 文件夹下，那仓库路径就是<code class="language-plaintext highlighter-rouge">~/Desktop/Git</code>，分支的 Git 地址为 http://192.168.1.88/app/mybranch.git，可手动执行脚本下载扫描。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/usr/bin/python /Users/lf/Documents/auto-scanner/auto-sonar.py publicplugingoup/gbcheckup.git
+</code></pre></div></div>
+
+<h4 id="自动化扫描">自动化扫描</h4>
+
+<p>完成上面我们可以手动执行为每个仓库进行扫描，那如何做到如下自动化要求：</p>
+
+<ol>
+  <li>批量为每个组件创建 Jenkins 任务，并定时检测 Git 更新，若更新则自动扫描；</li>
+  <li>使用脚本自动从 Git 拉取组件源码，若已拉取则检查更新组件代码；</li>
+  <li>自动查找定位项目 project 文件及项目 scheme，自动进行逐个扫描；</li>
+  <li>自动创建 Sonar 配置文件，扫描结果自动储存到数据库，通过网页查看结果。</li>
+</ol>
+
+<p>批量创建 Jenkins 任务，我们通过脚本一次性批量创建即可；检测更新我们可以通过 Jenkins 定时任务去执行；自动拉取最新代码和查找 scheme 进行扫描，我们在定时任务的脚本中执行即可。</p>
+
+<h2 id="jenkins-批量创建任务">Jenkins 批量创建任务</h2>
+
+<p>若组件很多，逐个手动创建 Jenkins 任务，显然不符合程序员的风格，我们需要批量自动创建。假设我们的组件 Git 地址都是这样的</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http://192.168.1.44/publicrepos/demo1.git
+http://192.168.1.44/publicrepos/demo2.git
+http://192.168.1.44/publicrepos/demo3.git
+http://192.168.1.44/publicrepos/demo3.git
+</code></pre></div></div>
+
+<p>我们为分支 <code class="language-plaintext highlighter-rouge">http://192.168.1.44/publicrepos/demo1.git</code> 创建一个 Jenkins 的任务，这时我们会发现 <code class="language-plaintext highlighter-rouge">~/.jenkins/jobs/</code> 目录下多了 demo1 文件夹，里面 config.xml 文件，这就是 Jenkins 任务的配置。</p>
+
+<p>通过对比我们发现，只要修改一下 Git 地址和传入脚本的分支名称就可以了。我们可以为每一个组件复制一份 xml 文档，并修改 Git 地址和传入脚本的参数，复制到 Mac 端 Jenkins 的任务 jobs 路径 ~/.jenkins/jobs/ 下既可。</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version='1.1' encoding='UTF-8'?&gt;</span>
+<span class="nt">&lt;project&gt;</span>
+  <span class="c">&lt;!-- ......... 省略部分 ........ --&gt;</span>
+  <span class="nt">&lt;scm</span> <span class="na">class=</span><span class="s">"hudson.plugins.git.GitSCM"</span> <span class="na">plugin=</span><span class="s">"git@4.0.0"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;configVersion&gt;</span>2<span class="nt">&lt;/configVersion&gt;</span>
+    <span class="nt">&lt;userRemoteConfigs&gt;</span>
+      <span class="nt">&lt;hudson.plugins.git.UserRemoteConfig&gt;</span>
+        <span class="c">&lt;!-- 组件的 Git 地址 --&gt;</span>
+        <span class="nt">&lt;url&gt;</span>http://192.168.1.44/publicrepos/demo1.git<span class="nt">&lt;/url&gt;</span>
+        <span class="nt">&lt;credentialsId&gt;</span>31be0ffe-2c75-4183-9ab9-fd997a0942ea<span class="nt">&lt;/credentialsId&gt;</span>
+      <span class="nt">&lt;/hudson.plugins.git.UserRemoteConfig&gt;</span>
+    <span class="nt">&lt;/userRemoteConfigs&gt;</span>
+  <span class="nt">&lt;/scm&gt;</span>
+  <span class="nt">&lt;builders&gt;</span>
+    <span class="nt">&lt;hudson.tasks.Shell&gt;</span>
+      <span class="c">&lt;!-- 我们配置的执行 Shell 脚本命令 --&gt;</span>
+      <span class="nt">&lt;command&gt;</span>/usr/bin/python /Users/pk/Documents/auto-scanner/auto-sonar.py publicplugingoup/basemapcomponent.git<span class="nt">&lt;/command&gt;</span>
+    <span class="nt">&lt;/hudson.tasks.Shell&gt;</span>
+  <span class="nt">&lt;/builders&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</code></pre></div></div>
+
+<p>批量为每个组件创建 Jenkins 任务脚本</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python
+# coding=UTF-8
+</span>
+<span class="s">'''
+g_old_branch 创建的模板文件 config.xml 中需要替换的分支名称
+g_old_time 创建的模板文件 config.xml 中需要替换的触发时间
+git_links.txt 组件的 Git 地址，逐行分开
+config.xml 手动创建的一个 Jenkins 任务当做模板
+批量创建完成结果在当前脚本的 xmls 文件夹下
+'''</span>
+
+<span class="n">g_old_branch</span> <span class="o">=</span> <span class="s">"publicplugingoup/basemapcomponent"</span>
+<span class="n">g_old_time</span> <span class="o">=</span> <span class="s">"H(0-29)/19 * * * *"</span>
+
+<span class="kn">import</span> <span class="nn">os</span><span class="p">,</span> <span class="n">re</span>
+
+<span class="c1"># 从URL获取分支名称，eg. [publicplugingoup, basemapcomponent]
+</span><span class="k">def</span> <span class="nf">get_branch</span><span class="p">(</span><span class="n">link</span><span class="p">):</span>
+    <span class="n">link_list</span> <span class="o">=</span> <span class="n">link</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">'/'</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">link_list</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="n">branch_name_git</span> <span class="o">=</span> <span class="n">link_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">branch_group</span> <span class="o">=</span> <span class="n">link_list</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">branch_name</span> <span class="o">=</span> <span class="n">branch_name_git</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">'.'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">branch_group</span><span class="p">,</span> <span class="n">branch_name</span><span class="p">]</span>
+
+<span class="c1"># 逐行读取文件中的链接
+</span><span class="k">def</span> <span class="nf">read_txt</span><span class="p">(</span><span class="n">txt_path</span><span class="p">):</span>
+    <span class="n">links_list</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># 储存行
+</span>    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">txt_path</span><span class="p">):</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="n">strip</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">line</span> <span class="o">!=</span> <span class="s">""</span><span class="p">:</span>
+            <span class="n">links_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">links_list</span>
+
+<span class="c1"># 根据当前索引顺序算出下一个时间，索引、时间步长、起始小时，起始分钟
+</span><span class="k">def</span> <span class="nf">get_scm_time</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">start_hour</span><span class="p">,</span> <span class="n">start_minute</span><span class="p">):</span>
+    <span class="n">next_hour</span> <span class="o">=</span> <span class="p">((</span><span class="n">start_hour</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">+</span> <span class="n">start_minute</span> <span class="o">+</span> <span class="n">step</span> <span class="o">*</span> <span class="n">index</span><span class="p">)</span><span class="o">%</span><span class="mi">1440</span><span class="p">)</span><span class="o">/</span><span class="mi">60</span> <span class="c1"># 小时
+</span>    <span class="n">begin_minute</span> <span class="o">=</span> <span class="p">(</span><span class="n">step</span> <span class="o">*</span> <span class="n">index</span><span class="p">)</span><span class="o">%</span><span class="mi">60</span>
+    <span class="n">next_minute</span> <span class="o">=</span> <span class="n">begin_minute</span> <span class="o">+</span> <span class="n">step</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">next_minute</span> <span class="o">&gt;</span> <span class="mi">59</span><span class="p">:</span>
+        <span class="n">begin_minute</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">next_minute</span> <span class="o">=</span> <span class="n">step</span>
+    <span class="n">next_time</span> <span class="o">=</span> <span class="s">"H("</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">begin_minute</span><span class="p">)</span> <span class="o">+</span> <span class="s">"-"</span> <span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">next_minute</span><span class="p">)</span> <span class="o">+</span> <span class="s">") "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">next_hour</span><span class="p">)</span> <span class="o">+</span> <span class="s">" * * *"</span>
+    <span class="k">return</span> <span class="n">next_time</span>
+
+ <span class="c1"># 创建 config.xml 文件，传入链接列表，创建文件的保存路径, config.xml 文件路径
+</span><span class="k">def</span> <span class="nf">create_xml</span><span class="p">(</span><span class="n">links_list</span><span class="p">,</span> <span class="n">xmls_folder</span><span class="p">,</span> <span class="n">config_path</span><span class="p">):</span>
+    <span class="n">config_lines</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># 储存行
+</span>    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_path</span><span class="p">):</span>
+        <span class="n">config_lines</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="c1"># 遍历链接列表
+</span>    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">link</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">links_list</span><span class="p">):</span>
+        <span class="n">branch_group_name</span> <span class="o">=</span> <span class="n">get_branch</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">branch_group_name</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"链接无效："</span> <span class="o">+</span> <span class="n">link</span><span class="p">)</span>
+            <span class="k">continue</span>
+        <span class="n">branch_group</span> <span class="o">=</span> <span class="n">branch_group_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># 分组名
+</span>        <span class="n">branch_name</span> <span class="o">=</span> <span class="n">branch_group_name</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># 分支名称
+</span>        <span class="c1"># 创建文件保存到以分支名命名的文件夹中
+</span>        <span class="n">branch_folder</span> <span class="o">=</span> <span class="n">xmls_folder</span> <span class="o">+</span> <span class="s">"/"</span> <span class="o">+</span> <span class="n">branch_name</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="n">branch_folder</span><span class="p">):</span>
+            <span class="n">os</span><span class="p">.</span><span class="n">system</span><span class="p">(</span><span class="s">'mkdir '</span> <span class="o">+</span> <span class="n">branch_folder</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">os</span><span class="p">.</span><span class="n">system</span><span class="p">(</span><span class="s">'rm -rf '</span> <span class="o">+</span> <span class="n">branch_folder</span><span class="p">)</span>
+        <span class="n">config_xml_path</span> <span class="o">=</span> <span class="n">branch_folder</span> <span class="o">+</span> <span class="s">"/config.xml"</span>
+        <span class="c1"># 获取下一个运行的时间, 时间从0点0分开始，每10分钟运行一个组件
+</span>        <span class="n">new_time</span> <span class="o">=</span> <span class="n">get_scm_time</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">config_copy</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">cg_line</span> <span class="ow">in</span> <span class="n">config_lines</span><span class="p">:</span>
+            <span class="n">temp_line</span> <span class="o">=</span> <span class="n">cg_line</span>
+            <span class="k">if</span> <span class="n">g_old_branch</span> <span class="ow">in</span> <span class="n">temp_line</span><span class="p">:</span>
+                <span class="n">temp_line</span> <span class="o">=</span> <span class="n">temp_line</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="n">g_old_branch</span><span class="p">,</span> <span class="n">branch_group</span> <span class="o">+</span> <span class="s">"/"</span> <span class="o">+</span><span class="n">branch_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">g_old_time</span> <span class="ow">in</span> <span class="n">temp_line</span><span class="p">:</span>
+                <span class="n">temp_line</span> <span class="o">=</span> <span class="n">temp_line</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="n">g_old_time</span><span class="p">,</span> <span class="n">new_time</span><span class="p">)</span>
+            <span class="n">config_copy</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp_line</span><span class="p">)</span>
+        <span class="n">xml_str</span> <span class="o">=</span> <span class="s">""</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">config_copy</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_xml_path</span><span class="p">,</span> <span class="s">'w+'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">xml_str</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"已创建"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">+</span> <span class="s">"："</span> <span class="o">+</span> <span class="n">branch_group</span> <span class="o">+</span> <span class="s">"/"</span> <span class="o">+</span> <span class="n">branch_name</span> <span class="o">+</span> <span class="n">new_time</span><span class="p">)</span>
+
+<span class="c1"># main
+</span><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">xmls_folder</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span> <span class="o">+</span> <span class="s">"/xmls"</span>
+    <span class="k">if</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="n">xmls_folder</span><span class="p">):</span>
+        <span class="n">os</span><span class="p">.</span><span class="n">system</span><span class="p">(</span><span class="s">'rm -rf '</span> <span class="o">+</span> <span class="n">xmls_folder</span><span class="p">)</span>
+    <span class="n">os</span><span class="p">.</span><span class="n">system</span><span class="p">(</span><span class="s">'mkdir '</span> <span class="o">+</span> <span class="n">xmls_folder</span><span class="p">)</span>
+    <span class="n">links_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span><span class="o">+</span> <span class="s">"/git_links.txt"</span>
+    <span class="n">links_list</span> <span class="o">=</span> <span class="n">read_txt</span><span class="p">(</span><span class="n">links_path</span><span class="p">)</span>
+    <span class="n">config_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span><span class="o">+</span> <span class="s">"/config.xml"</span>
+    <span class="n">create_xml</span><span class="p">(</span><span class="n">links_list</span><span class="p">,</span> <span class="n">xmls_folder</span><span class="p">,</span> <span class="n">config_path</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="查找-xcodeproj-和-scheme-脚本">查找 xcodeproj 和 Scheme 脚本</h2>
+
+<p>定时检测 Git 更新，使用脚本自动从 Git 拉取组件源码；自动查找定位项目 project 文件及项目 scheme，自动进行逐个扫描。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python
+# coding=UTF-8
+</span>
+<span class="s">'''
+g_repos_folder 下拉代码，存放组件代码的路径
+'''</span>
+
+<span class="n">g_repos_folder</span> <span class="o">=</span> <span class="s">"/Desktop/GitJH"</span>
+
+<span class="kn">import</span> <span class="nn">sys</span><span class="p">,</span> <span class="n">os</span><span class="p">,</span> <span class="n">platform</span>
+
+<span class="c1"># 找到 xcodeproj 工程文件
+</span><span class="k">def</span> <span class="nf">find_project</span><span class="p">(</span><span class="n">branch_dir</span><span class="p">):</span>
+    <span class="n">proj_path</span> <span class="o">=</span> <span class="s">""</span>
+    <span class="k">for</span> <span class="n">home</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="p">.</span><span class="n">walk</span><span class="p">(</span><span class="n">branch_dir</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">temp_dir</span> <span class="ow">in</span> <span class="n">dirs</span><span class="p">:</span>
+            <span class="n">name_array</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">temp_dir</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">name_array</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">file_suffix</span> <span class="o">=</span> <span class="n">name_array</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># 获取后缀
+</span>            <span class="k">if</span> <span class="n">file_suffix</span><span class="p">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">".xcodeproj"</span><span class="p">:</span>
+                <span class="n">proj_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">home</span><span class="p">,</span> <span class="n">temp_dir</span><span class="p">)</span>
+                <span class="k">break</span>
+    <span class="k">return</span> <span class="n">proj_path</span>
+
+<span class="c1"># 获取所有scheme
+</span><span class="k">def</span> <span class="nf">get_schemes</span><span class="p">(</span><span class="n">proj_path</span><span class="p">):</span>
+    <span class="n">proj_folder</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">proj_path</span><span class="p">)</span>
+    <span class="n">xcodebuild_list</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">popen</span><span class="p">(</span><span class="s">'cd '</span> <span class="o">+</span> <span class="n">proj_folder</span> <span class="o">+</span> <span class="s">' &amp;&amp; xcodebuild -list'</span><span class="p">)</span>
+    <span class="n">scheme_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">sch_flag</span> <span class="o">=</span> <span class="bp">False</span> <span class="c1"># 标记找到Scheme
+</span>    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">xcodebuild_list</span><span class="p">:</span>
+        <span class="n">temp_line</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s">"Schemes:"</span> <span class="ow">in</span> <span class="n">temp_line</span><span class="p">:</span>
+            <span class="n">sch_flag</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">sch_flag</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">temp_line</span> <span class="o">!=</span> <span class="s">""</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">temp_line</span><span class="p">.</span><span class="n">lower</span><span class="p">().</span><span class="n">endswith</span><span class="p">(</span><span class="s">"bundle"</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="s">" "</span> <span class="ow">in</span> <span class="n">temp_line</span><span class="p">:</span>
+            <span class="n">scheme_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp_line</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">temp_line</span> <span class="o">==</span> <span class="s">""</span><span class="p">:</span>
+            <span class="n">sch_flag</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">return</span> <span class="n">scheme_list</span>
+
+<span class="c1"># 自动拉取分支
+</span><span class="k">def</span> <span class="nf">git_clone</span><span class="p">(</span><span class="n">argv_list</span><span class="p">,</span> <span class="n">branch_dir</span><span class="p">):</span>
+    <span class="n">branch_group</span> <span class="o">=</span> <span class="n">argv_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># 参数1 分组名称
+</span>    <span class="n">branch_name</span> <span class="o">=</span> <span class="n">argv_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># 参数2 分支名称
+</span>    <span class="n">branch_path</span> <span class="o">=</span> <span class="n">branch_dir</span> <span class="o">+</span> <span class="s">"/"</span> <span class="o">+</span> <span class="n">branch_name</span>
+    <span class="c1"># http://192.168.1.44/publicrepos/demo1.git
+</span>    <span class="n">branch_link</span> <span class="o">=</span> <span class="s">"http://192.168.1.44/"</span> <span class="o">+</span> <span class="n">branch_group</span> <span class="o">+</span> <span class="s">"/"</span> <span class="o">+</span> <span class="n">branch_name</span>  <span class="o">+</span> <span class="s">".git"</span>
+    <span class="n">git_pwd</span> <span class="o">=</span> <span class="s">"cd "</span> <span class="o">+</span> <span class="n">branch_dir</span> <span class="o">+</span><span class="s">" &amp;&amp; git clone "</span> <span class="o">+</span> <span class="n">branch_link</span>
+    <span class="k">if</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="n">branch_path</span><span class="p">):</span>
+        <span class="n">git_pwd</span> <span class="o">=</span> <span class="s">"cd "</span> <span class="o">+</span> <span class="n">branch_path</span> <span class="o">+</span><span class="s">" &amp;&amp; git pull origin master"</span>
+    <span class="n">os</span><span class="p">.</span><span class="n">system</span><span class="p">(</span><span class="n">git_pwd</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"拉取："</span> <span class="o">+</span> <span class="n">branch_name</span><span class="p">)</span>
+
+<span class="c1"># 自动化 sonar 扫描
+</span><span class="k">def</span> <span class="nf">auto_sonar</span><span class="p">(</span><span class="n">argvs</span><span class="p">):</span>
+    <span class="n">argv_list</span> <span class="o">=</span> <span class="n">argvs</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">].</span><span class="n">split</span><span class="p">(</span><span class="s">"/"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">argv_list</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"Python 参数错误"</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="n">branch_name</span> <span class="o">=</span> <span class="n">argv_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c1"># 分支绝对路径
+</span>    <span class="n">branch_dir</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s">'~'</span><span class="p">)</span> <span class="o">+</span> <span class="n">g_repos_folder</span>
+    <span class="n">branch_path</span> <span class="o">=</span> <span class="n">branch_dir</span> <span class="o">+</span> <span class="s">"/"</span> <span class="o">+</span> <span class="n">branch_name</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"分支路径："</span> <span class="o">+</span> <span class="n">branch_path</span><span class="p">)</span>
+    <span class="c1"># 拉取或者clone分支
+</span>    <span class="n">git_clone</span><span class="p">(</span><span class="n">argv_list</span><span class="p">,</span> <span class="n">branch_dir</span><span class="p">)</span>
+    <span class="c1"># 找到工程文件
+</span>    <span class="n">proj_path</span> <span class="o">=</span> <span class="n">find_project</span><span class="p">(</span><span class="n">branch_path</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"工程路径："</span> <span class="o">+</span> <span class="n">proj_path</span><span class="p">)</span>
+    <span class="c1"># 找到所有scheme
+</span>    <span class="n">scheme_list</span> <span class="o">=</span> <span class="n">get_schemes</span><span class="p">(</span><span class="n">proj_path</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"scheme 列表："</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">scheme_list</span><span class="p">))</span>
+    <span class="c1"># shell 参数，参数1：分支名称；参数2：xcodeproj 文件全路径；参数3：scheme
+</span>    <span class="k">for</span> <span class="n">scheme</span> <span class="ow">in</span> <span class="n">scheme_list</span><span class="p">:</span>
+        <span class="n">sh_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span> <span class="o">+</span> <span class="s">'/run-sonar.sh'</span>
+        <span class="n">os</span><span class="p">.</span><span class="n">system</span><span class="p">(</span><span class="s">"chmod 777 "</span> <span class="o">+</span> <span class="n">sh_path</span><span class="p">)</span>
+        <span class="n">sonar_pwd</span> <span class="o">=</span> <span class="s">'sh '</span><span class="o">+</span> <span class="n">sh_path</span> <span class="o">+</span> <span class="s">' '</span> <span class="o">+</span> <span class="n">branch_name</span> <span class="o">+</span> <span class="s">' '</span> <span class="o">+</span> <span class="n">proj_path</span> <span class="o">+</span> <span class="s">' '</span> <span class="o">+</span> <span class="n">scheme</span>
+        <span class="n">os</span><span class="p">.</span><span class="n">system</span><span class="p">(</span><span class="n">sonar_pwd</span><span class="p">)</span>
+
+<span class="c1"># 主程序
+</span><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"python 参数必须带上 分组/分支名称"</span><span class="p">)</span>
+        <span class="n">sys</span><span class="p">.</span><span class="nb">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">auto_sonar</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+</code></pre></div></div>
+
+<h2 id="oclint-扫描上传-sonarqube-脚本">OCLint 扫描上传 SonarQube 脚本</h2>
+
+<p>自动创建 Sonar 配置文件，扫描结果自动储存到数据库，通过网页查看结果。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+
+<span class="c"># 检测参数</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">echo</span> <span class="s2">"参数1：分支名称不能为空"</span>
+    <span class="nb">exit </span>0
+<span class="k">fi
+</span><span class="nb">echo</span> <span class="s2">"参数1："</span><span class="nv">$1</span>
+
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$2</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">echo</span> <span class="s2">"参数2：xcodeproj 文件路径不能为空"</span>
+    <span class="nb">exit </span>0
+<span class="k">fi
+</span><span class="nb">echo</span> <span class="s2">"参数2："</span><span class="nv">$2</span>
+
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$3</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">echo</span> <span class="s2">"参数3：scheme 名称不能为空"</span>
+    <span class="nb">exit </span>0
+<span class="k">fi
+</span><span class="nb">echo</span> <span class="s2">"参数3："</span><span class="nv">$3</span>
+
+<span class="c"># 检测环境</span>
+<span class="k">if </span>which xcodebuild 2&gt;/dev/null<span class="p">;</span> <span class="k">then
+    </span><span class="nb">echo</span> <span class="s1">'xcodebuild exist'</span>
+<span class="k">else
+    </span><span class="nb">echo</span> <span class="s1">'xcodebuild 未安装'</span>
+<span class="k">fi
+
+if </span>which oclint 2&gt;/dev/null<span class="p">;</span> <span class="k">then
+    </span><span class="nb">echo</span> <span class="s1">'oclint exist'</span>
+<span class="k">else
+    </span><span class="nb">echo</span> <span class="s1">'oclint 未安装'</span>
+    <span class="nb">exit </span>0
+<span class="k">fi
+
+if </span>which xcpretty 2&gt;/dev/null<span class="p">;</span> <span class="k">then
+    </span><span class="nb">echo</span> <span class="s1">'xcpretty exist'</span>
+<span class="k">else
+    </span><span class="nb">echo</span> <span class="s1">'xcpretty 未安装，执行 gem install xcpretty 安装'</span>
+    <span class="nb">exit </span>0
+<span class="k">fi</span>
+
+<span class="c"># 获取路径和scheme</span>
+<span class="nv">proj_dir</span><span class="o">=</span><span class="si">$(</span><span class="nb">dirname</span> <span class="s2">"</span><span class="nv">$2</span><span class="s2">"</span><span class="si">)</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="nv">$proj_dir</span><span class="s2">"</span> <span class="o">||</span> <span class="nb">exit </span>0
+<span class="nb">echo</span> <span class="s2">"工程路径："</span><span class="nv">$proj_dir</span>
+
+<span class="c"># 清除上次的缓存</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-d</span> ./derivedData <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">echo</span> <span class="s2">"清理缓存..."</span>
+    <span class="nb">rm</span> <span class="nt">-rf</span> ./derivedData
+<span class="k">fi
+
+</span><span class="nv">myworkspace</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$2</span><span class="s2">"</span><span class="si">)</span>
+<span class="nv">myscheme</span><span class="o">=</span><span class="s2">"</span><span class="nv">$3</span><span class="s2">"</span>
+
+<span class="c"># xcodebuild clean</span>
+xcodebuild clean <span class="nt">-project</span> <span class="s2">"</span><span class="nv">$myworkspace</span><span class="s2">"</span> <span class="nt">-scheme</span> <span class="s2">"</span><span class="nv">$myscheme</span><span class="s2">"</span> <span class="nt">-sdk</span> iphoneos <span class="nt">-configuration</span> Debug
+
+<span class="c"># 生成编译数据</span>
+xcodebuild <span class="nt">-project</span> <span class="s2">"</span><span class="nv">$myworkspace</span><span class="s2">"</span> <span class="nt">-scheme</span> <span class="s2">"</span><span class="nv">$myscheme</span><span class="s2">"</span> <span class="nt">-sdk</span> iphoneos <span class="nt">-configuration</span> Debug <span class="se">\</span>
+<span class="nb">arch</span><span class="o">=</span>arm64 <span class="nv">COMPILER_INDEX_STORE_ENABLE</span><span class="o">=</span>NO | xcpretty <span class="nt">-r</span> json-compilation-database <span class="nt">-o</span> compile_commands.json
+
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-f</span> ./compile_commands.json <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">echo</span> <span class="s2">"编译数据生成完毕"</span>
+<span class="k">else
+    </span><span class="nb">echo</span> <span class="s2">"编译数据生成失败"</span>
+    <span class="nb">exit </span>0
+<span class="k">fi</span>
+
+<span class="c"># 生成报告目录</span>
+<span class="k">if</span> <span class="o">[</span> <span class="o">!</span> <span class="nt">-d</span> ./sonar-reports <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">mkdir </span>sonar-reports
+<span class="k">fi</span>
+
+<span class="c"># 删除旧报告</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-f</span> sonar-reports/<span class="s2">"</span><span class="nv">$myscheme</span><span class="s2">"</span>_oclint.xml <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">rm</span> <span class="nt">-f</span> sonar-reports/<span class="s2">"</span><span class="nv">$myscheme</span><span class="s2">"</span>_oclint.xml
+<span class="k">fi</span>
+
+<span class="c"># 分析编译数据</span>
+<span class="nv">maxPriority</span><span class="o">=</span>15000
+<span class="c"># Disable rules</span>
+<span class="nv">LINT_DISABLE_RULES</span><span class="o">=</span><span class="s2">"-disable-rule=LongClass </span><span class="se">\</span><span class="s2">
+-disable-rule=LongLine </span><span class="se">\</span><span class="s2">
+-disable-rule=LongMethod </span><span class="se">\</span><span class="s2">
+-disable-rule=LongVariableName </span><span class="se">\</span><span class="s2">
+-disable-rule=ShortVariableName </span><span class="se">\</span><span class="s2">
+-disable-rule=HighNcssMethod </span><span class="se">\</span><span class="s2">
+-disable-rule=DeepNestedBlock </span><span class="se">\</span><span class="s2">
+-disable-rule=TooManyFields </span><span class="se">\</span><span class="s2">
+-disable-rule=TooManyMethods </span><span class="se">\</span><span class="s2">
+-disable-rule=TooManyParameters </span><span class="se">\</span><span class="s2">
+-disable-rule=IvarAssignmentOutsideAccessorsOrInit"</span>
+
+oclint-json-compilation-database <span class="nt">--</span> <span class="se">\</span>
+<span class="nt">-report-type</span> pmd <span class="nt">-o</span> sonar-reports/<span class="s2">"</span><span class="nv">$myscheme</span><span class="s2">"</span>_oclint.xml <span class="se">\</span>
+<span class="nt">-max-priority-1</span><span class="o">=</span><span class="nv">$maxPriority</span> <span class="se">\</span>
+<span class="nt">-max-priority-2</span><span class="o">=</span><span class="nv">$maxPriority</span> <span class="se">\</span>
+<span class="nt">-max-priority-3</span><span class="o">=</span><span class="nv">$maxPriority</span> <span class="s2">"</span><span class="nv">$LINT_DISABLE_RULES</span><span class="s2">"</span>
+
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-f</span> sonar-reports/<span class="s2">"</span><span class="nv">$myscheme</span><span class="s2">"</span>_oclint.xml <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nb">echo</span> <span class="s2">"分析完成"</span>
+<span class="k">else
+    </span><span class="nb">echo</span> <span class="s2">"分析失败"</span>
+    <span class="nb">exit </span>0
+<span class="k">fi
+
+</span><span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">''</span> <span class="s1">'s/\&amp;/\&amp;amp;/g'</span> sonar-reports/<span class="s2">"</span><span class="nv">$myscheme</span><span class="s2">"</span>_oclint.xml
+
+<span class="c"># 生产配置文件</span>
+<span class="nb">rm</span> <span class="nt">-f</span> sonar-project.properties
+<span class="nb">cat</span> <span class="o">&gt;</span> sonar-project.properties <span class="o">&lt;&lt;-</span> <span class="no">EOF</span><span class="sh">
+sonar.projectKey=</span><span class="nv">$1</span><span class="sh">
+sonar.projectName=</span><span class="nv">$1</span><span class="sh">
+sonar.projectVersion=1.0
+sonar.language=swift
+sonar.sources=.
+sonar.swift.simulator=platform=iphoneos,OS=latest
+sonar.swift.project=</span><span class="nv">$myworkspace</span><span class="sh">
+sonar.swift.appScheme=</span><span class="nv">$myscheme</span><span class="sh">
+sonar.swift.appConfiguration=Debug
+sonar.sourceEncoding=UTF-8
+sonar.swift.excludedPathsFromCoverage=.*Tests.*
+sonar.swift.tailor.config=--no-color --max-line-length=100 --max-file-length=500 --max-name-length=40 --max-name-length=40 --min-name-length=4
+</span><span class="no">EOF
+
+</span><span class="c"># 储存到 sonar 数据库</span>
+/bin/sh sonar-scanner <span class="nt">-X</span>
+</code></pre></div></div>
+
+<h2 id="脚本源码">脚本源码</h2>
+
+<p>脚本源码已放在 Github 仓库 <a href="https://github.com/muzipiao/dev-shell">https://github.com/muzipiao/dev-shell</a> 的 sonar-scan 文件夹下，组件 Git 路径和拉取到本地的路径有所不同，需要简单修改，这些脚本供学习参考。</p>
+
+<p>如果您觉得有所帮助，请在<a href="https://github.com/muzipiao/dev-shell">GitHub Shell</a>上赏个Star ⭐️，您的鼓励是我前进的动力。</p>
+
+<h2 id="参考">参考</h2>
+
+<ul>
+  <li>https://blog.csdn.net/weixin_43901866/article/details/86578648</li>
+  <li>https://www.jianshu.com/p/3b70aa6af07b</li>
+</ul>
+:ET
