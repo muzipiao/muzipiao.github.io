@@ -1,3 +1,0 @@
-I"�<p><strong><code class="language-plaintext highlighter-rouge">RSA算法</code>是最广为使用的“<code class="language-plaintext highlighter-rouge">非对称加密算法</code>”，基本上只要有计算机网络的地方，就有RSA算法。</strong>
-这种算法非常可靠，密钥越长，它就越难破解。根据报道，目前被破解的最长RSA密钥是768个二进制位。也就是说，长度超过768位的密钥，还无法破解(至少没人公开宣布)。 因此可以认为，1024位的RSA密钥基本安全，2048位的密钥极其安全。RSA是由Rivest、Shamir 和 Adleman三位数学家1977年提出的加密算法，所以以他们首字母命名。</p>
-:ET
