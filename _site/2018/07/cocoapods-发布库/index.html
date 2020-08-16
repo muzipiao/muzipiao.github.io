@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>cocoapods 发布库</title>
+  <meta name="description" content="安装 cocoapods">
+  <meta name="author" content="leopardpan">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="cocoapods 发布库">
+  <meta name="twitter:description" content="安装 cocoapods">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="cocoapods 发布库">
+  <meta property="og:description" content="安装 cocoapods">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//libs.baidu.com/fontawesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2018/07/cocoapods-%E5%8F%91%E5%B8%83%E5%BA%93/">
+  <link rel="alternate" type="application/rss+xml" title="cocoafei" href="http://localhost:4000/feed.xml">
+
+<!-- 百度统计 -->
+  
+
+<!-- google 统计 -->
+  
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">            
+            <a href="/#blog" title="前往 cocoafei 的主页" class="blog-button">
+                <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                <div class="info">
+                    <div class="info-back">
+                        <h2> 
+                            
+                                cocoafei
+                            
+                        </h2>
+                        <p>
+                           
+                                iOS / Python
+                            
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for cocoafei" class="blog-button">cocoafei</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">个人站</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">欢迎来到我的Blog~</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                  <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                  <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+                  <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>          
+        </div>
+
+
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-clear"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">cocoapods 发布库</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px" style="vertical-align:middle;"/> 
+      <time datetime="2018-07-09 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date" style="vertical-align:middle;">2018-07-09</time>
+    </p>  
+    </div>
+  </header>
+
+  <section class="post">
+    <h2 id="安装-cocoapods">安装 cocoapods</h2>
+
+<p>首次安装 cocoapods 建议升级 Ruby，防止 Ruby 版本过低出现的一些错误。</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 查看当前 Ruby 版本</span>
+<span class="n">ruby</span> <span class="o">-</span><span class="n">v</span>
+<span class="c1"># 联网升级为 Ruby 最新稳定版本，需要几分钟时间</span>
+<span class="n">curl</span> <span class="o">-</span><span class="no">L</span> <span class="n">get</span><span class="p">.</span><span class="nf">rvm</span><span class="p">.</span><span class="nf">io</span> <span class="o">|</span> <span class="n">bash</span> <span class="o">-</span><span class="n">s</span> <span class="n">stable</span> 
+<span class="c1"># 激活环境变量</span>
+<span class="n">source</span> <span class="o">~</span><span class="sr">/.bashrc
+source ~/</span><span class="p">.</span><span class="nf">bash_profile</span>
+<span class="c1"># 查看升级后的 Ruby 版本</span>
+<span class="n">ruby</span> <span class="o">-</span><span class="n">v</span>
+</code></pre></div></div>
+
+<p>更换安装源，Ruby 官方库 https://rubygems.org/ 为国外源，速度慢且可能被墙，更换为国内源。</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 查看当前 Ruby 源，预计显示 https://rubygems.org/</span>
+<span class="n">gem</span> <span class="n">sources</span> <span class="o">-</span><span class="n">l</span>
+<span class="c1"># 删除源</span>
+<span class="n">gem</span> <span class="n">sources</span> <span class="o">--</span><span class="n">remove</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">rubygems</span><span class="p">.</span><span class="nf">org</span><span class="o">/</span>
+<span class="c1"># 添加源</span>
+<span class="n">gem</span> <span class="n">sources</span> <span class="o">--</span><span class="n">add</span> <span class="n">https</span><span class="ss">:/</span><span class="o">/</span><span class="n">gems</span><span class="p">.</span><span class="nf">ruby</span><span class="o">-</span><span class="n">china</span><span class="p">.</span><span class="nf">com</span><span class="o">/</span>
+<span class="c1"># 查看更改后 Ruby 源</span>
+<span class="n">gem</span> <span class="n">sources</span> <span class="o">-</span><span class="n">l</span>
+</code></pre></div></div>
+
+<p>安装 cocoapods，Mac 新版系统，例如 Mojave，由于目录权限改变，必须安装到用户目录<code class="language-plaintext highlighter-rouge">/usr/local/bin</code>下，旧的安装方法<code class="language-plaintext highlighter-rouge">sudo gem install cocoapods</code>在新系统上会报错。</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 将 cocoapods 安装到 /usr/local/bin 目录下</span>
+<span class="n">sudo</span> <span class="n">gem</span> <span class="n">install</span> <span class="o">-</span><span class="n">n</span> <span class="sr">/usr/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span> <span class="n">cocoapods</span>
+<span class="c1"># 安装成功后，查看 cocoapods </span>
+<span class="n">pod</span> <span class="o">--</span><span class="n">version</span>
+</code></pre></div></div>
+
+<h2 id="使用-cocoapods">使用 cocoapods</h2>
+
+<p>创建 Podfile 文件，编辑填入需要集成的依赖库。</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 创建 Podfile（切换到工程目录下,没有后缀）</span>
+<span class="err">$</span> <span class="n">touch</span> <span class="no">Podfile</span>
+<span class="c1"># 搜索需要的框架，里面会有集成方法，例如 pod 'AFNetworking', '~&gt; 3.2.1'</span>
+<span class="err">$</span> <span class="n">pod</span> <span class="n">search</span> <span class="no">AFNetworking</span>
+</code></pre></div></div>
+
+<p>Podfile 文件示例如下：</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 使用 Swift 或将下方依赖编译动态库</span>
+<span class="n">use_frameworks!</span>
+<span class="c1"># 设置 iOS 最低兼容版本</span>
+<span class="n">platform</span> <span class="ss">:ios</span><span class="p">,</span> <span class="s1">'8.0'</span>
+<span class="c1"># 当前项目 Scheme</span>
+<span class="n">target</span> <span class="s1">'MyScheme'</span> <span class="k">do</span>
+<span class="c1"># 依赖 AFNetworking 最新版本，pod update会更新</span>
+<span class="n">pod</span> <span class="s1">'AFNetworking'</span>
+<span class="c1"># 指定 MBProgressHUD 的 1.1.0 版本，pod update不更新</span>
+<span class="n">pod</span> <span class="s1">'MBProgressHUD'</span><span class="p">,</span> <span class="s1">'1.1.0'</span>
+<span class="c1"># 依赖 SDWebImage 的 5.0 以上兼容版本，一般表示是以 5 开头版本，pod update会更新</span>
+<span class="n">pod</span> <span class="s1">'SDWebImage'</span><span class="p">,</span> <span class="s1">'~&gt; 5.0'</span>
+<span class="c1"># 依赖 FMDB 的 2.7.5 以上兼容版本，若有警告，隐藏警告</span>
+<span class="n">pod</span> <span class="s1">'FMDB'</span><span class="p">,</span> <span class="s1">'~&gt; 2.7.5'</span><span class="p">,</span> <span class="ss">inhibit_warnings: </span><span class="kp">true</span>
+<span class="c1"># 依赖 YYText 的 1.0.7 以上兼容版本，不隐藏警告</span>
+<span class="n">pod</span> <span class="s1">'YYText'</span><span class="p">,</span> <span class="s1">'~&gt; 1.0.7'</span><span class="p">,</span> <span class="ss">inhibit_warnings: </span><span class="kp">false</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>编辑完成 Podfile 完成后，<code class="language-plaintext highlighter-rouge">pod install</code>即可，<code class="language-plaintext highlighter-rouge">pod update</code>会升级已安装的库。</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 安装依赖库</span>
+<span class="err">$</span> <span class="n">pod</span> <span class="n">install</span>
+<span class="c1"># 升级安装依赖库（update包含install）</span>
+<span class="err">$</span> <span class="n">pod</span> <span class="n">update</span>
+</code></pre></div></div>
+
+<h2 id="创建-cocoapods-发布项目">创建 cocoapods 发布项目</h2>
+
+<p>推荐使用 cocoapods 模板创建，快速标准。完整命令如下，有选项的命令会在后面解释。</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 基于模板工程，创建一个名称叫 TestProj 的项目，会要求输入一些选项</span>
+<span class="n">pod</span> <span class="n">lib</span> <span class="n">create</span> <span class="no">TestProj</span>
+<span class="c1"># 基于模板工程，已经生成了 .podspec 文件，其他项目可用此命令创建</span>
+<span class="n">pod</span> <span class="n">spec</span> <span class="n">create</span> <span class="no">TestProj</span>
+<span class="c1"># .podspec 文件及项目编辑完成后，本地验证，可标记使用静态库和忽略警告</span>
+<span class="n">pod</span> <span class="n">lib</span> <span class="n">lint</span>
+<span class="c1"># 本地验证，若项目依赖了静态库，必须加上--use-libraries</span>
+<span class="n">pod</span> <span class="n">lib</span> <span class="n">lint</span> <span class="o">--</span><span class="n">use</span><span class="o">-</span><span class="n">libraries</span>
+<span class="c1"># 本地验证，有警告导致验证不通过，可使用--allow-warnings使验证通过</span>
+<span class="n">pod</span> <span class="n">lib</span> <span class="n">lint</span> <span class="o">--</span><span class="n">use</span><span class="o">-</span><span class="n">libraries</span> <span class="o">--</span><span class="n">allow</span><span class="o">-</span><span class="n">warnings</span>
+<span class="c1"># 创建 tag，注意 tag 必须和 podspec 文件中 s.version = '0.1.2' 一致</span>
+<span class="n">git</span> <span class="n">tag</span> <span class="s1">'0.1.2'</span>
+<span class="c1"># 推送至 GitHub，若此命令报错，使用 sourcetree 或其他工具推送接口</span>
+<span class="n">git</span> <span class="n">push</span>
+<span class="c1"># 远程验证，可标记使用静态库和忽略警告</span>
+<span class="n">pod</span> <span class="n">spec</span> <span class="n">lint</span>
+<span class="c1"># 远程验证，若项目依赖了静态库，必须加上--use-libraries</span>
+<span class="n">pod</span> <span class="n">spec</span> <span class="n">lint</span> <span class="o">--</span><span class="n">use</span><span class="o">-</span><span class="n">libraries</span>
+<span class="c1"># 远程验证，有警告导致验证不通过，可使用--allow-warnings使验证通过</span>
+<span class="n">pod</span> <span class="n">spec</span> <span class="n">lint</span> <span class="o">--</span><span class="n">use</span><span class="o">-</span><span class="n">libraries</span> <span class="o">--</span><span class="n">allow</span><span class="o">-</span><span class="n">warnings</span>
+<span class="c1"># 验证无错误，发布项目至 cocoapods</span>
+<span class="n">pod</span> <span class="n">trunk</span> <span class="n">push</span> <span class="no">TestProj</span><span class="p">.</span><span class="nf">podspec</span> <span class="o">--</span><span class="n">use</span><span class="o">-</span><span class="n">libraries</span>
+<span class="c1"># 如果想删除已发布库，可使用 delete</span>
+<span class="n">pod</span> <span class="n">trunk</span> <span class="n">delete</span> <span class="p">{</span><span class="n">podname</span><span class="p">}</span> <span class="p">{</span><span class="n">version</span><span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="基于模板创建项目">基于模板创建项目</h3>
+
+<p>命令<code class="language-plaintext highlighter-rouge">pod lib create TestProj</code>会创建一个名称为 TestProj 的项目，一般名称和你待发布库的名称相同，此项目基于 cocoapods 项目模板，方便快捷发布库。执行此命令需要输入一些选项。</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 准备应用到什么平台</span>
+<span class="no">What</span> <span class="n">platform</span> <span class="k">do</span> <span class="n">you</span> <span class="n">want</span> <span class="n">to</span> <span class="n">use?</span><span class="p">?</span> <span class="p">[</span> <span class="n">iOS</span> <span class="o">/</span> <span class="n">macOS</span> <span class="p">]</span>
+<span class="o">&gt;</span> <span class="n">iOS</span>
+<span class="c1"># 准备使用什么语言</span>
+<span class="no">What</span> <span class="n">language</span> <span class="k">do</span> <span class="n">you</span> <span class="n">want</span> <span class="n">to</span> <span class="n">use?</span><span class="p">?</span> <span class="p">[</span> <span class="no">Swift</span> <span class="o">/</span> <span class="no">ObjC</span> <span class="p">]</span>
+<span class="o">&gt;</span> <span class="no">ObjC</span>
+<span class="c1"># 是否需要为你的库包含一个 Demo 项目</span>
+<span class="no">Would</span> <span class="n">you</span> <span class="n">like</span> <span class="n">to</span> <span class="kp">include</span> <span class="n">a</span> <span class="n">demo</span> <span class="n">application</span> <span class="n">with</span> <span class="n">your</span> <span class="n">library?</span> <span class="p">[</span> <span class="no">Yes</span> <span class="o">/</span> <span class="no">No</span> <span class="p">]</span>
+<span class="o">&gt;</span> <span class="no">Yes</span>
+<span class="c1"># 你想选择哪一个测试框架</span>
+<span class="no">Which</span> <span class="n">testing</span> <span class="n">frameworks</span> <span class="n">will</span> <span class="n">you</span> <span class="n">use?</span> <span class="p">[</span> <span class="no">Specta</span> <span class="o">/</span> <span class="no">Kiwi</span> <span class="o">/</span> <span class="no">None</span> <span class="p">]</span>
+<span class="o">&gt;</span> <span class="no">None</span>
+<span class="c1"># 你想要做视图单元测试吗</span>
+<span class="no">Would</span> <span class="n">you</span> <span class="n">like</span> <span class="n">to</span> <span class="k">do</span> <span class="n">view</span> <span class="n">based</span> <span class="n">testing?</span> <span class="p">[</span> <span class="no">Yes</span> <span class="o">/</span> <span class="no">No</span> <span class="p">]</span>
+<span class="o">&gt;</span> <span class="no">No</span>
+<span class="c1"># 你的类前缀是什么，自定义，输入空表示没有前缀</span>
+<span class="no">What</span> <span class="n">is</span> <span class="n">your</span> <span class="k">class</span> <span class="n">prefix?</span>
+<span class="o">&gt;</span> <span class="no">TP</span>
+</code></pre></div></div>
+
+<p>创建成功，自动打开项目，编辑项目最低兼容版本，证书等配置，编译项目通过。最主要的文件是 .podspec 的文件的编辑，列举必须常用的项。</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="no">Pod</span><span class="o">::</span><span class="no">Spec</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">spec</span><span class="o">|</span>
+<span class="c1"># 库名称，必须和 TestProj.podspec 名称一致</span>
+<span class="n">spec</span><span class="p">.</span><span class="nf">name</span>         <span class="o">=</span> <span class="s2">"TestProj"</span>
+<span class="c1"># 待发布库的版本，首次随意，后面依次递增，注意和 tag 名称相同 git tag '0.1.2'</span>
+<span class="n">spec</span><span class="p">.</span><span class="nf">version</span>      <span class="o">=</span> <span class="s2">"0.1.2"</span>
+<span class="c1"># 库的简介</span>
+<span class="n">spec</span><span class="p">.</span><span class="nf">summary</span>      <span class="o">=</span> <span class="s2">"这里写库 TestProj 的简单介绍。"</span>
+<span class="c1"># 库的详细介绍，注意，这里文本长度大于 spec.summary，否则验证报错</span>
+<span class="n">spec</span><span class="p">.</span><span class="nf">description</span>  <span class="o">=</span> <span class="o">&lt;&lt;-</span><span class="no">DESC</span><span class="sh">
+TestProj 是一个简单的库，使用 TestProj 可快速实现什么功能。
+</span><span class="no">DESC</span>
+<span class="c1"># 库的主页pod search TestProj会展示Homepage: https://github.com/muzipiao/GMObjC</span>
+<span class="n">spec</span><span class="p">.</span><span class="nf">homepage</span>     <span class="o">=</span> <span class="s2">"https://github.com/muzipiao/TestProj"</span>
+<span class="c1"># 开源协议，指向.podspec 文件同级目录下的 LICENSE 文件，注意无后缀</span>
+<span class="n">spec</span><span class="p">.</span><span class="nf">license</span>      <span class="o">=</span> <span class="p">{</span> <span class="ss">:type</span> <span class="o">=&gt;</span> <span class="s2">"MIT"</span><span class="p">,</span> <span class="ss">:file</span> <span class="o">=&gt;</span> <span class="s2">"LICENSE"</span> <span class="p">}</span>
+<span class="c1"># 库的作者及邮箱</span>
+<span class="n">spec</span><span class="p">.</span><span class="nf">author</span>             <span class="o">=</span> <span class="p">{</span> <span class="s2">"lifei"</span> <span class="o">=&gt;</span> <span class="s2">"lifei_zdjl@126.com"</span> <span class="p">}</span>
+<span class="c1"># 库兼容的最低版本</span>
+<span class="n">spec</span><span class="p">.</span><span class="nf">platform</span>     <span class="o">=</span> <span class="ss">:ios</span><span class="p">,</span> <span class="s2">"8.0"</span>
+<span class="c1"># 如果依赖了静态库 framework 或 .a 文件，此项必须</span>
+<span class="n">spec</span><span class="p">.</span><span class="nf">static_framework</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="c1"># 指向的 Github 地址及版本</span>
+<span class="n">spec</span><span class="p">.</span><span class="nf">source</span>       <span class="o">=</span> <span class="p">{</span> <span class="ss">:git</span> <span class="o">=&gt;</span> <span class="s2">"https://github.com/muzipiao/TestProj.git"</span><span class="p">,</span> <span class="ss">:tag</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="si">#{</span><span class="n">spec</span><span class="p">.</span><span class="nf">version</span><span class="si">}</span><span class="s2">"</span> <span class="p">}</span>
+<span class="c1"># 源码位置，注意 podspec 文件中路径必须为子路径，不能向上遍历父路径，例如 ../ 等写法</span>
+<span class="n">spec</span><span class="p">.</span><span class="nf">source_files</span>  <span class="o">=</span> <span class="s2">"TestProj/Classes/**/*.{h,m}"</span>
+<span class="c1"># 头文件位置，注意 podspec 文件中路径必须为子路径，不能向上遍历父路径，例如 ../ 等写法</span>
+<span class="n">spec</span><span class="p">.</span><span class="nf">public_header_files</span> <span class="o">=</span> <span class="s2">"TestProj/Classes/**/*.h"</span>
+<span class="c1"># 依赖的系统库，依赖单个用 .framework，多个用.frameworks，逗号隔开</span>
+<span class="n">spec</span><span class="p">.</span><span class="nf">framework</span>  <span class="o">=</span> <span class="s2">"Foundation"</span>
+<span class="c1"># 若依赖多个系统库，使用 .frameworks，库之间逗号隔开</span>
+<span class="n">spec</span><span class="p">.</span><span class="nf">frameworks</span> <span class="o">=</span> <span class="s1">'Foundation'</span><span class="p">,</span> <span class="s1">'UIKit'</span><span class="p">,</span> <span class="s1">'AVFoundation'</span>
+<span class="c1"># 库是否依赖 ARC</span>
+<span class="n">spec</span><span class="p">.</span><span class="nf">requires_arc</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="c1"># 库依赖的其他三方库</span>
+<span class="n">spec</span><span class="p">.</span><span class="nf">dependency</span> <span class="s2">"AFNetworking"</span>
+<span class="c1"># 依赖本地 framework</span>
+<span class="n">spec</span><span class="p">.</span><span class="nf">vendored_frameworks</span> <span class="o">=</span> <span class="s1">'Libs/MBProgressHUD.framework'</span>
+<span class="c1"># 配置头文件搜索路径</span>
+<span class="n">spec</span><span class="p">.</span><span class="nf">xcconfig</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">'HEADER_SEARCH_PATHS'</span> <span class="o">=&gt;</span> <span class="s1">'$(PROJECT_DIR)/Libs/MBProgressHUD.framework/Headers'</span> <span class="p">}</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>特别注意：podspec 文件中路径必须为子路径，不能向上遍历父路径。</p>
+
+<h2 id="常见错误">常见错误</h2>
+
+<h3 id="use_frameworks">use_frameworks!</h3>
+
+<p>使用 Swift 库的同学必须加上<code class="language-plaintext highlighter-rouge">use_frameworks!</code>，这个标记是会将 Pod 管理的依赖全部编译为动态库，需注意项目最低兼容版本需要在 iOS8 以上。</p>
+
+<h3 id="依赖静态库的错误">依赖静态库的错误</h3>
+
+<p>如果库依赖静态库，必须在 .podspec 的文件中配置<code class="language-plaintext highlighter-rouge">spec.static_framework = true</code>，否则会报如下错误</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">-&gt;</span> <span class="no">TestProj</span> <span class="p">(</span><span class="mf">0.1</span><span class="o">.</span><span class="mi">2</span><span class="p">)</span>
+<span class="o">-</span> <span class="no">WARN</span>  <span class="o">|</span> <span class="ss">summary: </span><span class="no">The</span> <span class="n">summary</span> <span class="n">is</span> <span class="n">not</span> <span class="n">meaningful</span><span class="p">.</span>
+<span class="nf">-</span> <span class="no">ERROR</span> <span class="o">|</span> <span class="p">[</span><span class="n">iOS</span><span class="p">]</span> <span class="ss">unknown: </span><span class="no">Encountered</span> <span class="n">an</span> <span class="n">unknown</span> <span class="n">error</span> <span class="p">(</span><span class="no">The</span> <span class="s1">'Pods-App'</span> <span class="n">target</span> <span class="n">has</span> <span class="n">transitive</span> <span class="n">dependencies</span> <span class="n">that</span> <span class="kp">include</span> <span class="n">static</span> <span class="ss">binaries: </span><span class="p">(</span><span class="sr">/private/</span><span class="n">var</span><span class="o">/</span><span class="n">folders</span><span class="o">/</span><span class="n">pg</span><span class="o">/</span><span class="n">nbtf_x71135bgsk9844np9hr0000gn</span><span class="o">/</span><span class="no">T</span><span class="o">/</span><span class="no">CocoaPods</span><span class="o">-</span><span class="no">Lint</span><span class="o">-</span><span class="mi">20190308</span><span class="o">-</span><span class="mi">57050</span><span class="o">-</span><span class="n">lhnm7v</span><span class="o">-</span><span class="no">TestProj</span><span class="o">/</span><span class="no">Pods</span><span class="o">/</span><span class="no">Libs</span><span class="o">/</span><span class="no">MBProgressHUD</span><span class="p">.</span><span class="nf">framework</span><span class="p">))</span> <span class="n">during</span> <span class="n">validation</span><span class="p">.</span>
+<span class="nf">[</span><span class="o">!</span><span class="p">]</span> <span class="no">TestProj</span> <span class="n">did</span> <span class="n">not</span> <span class="n">pass</span> <span class="n">validation</span><span class="p">,</span> <span class="n">due</span> <span class="n">to</span> <span class="mi">1</span> <span class="n">error</span> <span class="n">and</span> <span class="mi">1</span> <span class="n">warning</span><span class="o">.</span>
+<span class="no">You</span> <span class="n">can</span> <span class="n">use</span> <span class="n">the</span> <span class="sb">`--no-clean`</span> <span class="n">option</span> <span class="n">to</span> <span class="nb">inspect</span> <span class="n">any</span> <span class="n">issue</span><span class="o">.</span>
+</code></pre></div></div>
+
+<h3 id="pod-search-总是失败">pod search 总是失败</h3>
+
+<p>安装 CocoaPods 后，可以正常使用，但发现执行<code class="language-plaintext highlighter-rouge">pod search</code>来搜索类库信息时，却总是出现类似错误<code class="language-plaintext highlighter-rouge">[!] Unable to find a pod with name, author, summary, or descriptionmatching '······'</code>，可尝试下面的方法。</p>
+
+<ul>
+  <li>删除 CocoaPods 目录<code class="language-plaintext highlighter-rouge">~/Library/Caches/CocoaPods/Pods/Release</code>的缓存；</li>
+  <li>删除<code class="language-plaintext highlighter-rouge">~/Library/Caches/CocoaPods</code>目录下的 search_index.json 文件；</li>
+  <li>执行<code class="language-plaintext highlighter-rouge">pod setup</code>命令，会自动下载本地库，有时速度较慢。</li>
+  <li>执行<code class="language-plaintext highlighter-rouge">pod search AFNetworking</code>，搜索任意库，会重新创建索引，速度较慢。</li>
+</ul>
+
+
+  </section>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">支持作者</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">谢谢您的咖啡☕️</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2018/06/%E5%AE%8F%E4%B8%8E%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/" data-toggle="tooltip" data-placement="top" title="宏与内联函数">上一篇：  <span>宏与内联函数</span>
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/2018/10/%E8%AE%B0%E4%B8%80%E4%BA%9B%E5%8D%B0%E8%B1%A1%E6%B7%B1%E5%88%BB%E7%9A%84-Bug/" data-toggle="tooltip" data-placement="top" title="记一些印象深刻的 Bug">下一篇：  <span>记一些印象深刻的 Bug</span>
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+
+</section>
+
+
+            <section class="footer">
+    <footer>
+        <div class = "footer_div">  
+        <nav class="cover-navigation navigation--social">
+          <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/muzipiao" title="@muzipiao 的 Github" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/github.png);"></div>
+            </a>
+          </li>
+          
+
+          
+
+          
+          <!-- Zhihu -->
+          <li class="navigation__item_social">
+            <a href="https://juejin.im/user/5b2f1c51f265da59ad439f69" title="@5b2f1c51f265da59ad439f69" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/juejin.png);"></div>
+            </a>
+          </li>
+
+          
+
+          
+
+          
+
+          
+          
+
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:lifei_zdjl@126.com" title="Contact me">
+              <div class="footer-social-icon" style="background-image:url(/images/email.png);"></div>
+            </a>
+          </li>
+          
+          
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/rss.png);"></div>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          </ul>
+        </nav>
+        </div>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>

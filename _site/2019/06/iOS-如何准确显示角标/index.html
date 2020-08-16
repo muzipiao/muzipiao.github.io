@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>iOS 如何准确显示角标</title>
+  <meta name="description" content="本地设置角标">
+  <meta name="author" content="leopardpan">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="iOS 如何准确显示角标">
+  <meta name="twitter:description" content="本地设置角标">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="iOS 如何准确显示角标">
+  <meta property="og:description" content="本地设置角标">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//libs.baidu.com/fontawesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2019/06/iOS-%E5%A6%82%E4%BD%95%E5%87%86%E7%A1%AE%E6%98%BE%E7%A4%BA%E8%A7%92%E6%A0%87/">
+  <link rel="alternate" type="application/rss+xml" title="cocoafei" href="http://localhost:4000/feed.xml">
+
+<!-- 百度统计 -->
+  
+
+<!-- google 统计 -->
+  
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">            
+            <a href="/#blog" title="前往 cocoafei 的主页" class="blog-button">
+                <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                <div class="info">
+                    <div class="info-back">
+                        <h2> 
+                            
+                                cocoafei
+                            
+                        </h2>
+                        <p>
+                           
+                                iOS / Python
+                            
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for cocoafei" class="blog-button">cocoafei</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">个人站</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">欢迎来到我的Blog~</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                  <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                  <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+                  <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>          
+        </div>
+
+
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-clear"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">iOS 如何准确显示角标</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px" style="vertical-align:middle;"/> 
+      <time datetime="2019-06-25 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date" style="vertical-align:middle;">2019-06-25</time>
+    </p>  
+    </div>
+  </header>
+
+  <section class="post">
+    <h2 id="本地设置角标">本地设置角标</h2>
+
+<p>iOS 显示角标很容易，在 App 中任意地方调用如下方法都可设置，根据自己的需要设定即可。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 显示角标，传入待显示角标的数字</span>
+<span class="p">[[</span><span class="n">UIApplication</span> <span class="nf">sharedApplication</span><span class="p">]</span> <span class="nf">setApplicationIconBadgeNumber</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="n">value</span><span class="p">];</span>
+<span class="c1">// 清除角标，传入 0 即可</span>
+<span class="p">[[</span><span class="n">UIApplication</span> <span class="nf">sharedApplication</span><span class="p">]</span> <span class="nf">setApplicationIconBadgeNumber</span><span class="p">:</span><span class="mi">0</span><span class="p">];</span> 
+</code></pre></div></div>
+
+<h2 id="不精确显示角标">不精确显示角标</h2>
+
+<p>普通 App 对角标数字要求没那么高，服务端或控制台推送时，总是将推送个数设置为 1，用户点击进入 App 时清除角标。这样简单的做法，能满足大部分 App 的需求。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 进入 App 时清除角标</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">application</span><span class="p">:(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="nf">didFinishLaunchingWithOptions</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">launchOptions</span>
+<span class="p">{</span>
+    <span class="n">application</span><span class="p">.</span><span class="n">applicationIconBadgeNumber</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">// 从后台进入前台时清除角标</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">applicationWillEnterForeground</span><span class="p">:(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span>
+<span class="p">{</span>
+    <span class="n">application</span><span class="p">.</span><span class="n">applicationIconBadgeNumber</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>这样做的缺点也很明显，收到多条推送角标数量时角标永远显示 1，用户进入 App 不管是否点击推送的消息，都消除角标。如果要求较高，如何做到精确显示角标呢？</p>
+
+<h2 id="精确显示角标">精确显示角标</h2>
+
+<p>首先我们要了解一下，手机收到推送消息是如何显示角标数量的。如下所示APNS 按照此格式推送到手机，客户端显示的角标数量为推送的 badge 数值。手机收到推送消息，badge 的值是多少，角标显示的个数就是多少（最大 99999）。</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"aps"</span><span class="p">:{</span><span class="w">
+        </span><span class="nl">"alert"</span><span class="p">:</span><span class="s2">"这里是推送显示的消息串"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"badge"</span><span class="p">:</span><span class="mi">6</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"sound"</span><span class="p">:</span><span class="s2">"default"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"custom"</span><span class="p">:</span><span class="s2">"http://www.baidu.com"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>所以，我们想要精准显示角标数量，必须在客户端读取消息后，客户端上报用户已读消息，将推送消息阅读情况同步到服务器，如极光或者个推。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 极光和个推同步到服务器的 API 相同，调用可同步到服务器</span>
+<span class="k">+</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">setBadge</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="nv">value</span><span class="p">;</span>  <span class="c1">// value 取值范围：[0,99999]</span>
+<span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">resetBadge</span><span class="p">;</span>          <span class="c1">// 相当于 [setBadge:0]，清空角标</span>
+</code></pre></div></div>
+
+<p>假设服务器推送了 6 条消息，客户点击阅读了 2 条，那我们在设置 App 角标的同时，将未读个数同步到服务器</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 调用系统方法设置 App 显示的角标个数 4</span>
+<span class="p">[[</span><span class="n">UIApplication</span> <span class="nf">sharedApplication</span><span class="p">]</span> <span class="nf">setApplicationIconBadgeNumber</span><span class="p">:</span><span class="mi">4</span><span class="p">];</span>
+<span class="c1">// 个推 SDK 同步到服务器</span>
+<span class="p">[</span><span class="n">GeTuiSdk</span> <span class="nf">setBadge</span><span class="p">:</span><span class="mi">4</span><span class="p">];</span>
+<span class="c1">// 极光 SDK 同步到服务器</span>
+<span class="p">[</span><span class="n">JPush</span> <span class="nf">setBadge</span><span class="p">:</span><span class="mi">4</span><span class="p">];</span>
+</code></pre></div></div>
+
+<h2 id="参考文档">参考文档</h2>
+
+<p><a href="https://community.jiguang.cn/t/topic/13924">极光文档 - 角标控制</a>
+<a href="http://docs.getui.com/getui/mobile/ios/api/">个推文档 - 角标控制</a></p>
+
+
+  </section>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">支持作者</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">谢谢您的咖啡☕️</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2018/11/%E8%87%AA%E5%BB%BA%E5%B1%80%E5%9F%9F%E7%BD%91-OTA-%E6%9C%8D%E5%8A%A1%E5%99%A8/" data-toggle="tooltip" data-placement="top" title="自建局域网 OTA 服务器">上一篇：  <span>自建局域网 OTA 服务器</span>
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/2019/08/iOS-%E4%BD%BF%E7%94%A8-SM2-SM4-%E5%8A%A0%E8%A7%A3%E5%AF%86-SM2-%E7%AD%BE%E5%90%8D%E9%AA%8C%E7%AD%BE%E5%8F%8A-SM3-%E6%91%98%E8%A6%81/" data-toggle="tooltip" data-placement="top" title="iOS 使用 SM2 SM4 加解密 SM2 签名验签及 SM3 摘要">下一篇：  <span>iOS 使用 SM2 SM4 加解密 SM2 签名验签及 SM3 摘要</span>
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+
+</section>
+
+
+            <section class="footer">
+    <footer>
+        <div class = "footer_div">  
+        <nav class="cover-navigation navigation--social">
+          <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/muzipiao" title="@muzipiao 的 Github" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/github.png);"></div>
+            </a>
+          </li>
+          
+
+          
+
+          
+          <!-- Zhihu -->
+          <li class="navigation__item_social">
+            <a href="https://juejin.im/user/5b2f1c51f265da59ad439f69" title="@5b2f1c51f265da59ad439f69" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/juejin.png);"></div>
+            </a>
+          </li>
+
+          
+
+          
+
+          
+
+          
+          
+
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:lifei_zdjl@126.com" title="Contact me">
+              <div class="footer-social-icon" style="background-image:url(/images/email.png);"></div>
+            </a>
+          </li>
+          
+          
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/rss.png);"></div>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          </ul>
+        </nav>
+        </div>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>

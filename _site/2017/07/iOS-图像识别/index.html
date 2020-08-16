@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>iOS 图像识别</title>
+  <meta name="description" content="前言">
+  <meta name="author" content="leopardpan">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="iOS 图像识别">
+  <meta name="twitter:description" content="前言">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="iOS 图像识别">
+  <meta property="og:description" content="前言">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//libs.baidu.com/fontawesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2017/07/iOS-%E5%9B%BE%E5%83%8F%E8%AF%86%E5%88%AB/">
+  <link rel="alternate" type="application/rss+xml" title="cocoafei" href="http://localhost:4000/feed.xml">
+
+<!-- 百度统计 -->
+  
+
+<!-- google 统计 -->
+  
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">            
+            <a href="/#blog" title="前往 cocoafei 的主页" class="blog-button">
+                <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                <div class="info">
+                    <div class="info-back">
+                        <h2> 
+                            
+                                cocoafei
+                            
+                        </h2>
+                        <p>
+                           
+                                iOS / Python
+                            
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for cocoafei" class="blog-button">cocoafei</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">个人站</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">欢迎来到我的Blog~</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                  <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                  <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+                  <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>          
+        </div>
+
+
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-clear"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">iOS 图像识别</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px" style="vertical-align:middle;"/> 
+      <time datetime="2017-07-13 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date" style="vertical-align:middle;">2017-07-13</time>
+    </p>  
+    </div>
+  </header>
+
+  <section class="post">
+    <h2 id="前言">前言</h2>
+
+<p>目前的计算机图像识别，透过现象看本质，主要分为两大类：</p>
+
+<ol>
+  <li>基于规则运算的图像识别，例如颜色形状等特征匹配。</li>
+  <li>基于统计的图像识别，例如机器学习自动提取特征，并通过级联多特征匹配。</li>
+  <li>场景：特征匹配方法适合固定的场景或物体识别，机器学习方法适合大量具有共同特征的场景或物体识别。</li>
+  <li>优劣：无论从识别率，准确度，还是适应多变场景来讲，机器学习都是优于特征匹配方法的，前提你有<code class="language-plaintext highlighter-rouge">大量的数据</code>来训练分类器。如果是仅仅是识别特定场景、物体或者形状，使用模板匹配方法更简单更易于实现。</li>
+</ol>
+
+<p>本文目标，实现在iOS客户端，通过摄像头发现并标记目标。</p>
+
+<p><img src="/images/posts/opencv/OpenCVBlogImage/OpenCVBlogMergeImg.png" alt="效果图" /></p>
+
+<h2 id="方案选择">方案选择</h2>
+
+<p>iOS 客户端快速实现图像识别的两种方案:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">开源库</th>
+      <th style="text-align: center">公司</th>
+      <th style="text-align: left">方案说明</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">TensorFlow</td>
+      <td style="text-align: center">Google</td>
+      <td style="text-align: left">AlphaGo 战胜世界围棋冠军，人工智能大火，谷歌 2016 年开源了其用来制作 AlphaGo 的深度学习系统 Tensorflow，而且 Tensorflow 支持了 iOS，Android 等移动端。</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">OpenCV</td>
+      <td style="text-align: center">Intel</td>
+      <td style="text-align: left">OpenCV 于 1999 年由 Intel 建立的，跨平台的开源计算机视觉库，主要由 C 和 C++ 代码构成，有 Python、Ruby、MATLAB 等语言的接口，支持 iOS，Android 等移动设备。</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>TensorFlow &amp;&amp; OpenCV</p>
+
+<p><img src="/images/posts/opencv/OpenCVBlogImage/LogoMerge.png" alt="TensorFlow &amp;&amp; OpenCV" /></p>
+
+<p>结论，虽然都是开源库，TensorFlow 侧重点偏向于机器学习，OpenCV 偏向于图像处理。从推出时间，代码迭代，资料的丰富度，以及前辈已经给踩平的坑来讲，本文选择 OpenCV 实现。</p>
+
+<h2 id="opencv-中常用图像识别的方法对比">OpenCV 中常用图像识别的方法对比</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">方法名称</th>
+      <th style="text-align: left">适用场景</th>
+      <th style="text-align: left">示例</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">模板匹配</td>
+      <td style="text-align: left">适合固定的场景、物体或特定形状的图片识别</td>
+      <td style="text-align: left">1. 某公司的 Logo 图标，假设图标是固定的；<br />2. 适用于某个图片是另外一张大图的一部分的场景；<br />3. 例如五角星形状固定，可转换为边框匹配。</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">特征点检测</td>
+      <td style="text-align: left">适合标记两幅图片中相同的特征点</td>
+      <td style="text-align: left">1. 有相同部分的照片拼接，视频运动追踪；<br />2. 例如全景图片的拼接，长图的拼接；<br />3. 监控视频中的目标跟踪。</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">机器学习</td>
+      <td style="text-align: left">适合识别某类有多种状态的场景或物体识别</td>
+      <td style="text-align: left">1. 人脸识别、人眼识别，身体识别等等；<br />2. 支付宝扫福，福字有成千上万种写法。</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>备注：基于机器学习训练分类器用来分类的方法，依赖于训练数据，给机器提供大量包含目标的正确数据和不包含目标的错误背景数据，让机器来总结提取特征，适合识别某类有多种状态的场景或物体识别。</p>
+
+<h2 id="集成-opencv">集成 OpenCV</h2>
+
+<p>iOS项目集成OpenCV，主要有两种方法：</p>
+
+<ol>
+  <li>
+    <p>从<a href="http://opencv.org">OpenCV官网</a>下载 opencv2.framework 框架，拖入即可，导入依赖的库，具体集成方法见我的另外一篇文章<a href="http://cocoafei.top/2017/07/iOS-%E9%9B%86%E6%88%90-OpenCV/">iOS集成OpenCV</a>。</p>
+  </li>
+  <li>
+    <p>CocoaPods 方式集成，Pod 文件中配置 <code class="language-plaintext highlighter-rouge">pod 'OpenCV'</code>，此方法简单，推荐。</p>
+  </li>
+</ol>
+
+<h2 id="模板匹配法">模板匹配法</h2>
+
+<p>首先要做的肯定是从 iPhone 摄像头获取视频帧，从输出视频流代理<code class="language-plaintext highlighter-rouge">AVCaptureVideoDataOutputSampleBufferDelegate</code>的代理方法中获取视频帧。</p>
+
+<pre><code class="language-Objective-C">#pragma mark - 获取视频帧，处理视频
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection;
+</code></pre>
+
+<p>然后，需要将视频帧转换为 OpenCV 能够用的 cv::Mat 矩阵，OpenCV 运算是以矩阵 Mat 为基础的。涉及大量 CPU 运算，需要将视频帧对象<strong>高效转换</strong>为 OpenCV 能够使用矩阵 cv::Mat，否则手机发烫严重。</p>
+
+<p>模板匹配法不需要颜色，通过设置相机输出格式是<code class="language-plaintext highlighter-rouge">YpCbCr</code>格式，直接从内存读取灰度图像，减少 CPU 运算。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * 高效将视频流转换为 Mat 图像矩阵
+ * Efficiently convert video streams to Mat image matrices
+ @param sampleBuffer 视频流(video stream)
+ @return OpenCV 可用的图像矩阵(OpenCV available image matrix)
+ */</span>
+<span class="k">+</span><span class="p">(</span><span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="p">)</span><span class="nf">bufferToGrayMat</span><span class="p">:(</span><span class="n">CMSampleBufferRef</span><span class="p">)</span> <span class="n">sampleBuffer</span><span class="p">{</span>
+    <span class="n">CVPixelBufferRef</span> <span class="n">pixelBuffer</span> <span class="o">=</span> <span class="n">CMSampleBufferGetImageBuffer</span><span class="p">(</span><span class="n">sampleBuffer</span><span class="p">);</span>
+    <span class="n">OSType</span> <span class="n">format</span> <span class="o">=</span> <span class="n">CVPixelBufferGetPixelFormatType</span><span class="p">(</span><span class="n">pixelBuffer</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">format</span> <span class="o">!=</span> <span class="n">kCVPixelFormatType_420YpCbCr8BiPlanarFullRange</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">OOBLog</span><span class="p">(</span><span class="s">@"Only YUV is supported"</span><span class="p">);</span> <span class="c1">// Y 是亮度，UV 是颜色</span>
+        <span class="k">return</span> <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="n">CVPixelBufferLockBaseAddress</span><span class="p">(</span><span class="n">pixelBuffer</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="kt">void</span> <span class="o">*</span><span class="n">baseaddress</span> <span class="o">=</span> <span class="n">CVPixelBufferGetBaseAddressOfPlane</span><span class="p">(</span><span class="n">pixelBuffer</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">CGFloat</span> <span class="n">width</span> <span class="o">=</span> <span class="n">CVPixelBufferGetWidth</span><span class="p">(</span><span class="n">pixelBuffer</span><span class="p">);</span>
+    <span class="n">videoRenderWidth</span> <span class="o">=</span> <span class="n">width</span><span class="p">;</span> <span class="c1">// 保存渲染宽度</span>
+    <span class="n">CGFloat</span> <span class="n">colCount</span> <span class="o">=</span> <span class="n">CVPixelBufferGetBytesPerRowOfPlane</span><span class="p">(</span><span class="n">pixelBuffer</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">width</span> <span class="o">!=</span> <span class="n">colCount</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="n">colCount</span><span class="p">;</span> <span class="c1">// 如果有字节对齐</span>
+    <span class="p">}</span>
+    <span class="n">CGFloat</span> <span class="n">height</span> <span class="o">=</span> <span class="n">CVPixelBufferGetHeight</span><span class="p">(</span><span class="n">pixelBuffer</span><span class="p">);</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">mat</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">CV_8UC1</span><span class="p">,</span> <span class="n">baseaddress</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">CVPixelBufferUnlockBaseAddress</span><span class="p">(</span><span class="n">pixelBuffer</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">mat</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>如果相机需要设置为<code class="language-plaintext highlighter-rouge">BGRA</code>格式，这时候需要用其他方法获取，如果是需要获取灰度图像，不推荐此方法，CPU 占有率较前一种高的多。</p>
+
+<p>其中旋转 90 度和镜像翻转，根据获取的图像是否需要，可通过设置摄像头输出避免，前置和后置摄像头设置不同。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">///MARK: - 将CMSampleBufferRef转为cv::Mat</span>
+<span class="k">+</span><span class="p">(</span><span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="p">)</span><span class="nf">bufferToMat</span><span class="p">:(</span><span class="n">CMSampleBufferRef</span><span class="p">)</span> <span class="n">sampleBuffer</span><span class="p">{</span>
+    <span class="n">CVImageBufferRef</span> <span class="n">imgBuf</span> <span class="o">=</span> <span class="n">CMSampleBufferGetImageBuffer</span><span class="p">(</span><span class="n">sampleBuffer</span><span class="p">);</span>
+    <span class="c1">//锁定内存</span>
+    <span class="n">CVPixelBufferLockBaseAddress</span><span class="p">(</span><span class="n">imgBuf</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="c1">// get the address to the image data</span>
+    <span class="kt">void</span> <span class="o">*</span><span class="n">imgBufAddr</span> <span class="o">=</span> <span class="n">CVPixelBufferGetBaseAddress</span><span class="p">(</span><span class="n">imgBuf</span><span class="p">);</span>
+    <span class="c1">// get image properties</span>
+    <span class="kt">int</span> <span class="n">w</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">CVPixelBufferGetWidth</span><span class="p">(</span><span class="n">imgBuf</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">CVPixelBufferGetHeight</span><span class="p">(</span><span class="n">imgBuf</span><span class="p">);</span>
+    <span class="c1">// create the cv mat</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">mat</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">CV_8UC4</span><span class="p">,</span> <span class="n">imgBufAddr</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="c1">//转换为灰度图像</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">edges</span><span class="p">;</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">edges</span><span class="p">,</span> <span class="n">CV_BGR2GRAY</span><span class="p">);</span>
+    <span class="c1">//旋转90度</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">transMat</span><span class="p">;</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">transpose</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">transMat</span><span class="p">);</span>
+    <span class="c1">//翻转,1是x方向，0是y方向，-1位Both</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">flipMat</span><span class="p">;</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">flip</span><span class="p">(</span><span class="n">transMat</span><span class="p">,</span> <span class="n">flipMat</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="n">CVPixelBufferUnlockBaseAddress</span><span class="p">(</span><span class="n">imgBuf</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">flipMat</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>最后，视频帧矩阵与模板矩阵对比，此时获取了模板 UIImage 的矩阵 templateMat 和视频帧的矩阵 flipMat，只需要用 OpenCV 的函数对比即可。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ 对比两个图像是否有相同区域
+ @return 有为Yes
+ */</span>
+<span class="k">-</span><span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">compareInput</span><span class="p">:(</span><span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="p">)</span> <span class="n">inputMat</span> <span class="n">templateMat</span><span class="o">:</span><span class="p">(</span><span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="p">)</span><span class="nv">tmpMat</span><span class="p">{</span>
+    <span class="kt">int</span> <span class="n">result_rows</span> <span class="o">=</span> <span class="n">inputMat</span><span class="p">.</span><span class="n">rows</span> <span class="o">-</span> <span class="n">tmpMat</span><span class="p">.</span><span class="n">rows</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">result_cols</span> <span class="o">=</span> <span class="n">inputMat</span><span class="p">.</span><span class="n">cols</span> <span class="o">-</span> <span class="n">tmpMat</span><span class="p">.</span><span class="n">cols</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">resultMat</span> <span class="o">=</span> <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="p">(</span><span class="n">result_cols</span><span class="p">,</span><span class="n">result_rows</span><span class="p">,</span><span class="n">CV_32FC1</span><span class="p">);</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">matchTemplate</span><span class="p">(</span><span class="n">inputMat</span><span class="p">,</span> <span class="n">tmpMat</span><span class="p">,</span> <span class="n">resultMat</span><span class="p">,</span> <span class="n">cv</span><span class="o">::</span><span class="n">TM_CCOEFF_NORMED</span><span class="p">);</span>
+    <span class="kt">double</span> <span class="n">minVal</span><span class="p">,</span> <span class="n">maxVal</span><span class="p">;</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">Point</span> <span class="n">minLoc</span><span class="p">,</span> <span class="n">maxLoc</span><span class="p">,</span> <span class="n">matchLoc</span><span class="p">;</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">minMaxLoc</span><span class="p">(</span> <span class="n">resultMat</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">minVal</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">maxVal</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">minLoc</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">maxLoc</span><span class="p">,</span> <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="p">());</span>
+    <span class="c1">//    matchLoc = maxLoc;</span>
+    <span class="c1">//    NSLog(@"min==%f,max==%f",minVal,maxVal);</span>
+    <span class="n">dispatch_async</span><span class="p">(</span><span class="n">dispatch_get_main_queue</span><span class="p">(),</span> <span class="o">^</span><span class="p">{</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">similarLevelLabel</span><span class="p">.</span><span class="n">text</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"相似度：%.2f"</span><span class="p">,</span><span class="n">maxVal</span><span class="p">];</span>
+    <span class="p">});</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">maxVal</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">.</span><span class="mi">7</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">//有相似位置，返回相似位置的第一个点</span>
+        <span class="n">currentLoc</span> <span class="o">=</span> <span class="n">maxLoc</span><span class="p">;</span>
+        <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+        <span class="k">return</span> <span class="nb">NO</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="模板匹配法优化">模板匹配法优化</h2>
+
+<p>此时，我们已经对比两个图像的相似度了，其中maxVal越大表示匹配度越高，1为完全匹配，一般想要匹配准确，需要大于0.7。</p>
+
+<p>但此时我们发现一个问题，我们摄像头离图像太远或者太近，都无法识别，只有在特定的距离才能够识别。</p>
+
+<p>这是因为模板匹配法，只是<code class="language-plaintext highlighter-rouge">死板</code>的拿模板图像去和摄像头读取的图像进行比较，放大缩小都不行。</p>
+
+<p>我们做些优化，按照<code class="language-plaintext highlighter-rouge">图像金字塔</code>的方法，将模板进行动态的放大缩小，只要能够匹配，说明图像就是一样的，这样摄像头前进后退都能够识别。我们将识别出的位置和大小保存在数组中，用矩形方框来标记位置。至于怎么标记，就不细说了，方法很多。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
+ * 对比两个图像是否有相同区域
+ * Compare whether two images have the same area
+ @param inputMat 缩放后的视频图像矩阵(Scaled video image matrix)
+ @param tmpMat 待识别的目标图像矩阵(Target image matrix to be identified)
+ @param scale 视频缩放比例(video scaling)
+ @param similarValue 设置的对比相似度阈值(set contrast similarity threshold)
+ @param videoFillWidth 视频图像字节补齐宽度(Video image byte fill width)
+ @return 对比结果，包含目标坐标，相似度(comparison result, including target coordinates, similarity)
+ */</span>
+<span class="k">+</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nf">compareInput</span><span class="p">:(</span><span class="n">Mat</span><span class="p">)</span> <span class="n">inputMat</span> <span class="n">templateMat</span><span class="o">:</span><span class="p">(</span><span class="n">Mat</span><span class="p">)</span><span class="nv">tmpMat</span> <span class="nf">VideoScale</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">scale</span> <span class="nf">SimilarValue</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">similarValue</span> <span class="nf">VideoFillWidth</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">videoFillWidth</span><span class="p">{</span>
+    <span class="c1">// 将待比较的图像缩放至视频宽度的 20% 至 50%</span>
+    <span class="n">NSArray</span> <span class="o">*</span><span class="n">tmpArray</span> <span class="o">=</span> <span class="p">@[</span><span class="err">@</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">2</span><span class="p">),</span><span class="err">@</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">3</span><span class="p">),</span><span class="err">@</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">4</span><span class="p">),</span><span class="err">@</span><span class="p">(</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">)];</span>
+    <span class="kt">int</span> <span class="n">currentTmpWidth</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// 匹配的模板图像宽度</span>
+    <span class="kt">int</span> <span class="n">currentTmpHeight</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// 匹配的模板图像高度</span>
+    <span class="kt">double</span> <span class="n">maxVal</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// 相似度</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">Point</span> <span class="n">maxLoc</span><span class="p">;</span> <span class="c1">// 匹配的位置</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">NSNumber</span> <span class="o">*</span><span class="n">tmpNum</span> <span class="k">in</span> <span class="n">tmpArray</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">CGFloat</span> <span class="n">tmpScale</span> <span class="o">=</span> <span class="n">tmpNum</span><span class="p">.</span><span class="n">floatValue</span><span class="p">;</span>
+        <span class="c1">// 待比较图像宽度，将待比较图像宽度缩放至视频图像的一半左右</span>
+        <span class="kt">int</span> <span class="n">tmpCols</span> <span class="o">=</span> <span class="n">inputMat</span><span class="p">.</span><span class="n">cols</span> <span class="o">*</span> <span class="n">tmpScale</span><span class="p">;</span>
+        <span class="c1">// 待比较图像高度，保持宽高比</span>
+        <span class="kt">int</span> <span class="n">tmpRows</span> <span class="o">=</span> <span class="p">(</span><span class="n">tmpCols</span> <span class="o">*</span> <span class="n">tmpMat</span><span class="p">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">/</span> <span class="n">tmpMat</span><span class="p">.</span><span class="n">cols</span><span class="p">;</span>
+        <span class="c1">// 缩放后的图像</span>
+        <span class="n">Mat</span> <span class="n">tmpReMat</span><span class="p">;</span>
+        <span class="n">cv</span><span class="o">::</span><span class="n">Size</span> <span class="n">tmpReSize</span> <span class="o">=</span> <span class="n">cv</span><span class="o">::</span><span class="n">Size</span><span class="p">(</span><span class="n">tmpCols</span><span class="p">,</span><span class="n">tmpRows</span><span class="p">);</span>
+        <span class="n">resize</span><span class="p">(</span><span class="n">tmpMat</span><span class="p">,</span> <span class="n">tmpReMat</span><span class="p">,</span> <span class="n">tmpReSize</span><span class="p">);</span>
+        <span class="c1">// 比较结果</span>
+        <span class="kt">int</span> <span class="n">result_rows</span> <span class="o">=</span> <span class="n">inputMat</span><span class="p">.</span><span class="n">rows</span> <span class="o">-</span> <span class="n">tmpReMat</span><span class="p">.</span><span class="n">rows</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="kt">int</span> <span class="n">result_cols</span> <span class="o">=</span> <span class="n">inputMat</span><span class="p">.</span><span class="n">cols</span> <span class="o">-</span> <span class="n">tmpReMat</span><span class="p">.</span><span class="n">cols</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">result_rows</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="o">||</span> <span class="n">result_cols</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">Mat</span> <span class="n">resultMat</span> <span class="o">=</span> <span class="n">Mat</span><span class="p">(</span><span class="n">result_cols</span><span class="p">,</span><span class="n">result_rows</span><span class="p">,</span><span class="n">CV_32FC1</span><span class="p">);</span>
+        <span class="n">matchTemplate</span><span class="p">(</span><span class="n">inputMat</span><span class="p">,</span> <span class="n">tmpReMat</span><span class="p">,</span> <span class="n">resultMat</span><span class="p">,</span> <span class="n">TM_CCOEFF_NORMED</span><span class="p">);</span>
+
+        <span class="kt">double</span> <span class="n">minVal_temp</span><span class="p">,</span> <span class="n">maxVal_temp</span><span class="p">;</span>
+        <span class="n">cv</span><span class="o">::</span><span class="n">Point</span> <span class="n">minLoc_temp</span><span class="p">,</span> <span class="n">maxLoc_temp</span><span class="p">,</span> <span class="n">matchLoc_temp</span><span class="p">;</span>
+        <span class="n">minMaxLoc</span><span class="p">(</span> <span class="n">resultMat</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">minVal_temp</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">maxVal_temp</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">minLoc_temp</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">maxLoc_temp</span><span class="p">,</span> <span class="n">Mat</span><span class="p">());</span>
+        <span class="n">maxVal</span> <span class="o">=</span> <span class="n">maxVal_temp</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">maxVal</span> <span class="o">&gt;=</span> <span class="n">similarValue</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">maxLoc</span> <span class="o">=</span> <span class="n">maxLoc_temp</span><span class="p">;</span>
+            <span class="n">currentTmpWidth</span> <span class="o">=</span> <span class="n">tmpCols</span><span class="p">;</span>
+            <span class="n">currentTmpHeight</span> <span class="o">=</span> <span class="n">tmpRows</span><span class="p">;</span>
+            <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">maxVal</span> <span class="o">&gt;=</span> <span class="n">similarValue</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 目标图像按照缩放比例恢复</span>
+        <span class="n">CGFloat</span> <span class="n">zoomScale</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span> <span class="o">/</span> <span class="n">scale</span><span class="p">;</span>
+        <span class="n">CGRect</span> <span class="n">rectF</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="n">maxLoc</span><span class="p">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">zoomScale</span><span class="p">,</span> <span class="n">maxLoc</span><span class="p">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">zoomScale</span><span class="p">,</span> <span class="n">currentTmpWidth</span> <span class="o">*</span> <span class="n">zoomScale</span><span class="p">,</span> <span class="n">currentTmpHeight</span> <span class="o">*</span> <span class="n">zoomScale</span><span class="p">);</span>
+        <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">tempDict</span> <span class="o">=</span> <span class="p">@{</span><span class="n">kTargetRect</span><span class="o">:</span><span class="n">NSStringFromCGRect</span><span class="p">(</span><span class="n">rectF</span><span class="p">),</span>
+                                   <span class="nl">kSimilarValue:</span><span class="err">@</span><span class="p">(</span><span class="n">maxVal</span><span class="p">),</span>
+                                   <span class="nl">kVideoFillWidth:</span><span class="err">@</span><span class="p">(</span><span class="n">videoFillWidth</span><span class="p">)};</span>
+        <span class="k">return</span> <span class="n">tempDict</span><span class="p">;</span>
+    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+        <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">tempDict</span> <span class="o">=</span> <span class="p">@{</span><span class="n">kTargetRect</span><span class="o">:</span><span class="n">NSStringFromCGRect</span><span class="p">(</span><span class="n">CGRectZero</span><span class="p">),</span>
+                                   <span class="nl">kSimilarValue:</span><span class="err">@</span><span class="p">(</span><span class="n">maxVal</span><span class="p">),</span>
+                                   <span class="nl">kVideoFillWidth:</span><span class="err">@</span><span class="p">(</span><span class="n">videoFillWidth</span><span class="p">)};</span>
+        <span class="k">return</span> <span class="n">tempDict</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<h2 id="模板匹配法实现效果图">模板匹配法实现效果图</h2>
+
+<p><img src="/images/posts/opencv/OpenCVBlogImage/TemplateMerge.png" alt="效果图" /></p>
+
+<h2 id="机器学习训练分类器方法识别图像">机器学习训练分类器方法识别图像</h2>
+
+<p>机器学习方法适合批量提取大量图片的特征，而且如果样本不标准或者有错误，也会导致分类器识别正确率降低。</p>
+
+<p>训练分类器的方法，请自行 google 查找，本篇不再详细说明。</p>
+
+<p>大量的训练数据如何获取，例如人脸分类器需要的正样本人脸图像几千张，负样本需要为正样本的3倍左右。我的解决思路为从摄像头录制待识别物体，从视频帧中生成 PNG 格式的正样本，再拍摄不包含待识别物体的背景，仍旧从视频中自动生成 PNG 格式的负样本，最后对图片进行缩放统一。</p>
+
+<h2 id="加载训练完成的分类器">加载训练完成的分类器</h2>
+
+<p>训练完成后会一般会生成一个 XML 格式的文件，我们加载这个 XML 文件，就可以用其来识别物体了，这里我们使用 OpenCV 官方库中人眼识别库<code class="language-plaintext highlighter-rouge">haarcascade_eye_tree_eyeglasses.xml</code>，我们从<a href="https://github.com/opencv/opencv">GitHub</a>上面下载开源库 OpenCV 的源代码，目前最新版本为 4.1.0，分类器在 OpenCV 项目的 /data 目录下的文件夹中，XML 格式文件就是。</p>
+
+<p>加载训练好的分类器文件需要用到加载器，我们定义一个加载器属性对象：</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cv</span><span class="o">::</span><span class="n">CascadeClassifier</span> <span class="n">icon_cascade</span><span class="p">;</span><span class="c1">//分类器</span>
+</code></pre></div></div>
+
+<p>加载器加载 XML 文件，加载成功返回 YES。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="c1">//加载训练文件</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">bundlePath</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSBundle</span> <span class="nf">mainBundle</span><span class="p">]</span> <span class="nf">pathForResource</span><span class="p">:</span><span class="s">@"haarcascade_eye_tree_eyeglasses.xml"</span> <span class="nf">ofType</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">String</span> <span class="n">fileName</span> <span class="o">=</span> <span class="p">[</span><span class="n">bundlePath</span> <span class="nf">cStringUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
+
+    <span class="n">BOOL</span> <span class="n">isSuccessLoadFile</span> <span class="o">=</span> <span class="n">icon_cascade</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">fileName</span><span class="p">);</span>
+    <span class="n">isSuccessLoadXml</span> <span class="o">=</span> <span class="n">isSuccessLoadFile</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">isSuccessLoadFile</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Load success......."</span><span class="p">);</span>
+    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+        <span class="n">NSLog</span><span class="p">(</span><span class="s">@"Load failed......"</span><span class="p">);</span>
+    <span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="使用分类器识别图像">使用分类器识别图像</h2>
+
+<p>我们是从摄像头获取图像，仍需把视频帧转换为 OpenCV 能够使用的<code class="language-plaintext highlighter-rouge">cv::Mat</code>矩阵格式，按照上面已知的方法转换，假设我们已经获取了视频帧转换好的灰度图像矩阵<code class="language-plaintext highlighter-rouge">cv::Mat imgMat</code>，那我们用OpenCV的API接口来识别视频帧，并把识别出的位置转换为 Frame 存在数组中返回，我们可以随意使用这些 Frame 来标记识别出的位置。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//获取计算出的标记的位置，保存在数组中</span>
+<span class="k">-</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nf">getTagRectInLayer</span><span class="p">:(</span><span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="p">)</span> <span class="n">inputMat</span><span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">inputMat</span><span class="p">.</span><span class="n">empty</span><span class="p">())</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">//图像均衡化</span>
+    <span class="n">cv</span><span class="o">::</span><span class="n">equalizeHist</span><span class="p">(</span><span class="n">inputMat</span><span class="p">,</span> <span class="n">inputMat</span><span class="p">);</span>
+    <span class="c1">//定义向量，存储识别出的位置</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">cv</span><span class="o">::</span><span class="n">Rect</span><span class="o">&gt;</span> <span class="n">glassess</span><span class="p">;</span>
+    <span class="c1">//分类器识别</span>
+    <span class="n">icon_cascade</span><span class="p">.</span><span class="n">detectMultiScale</span><span class="p">(</span><span class="n">inputMat</span><span class="p">,</span> <span class="n">glassess</span><span class="p">,</span> <span class="mi">1</span><span class="p">.</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="c1">//转换为Frame，保存在数组中</span>
+    <span class="n">NSMutableArray</span> <span class="o">*</span><span class="n">marr</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableArray</span> <span class="nf">arrayWithCapacity</span><span class="p">:</span><span class="n">glassess</span><span class="p">.</span><span class="n">size</span><span class="p">()];</span>
+    <span class="k">for</span> <span class="p">(</span><span class="n">NSInteger</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">glassess</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">CGRect</span> <span class="n">rect</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="n">glassess</span><span class="p">[</span><span class="nf">i</span><span class="p">].</span><span class="n">x</span><span class="p">,</span> <span class="n">glassess</span><span class="p">[</span><span class="nf">i</span><span class="p">].</span><span class="n">y</span><span class="p">,</span> <span class="n">glassess</span><span class="p">[</span><span class="nf">i</span><span class="p">].</span><span class="n">width</span><span class="p">,</span><span class="n">glassess</span><span class="p">[</span><span class="nf">i</span><span class="p">].</span><span class="n">height</span><span class="p">);</span>
+        <span class="n">NSValue</span> <span class="o">*</span><span class="n">value</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSValue</span> <span class="nf">valueWithCGRect</span><span class="p">:</span><span class="n">rect</span><span class="p">];</span>
+        <span class="p">[</span><span class="n">marr</span> <span class="nf">addObject</span><span class="p">:</span><span class="n">value</span><span class="p">];</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">marr</span><span class="p">.</span><span class="n">copy</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>分类器识别图像效果图</p>
+
+<p><img src="/images/posts/opencv/OpenCVBlogImage/MLMerge.png" alt="分类器识别图像效果图" /></p>
+
+<h2 id="opencv-其他图像处理">OpenCV 其他图像处理</h2>
+
+<ol>
+  <li>原图像</li>
+  <li>直方图均衡化</li>
+  <li>图像二值化</li>
+  <li>摄像头预览</li>
+  <li>灰度图</li>
+  <li>轮廓图</li>
+</ol>
+
+<p><img src="/images/posts/opencv/OpenCVBlogImage/OpenCVToPsImg.PNG" alt="OpenCV处理图像" /></p>
+
+<p>如果您觉得有所帮助，请在 <a href="https://github.com/muzipiao/OOB">GitHub OOBDemo</a> 上赏个Star ⭐️，您的鼓励是我前进的动力。</p>
+
+
+  </section>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">支持作者</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">谢谢您的咖啡☕️</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2017/07/iOS-%E9%9B%86%E6%88%90-OpenCV/" data-toggle="tooltip" data-placement="top" title="iOS 集成 OpenCV">上一篇：  <span>iOS 集成 OpenCV</span>
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/2017/07/iOS-LLDB-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/" data-toggle="tooltip" data-placement="top" title="LLDB 常用命令总结">下一篇：  <span>LLDB 常用命令总结</span>
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+
+</section>
+
+
+            <section class="footer">
+    <footer>
+        <div class = "footer_div">  
+        <nav class="cover-navigation navigation--social">
+          <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/muzipiao" title="@muzipiao 的 Github" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/github.png);"></div>
+            </a>
+          </li>
+          
+
+          
+
+          
+          <!-- Zhihu -->
+          <li class="navigation__item_social">
+            <a href="https://juejin.im/user/5b2f1c51f265da59ad439f69" title="@5b2f1c51f265da59ad439f69" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/juejin.png);"></div>
+            </a>
+          </li>
+
+          
+
+          
+
+          
+
+          
+          
+
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:lifei_zdjl@126.com" title="Contact me">
+              <div class="footer-social-icon" style="background-image:url(/images/email.png);"></div>
+            </a>
+          </li>
+          
+          
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/rss.png);"></div>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          </ul>
+        </nav>
+        </div>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>

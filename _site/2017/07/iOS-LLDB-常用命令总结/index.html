@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>LLDB 常用命令总结</title>
+  <meta name="description" content="LLDB 是 Xcode 的默认调试器，支持在桌面和 iOS 设备和模拟器上调试 C，Objective-C 和 C ++。此文总结常用的一些 LLDB 命令。">
+  <meta name="author" content="leopardpan">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="LLDB 常用命令总结">
+  <meta name="twitter:description" content="LLDB 是 Xcode 的默认调试器，支持在桌面和 iOS 设备和模拟器上调试 C，Objective-C 和 C ++。此文总结常用的一些 LLDB 命令。">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="LLDB 常用命令总结">
+  <meta property="og:description" content="LLDB 是 Xcode 的默认调试器，支持在桌面和 iOS 设备和模拟器上调试 C，Objective-C 和 C ++。此文总结常用的一些 LLDB 命令。">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//libs.baidu.com/fontawesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2017/07/iOS-LLDB-%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%80%BB%E7%BB%93/">
+  <link rel="alternate" type="application/rss+xml" title="cocoafei" href="http://localhost:4000/feed.xml">
+
+<!-- 百度统计 -->
+  
+
+<!-- google 统计 -->
+  
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">            
+            <a href="/#blog" title="前往 cocoafei 的主页" class="blog-button">
+                <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                <div class="info">
+                    <div class="info-back">
+                        <h2> 
+                            
+                                cocoafei
+                            
+                        </h2>
+                        <p>
+                           
+                                iOS / Python
+                            
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for cocoafei" class="blog-button">cocoafei</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">个人站</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">欢迎来到我的Blog~</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                  <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                  <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+                  <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>          
+        </div>
+
+
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-clear"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">LLDB 常用命令总结</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px" style="vertical-align:middle;"/> 
+      <time datetime="2017-07-18 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date" style="vertical-align:middle;">2017-07-18</time>
+    </p>  
+    </div>
+  </header>
+
+  <section class="post">
+    <p>LLDB 是 Xcode 的默认调试器，支持在桌面和 iOS 设备和模拟器上调试 C，Objective-C 和 C ++。此文总结常用的一些 LLDB 命令。</p>
+
+<h2 id="查看命令-print--po--v--frame-variable">查看命令 print &amp;&amp; po &amp;&amp; v &amp;&amp; frame variable</h2>
+
+<p>查看打印变量的值可以使用print、po、v 和 frame variable 命令。如果打印的是简单类型，print、v 、frame variable 命令会列出简单类型的类型和值，po 只会打印值；如果是对象，会打印出对象指针地址，在 func 方法中设置断点，分别查看他们的值。如果想一次查看所有的变量值，输入<code class="language-plaintext highlighter-rouge">frame variable</code>命令即可。<code class="language-plaintext highlighter-rouge">frame v</code>是<code class="language-plaintext highlighter-rouge">frame variable</code>的简写，执行命令效果相同。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 在 func 方法中设置断点</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">func</span><span class="p">{</span>
+<span class="n">NSInteger</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">8</span><span class="p">;</span>
+<span class="n">NSString</span> <span class="o">*</span><span class="n">aStr</span> <span class="o">=</span> <span class="s">@"xyzm"</span><span class="p">;</span>
+<span class="n">NSObject</span> <span class="o">*</span><span class="n">aObj</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSObject</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>分别使用 LLDB 的 print、po 和 v 命令效果如下：</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>lldb<span class="o">)</span> print a
+<span class="o">(</span>NSInteger<span class="o">)</span> <span class="nv">$0</span> <span class="o">=</span> 8
+<span class="o">(</span>lldb<span class="o">)</span> print aStr
+<span class="o">(</span>__NSCFConstantString <span class="k">*</span><span class="o">)</span> <span class="nv">$1</span> <span class="o">=</span> 0x000000010027a368 @<span class="s2">"xyzm"</span>
+<span class="o">(</span>lldb<span class="o">)</span> print aObj
+<span class="o">(</span>NSObject <span class="k">*</span><span class="o">)</span> <span class="nv">$2</span> <span class="o">=</span> 0x0000000170016350
+<span class="o">(</span>lldb<span class="o">)</span> po a
+8
+
+<span class="o">(</span>lldb<span class="o">)</span> po aStr
+xyzm
+
+<span class="o">(</span>lldb<span class="o">)</span> po aObj
+&lt;NSObject: 0x170016350&gt;
+
+<span class="o">(</span>lldb<span class="o">)</span> v a
+<span class="o">(</span>NSInteger<span class="o">)</span> a <span class="o">=</span> 8
+<span class="o">(</span>lldb<span class="o">)</span> v aStr
+<span class="o">(</span>__NSCFConstantString <span class="k">*</span><span class="o">)</span> aStr <span class="o">=</span> 0x000000010027a368 @<span class="s2">"xyzm"</span>
+<span class="o">(</span>lldb<span class="o">)</span> v aObj
+<span class="o">(</span>NSObject <span class="k">*</span><span class="o">)</span> aObj <span class="o">=</span> 0x0000000170016350
+<span class="o">(</span>lldb<span class="o">)</span> frame variable
+<span class="o">(</span>GMViewController <span class="k">*</span><span class="o">)</span> self <span class="o">=</span> 0x0000000102009d20
+<span class="o">(</span>SEL<span class="o">)</span> _cmd <span class="o">=</span> <span class="s2">"func"</span>
+<span class="o">(</span>NSInteger<span class="o">)</span> a <span class="o">=</span> 8
+<span class="o">(</span>__NSCFConstantString <span class="k">*</span><span class="o">)</span> aStr <span class="o">=</span> 0x000000010027a368 @<span class="s2">"xyzm"</span>
+<span class="o">(</span>NSObject <span class="k">*</span><span class="o">)</span> aObj <span class="o">=</span> 0x0000000170016350
+<span class="o">(</span>lldb<span class="o">)</span> frame variable a
+<span class="o">(</span>NSInteger<span class="o">)</span> a <span class="o">=</span> 8
+<span class="o">(</span>lldb<span class="o">)</span> frame variable aStr
+<span class="o">(</span>__NSCFConstantString <span class="k">*</span><span class="o">)</span> aStr <span class="o">=</span> 0x000000010027a368 @<span class="s2">"xyzm"</span>
+<span class="o">(</span>lldb<span class="o">)</span> frame variable aObj
+<span class="o">(</span>NSObject <span class="k">*</span><span class="o">)</span> aObj <span class="o">=</span> 0x0000000170016350
+</code></pre></div></div>
+
+<h2 id="修改命令-expression">修改命令 expression</h2>
+
+<p>程序员在自测调试的过程中，需要经常改变变量的值，以测试多种逻辑。通过改变代码的方式，需要每次打包，耗时耗力，使用 LLDB 的 expression 命令就简单了许多。在 Debug 调试的过程中，通过<code class="language-plaintext highlighter-rouge">expression 变量名=新值</code>的方式动态改变内存里面的变量。</p>
+
+<p>例如如下代码常见，cardID 是后台返回的标识，值为 AA，执行逻辑 A；不重新打包，我们想执行逻辑 B 怎么办？在 if 逻辑判断处打断点，执行<code class="language-plaintext highlighter-rouge">exp cardID=@"BB"</code>即可修改 cardID 的值为 BB，执行逻辑 B。e 和 exp 是 expression 的简写，执行命令效果相同。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">func</span><span class="p">{</span>
+<span class="n">NSString</span> <span class="o">*</span><span class="n">cardID</span> <span class="o">=</span> <span class="s">@"AA"</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">([</span><span class="n">cardID</span> <span class="nf">isEqualToString</span><span class="p">:</span><span class="s">@"AA"</span><span class="p">])</span> <span class="p">{</span>
+<span class="n">NSLog</span><span class="p">(</span><span class="s">@"执行逻辑 A"</span><span class="p">);</span>
+<span class="p">}</span><span class="k">else</span><span class="p">{</span>
+<span class="n">NSLog</span><span class="p">(</span><span class="s">@"执行逻辑 B"</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>执行 exp 命令，修改 cardID 的值：</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>lldb<span class="o">)</span> v cardID
+<span class="o">(</span>__NSCFConstantString <span class="k">*</span><span class="o">)</span> cardID <span class="o">=</span> 0x00000001002023a8 @<span class="s2">"AA"</span>
+<span class="o">(</span>lldb<span class="o">)</span> exp <span class="nv">cardID</span><span class="o">=</span>@<span class="s2">"BB"</span>
+<span class="o">(</span>NSTaggedPointerString <span class="k">*</span><span class="o">)</span> <span class="nv">$0</span> <span class="o">=</span> 0xa000000000042422 @<span class="s2">"BB"</span>
+<span class="o">(</span>lldb<span class="o">)</span> v cardID
+<span class="o">(</span>NSTaggedPointerString <span class="k">*</span><span class="o">)</span> cardID <span class="o">=</span> 0xa000000000042422 @<span class="s2">"BB"</span>
+</code></pre></div></div>
+
+<p>当然，expression 作用不仅如此，例如新建对象，修改界面，调用函数等等。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>lldb<span class="o">)</span> exp <span class="o">[</span>self.view setBackgroundColor:[UIColor lightGrayColor]]<span class="p">;</span>
+<span class="o">(</span>lldb<span class="o">)</span> exp <span class="o">[</span>self.view setBackgroundColor:[UIColor greenColor]]<span class="p">;</span>
+<span class="o">(</span>lldb<span class="o">)</span> exp @import UIKit
+<span class="o">(</span>lldb<span class="o">)</span> exp <span class="o">(</span>void<span class="o">)[</span>self testFunc]
+<span class="o">(</span>lldb<span class="o">)</span> exp <span class="nb">id</span> <span class="nv">$vc</span> <span class="o">=</span> <span class="o">[</span>UIViewController new]
+<span class="o">(</span>lldb<span class="o">)</span> exp <span class="o">(</span>void<span class="o">)[[</span><span class="nv">$vc</span> view] setBackgroundColor:[UIColor yellowColor]]
+</code></pre></div></div>
+
+<h2 id="设置条件断点-watchpoint">设置条件断点 watchpoint</h2>
+
+<p>调试的过程中，可能要持续监测某一变量，例如 for 循环 100 次，我们需要在第 50 次断点，我们在 for 循环内部打一个断点。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="p">(</span><span class="n">NSInteger</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+<span class="c1">// 循环内部任意执行逻辑</span>
+<span class="n">NSInteger</span> <span class="n">temp</span> <span class="o">=</span> <span class="mi">50</span><span class="p">;</span>
+<span class="n">temp</span> <span class="o">=</span> <span class="mi">51</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>监测变量 i 的值，在 i=50 的时候停止执行。执行<code class="language-plaintext highlighter-rouge">watch set v i</code>和<code class="language-plaintext highlighter-rouge"> watchpoint modify -c '(i==50)'</code>即可。其中<code class="language-plaintext highlighter-rouge">watch set v i</code>是<code class="language-plaintext highlighter-rouge">watchpoint set variable i</code>的简写。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>lldb<span class="o">)</span> watch <span class="nb">set </span>v i
+Watchpoint created: Watchpoint 1: addr <span class="o">=</span> 0x16fd45958 size <span class="o">=</span> 8 state <span class="o">=</span> enabled <span class="nb">type</span> <span class="o">=</span> w
+<span class="nb">declare</span> @ <span class="s1">'/Users/lifei/Desktop/GitHub/GMObjC/Example/GMObjC/GMViewController.m:84'</span>
+watchpoint spec <span class="o">=</span> <span class="s1">'i'</span>
+new value: 0
+
+<span class="o">(</span>lldb<span class="o">)</span> watchpoint modify <span class="nt">-c</span> <span class="s1">'(i==50)'</span>
+
+Watchpoint 1 hit:
+old value: 0
+new value: 50
+
+</code></pre></div></div>
+
+<p>其实，还有更简单的方法，Xcode 很强大，在断点上右键选择 Edit Breakpoint…，然后在 Condition 输入框输入 i==50 即可。</p>
+
+<h2 id="其他命令">其他命令</h2>
+
+<p>列举其他一些不太常用的命令，例如 image、thread 等，作为了解。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>frame info                       当前的行数和源码文件，以及其他一些信息
+thread backtrace all             查看所有线程调用栈
+thread list                      列出所有线程
+thread <span class="k">return</span> &lt;exp&gt;              可用来控制程序流程, 伪造返回值
+image list                       查看工程中使用的库
+image lookup <span class="nt">--address</span> 0x0000000100004af8   最后为栈地址
+breakpoint <span class="nb">set</span> <span class="nt">--file</span> foo.c <span class="nt">--line</span> 12       在程序 foo.c 的第 12 行设置断点
+image lookup <span class="nt">--type</span> NSURL        image lookup命令来查看具体的类型
+lldb ~/Desktop/App.app           在命令行中可执行 lldb 命令加载 app
+run                              启动程序，app 需要支持 x86 模拟器
+q                                退出lldb
+</code></pre></div></div>
+
+<h2 id="参考链接">参考链接</h2>
+
+<p><a href="https://lldb.llvm.org/index.html">The LLDB Debugger</a></p>
+
+
+  </section>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">支持作者</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">谢谢您的咖啡☕️</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2017/07/iOS-%E5%9B%BE%E5%83%8F%E8%AF%86%E5%88%AB/" data-toggle="tooltip" data-placement="top" title="iOS 图像识别">上一篇：  <span>iOS 图像识别</span>
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/2017/08/iOS-%E8%8E%B7%E5%8F%96%E7%A1%AC%E4%BB%B6%E4%BF%A1%E6%81%AF/" data-toggle="tooltip" data-placement="top" title="iOS 获取硬件信息">下一篇：  <span>iOS 获取硬件信息</span>
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+
+</section>
+
+
+            <section class="footer">
+    <footer>
+        <div class = "footer_div">  
+        <nav class="cover-navigation navigation--social">
+          <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/muzipiao" title="@muzipiao 的 Github" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/github.png);"></div>
+            </a>
+          </li>
+          
+
+          
+
+          
+          <!-- Zhihu -->
+          <li class="navigation__item_social">
+            <a href="https://juejin.im/user/5b2f1c51f265da59ad439f69" title="@5b2f1c51f265da59ad439f69" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/juejin.png);"></div>
+            </a>
+          </li>
+
+          
+
+          
+
+          
+
+          
+          
+
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:lifei_zdjl@126.com" title="Contact me">
+              <div class="footer-social-icon" style="background-image:url(/images/email.png);"></div>
+            </a>
+          </li>
+          
+          
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/rss.png);"></div>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          </ul>
+        </nav>
+        </div>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>

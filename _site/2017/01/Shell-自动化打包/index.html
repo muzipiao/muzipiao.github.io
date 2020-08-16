@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>Shell 自动化打包</title>
+  <meta name="description" content="一、利用 Shell 脚本将 .app 自动转换为 .ipa">
+  <meta name="author" content="leopardpan">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Shell 自动化打包">
+  <meta name="twitter:description" content="一、利用 Shell 脚本将 .app 自动转换为 .ipa">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Shell 自动化打包">
+  <meta property="og:description" content="一、利用 Shell 脚本将 .app 自动转换为 .ipa">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//libs.baidu.com/fontawesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2017/01/Shell-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%89%93%E5%8C%85/">
+  <link rel="alternate" type="application/rss+xml" title="cocoafei" href="http://localhost:4000/feed.xml">
+
+<!-- 百度统计 -->
+  
+
+<!-- google 统计 -->
+  
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">            
+            <a href="/#blog" title="前往 cocoafei 的主页" class="blog-button">
+                <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                <div class="info">
+                    <div class="info-back">
+                        <h2> 
+                            
+                                cocoafei
+                            
+                        </h2>
+                        <p>
+                           
+                                iOS / Python
+                            
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for cocoafei" class="blog-button">cocoafei</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">个人站</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">欢迎来到我的Blog~</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                  <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                  <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+                  <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>          
+        </div>
+
+
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-clear"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">Shell 自动化打包</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px" style="vertical-align:middle;"/> 
+      <time datetime="2017-01-08 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date" style="vertical-align:middle;">2017-01-08</time>
+    </p>  
+    </div>
+  </header>
+
+  <section class="post">
+    <h2 id="一利用-shell-脚本将-app-自动转换为-ipa">一、利用 Shell 脚本将 .app 自动转换为 .ipa</h2>
+
+<ol>
+  <li>在项目 <code class="language-plaintext highlighter-rouge">command + b</code> 编译完成生成后缀名为 .app 的文件，选择工程的 Products 文件夹，展开选择编译生成的 .app 文件，右键–&gt;Show in Finder，即可找到 .app 文件；</li>
+  <li>将 convert-ipa.sh 和 .app 后缀名文件放在同一个文件夹中;</li>
+  <li>将 convert-ipa.sh 拖入终端，回车即可；</li>
+  <li>转换完成的 ipa 文件在 IPAFolder 文件夹中。</li>
+</ol>
+
+<p>转换为 ipa 的 Shell 脚本如下:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+
+<span class="c"># 脚本目录和xxx.app要在同一个目录，如果想要配置，请填入包含后缀名的全称</span>
+<span class="nv">g_app_name</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c"># 在当前目录下找到 .app 文件</span>
+AutoFindAppFolder<span class="o">()</span> <span class="o">{</span>
+	<span class="k">for </span>p_file <span class="k">in</span> ./<span class="k">*</span><span class="p">;</span> <span class="k">do</span>
+		<span class="c">#判断是否为文件夹</span>
+		<span class="k">if</span> <span class="o">[</span> <span class="nt">-d</span> <span class="s2">"</span><span class="nv">$p_file</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+			</span><span class="nv">file_name</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$p_file</span><span class="s2">"</span><span class="si">)</span>
+			<span class="c">#判断后缀名称是否是app</span>
+			<span class="nv">file_last</span><span class="o">=</span><span class="k">${</span><span class="nv">file_name</span><span class="p">##*.</span><span class="k">}</span>
+            <span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$file_last</span><span class="s2">"</span> <span class="o">=</span> <span class="s2">"app"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+                </span><span class="nv">g_app_name</span><span class="o">=</span><span class="s2">"</span><span class="nv">$file_name</span><span class="s2">"</span>
+            <span class="k">fi
+		fi
+	done</span>
+<span class="o">}</span>
+
+<span class="c"># 打包ipa</span>
+AppToIpa<span class="o">()</span> <span class="o">{</span>
+    <span class="nv">app_file_name</span><span class="o">=</span><span class="nv">$1</span>
+    <span class="c"># 先删除里面当前的IPAFolder文件夹</span>
+    <span class="nb">rm</span> <span class="nt">-rf</span> IPAFolder
+    <span class="c"># 再创建IPAFolder文件夹</span>
+    <span class="nb">mkdir </span>IPAFolder
+    <span class="c"># 在文件夹里面创建Payload文件夹</span>
+    <span class="nb">mkdir </span>IPAFolder/Payload
+    <span class="c"># 将当前目录下的App_Name.app复制到Payload里面</span>
+    <span class="nb">cp</span> <span class="nt">-r</span> <span class="s2">"</span><span class="nv">$app_file_name</span><span class="s2">"</span> IPAFolder/Payload/<span class="s2">"</span><span class="nv">$app_file_name</span><span class="s2">"</span>
+    <span class="c"># 进入IPAFolder文件夹</span>
+    <span class="nb">cd </span>IPAFolder
+    <span class="c"># 压缩多个目录zip FileName.zip 目录1 目录2 目录3....</span>
+    <span class="nv">file_head</span><span class="o">=</span><span class="k">${</span><span class="nv">app_file_name</span><span class="p">%.*</span><span class="k">}</span>
+    zip <span class="nt">-r</span> <span class="s2">"</span><span class="nv">$file_head</span><span class="s2">.ipa"</span> Payload
+    <span class="nb">echo</span> <span class="s2">"*** ipa 文件已经创建到 IPAFolder 文件夹下 ***"</span>
+<span class="o">}</span>
+
+<span class="nb">cd</span> <span class="s2">"</span><span class="si">$(</span><span class="nb">dirname</span> <span class="s2">"</span><span class="nv">$0</span><span class="s2">"</span><span class="si">)</span><span class="s2">"</span> <span class="o">||</span> <span class="nb">exit </span>0
+
+<span class="c"># 如果未设置，则自动获取一次</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$g_app_name</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+  </span>AutoFindAppFolder
+<span class="k">fi</span>
+<span class="c"># 如果自动获取仍旧为空，提示</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$g_app_name</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+  </span><span class="nb">echo</span> <span class="s2">"*** 当前脚本文件夹下找不到后缀名 .app 的文件 ***"</span>
+<span class="k">else</span>
+  <span class="c"># 转换</span>
+  AppToIpa <span class="s2">"</span><span class="nv">$g_app_name</span><span class="s2">"</span>
+<span class="k">fi</span>
+</code></pre></div></div>
+
+<h2 id="二利用-shell-脚本自动打包">二、利用 Shell 脚本自动打包</h2>
+
+<p>主要 Shell 脚本如下，完整脚本请至 Git 下载(文章末尾有下载链接):</p>
+
+<ol>
+  <li>将 auto-archive.sh 脚本复制到文件后缀名 .xcodeproj 所在项目目录下；</li>
+  <li>将 auto-archive.sh 拖入终端，回车即可；</li>
+  <li>如果自动打包失败，请打开 auto-archive.sh 配置项目信息；</li>
+  <li>如果项目目录无 ExportOptions.plist 文件，请参考新建。</li>
+</ol>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+<span class="c"># 打包脚本, 将此脚本放在后缀名为xcodeproj的文件同级目录下即可</span>
+
+<span class="c">#工程名称，注意：ExportOptions.plist文件必须放到"工程名.xcodeproj"同级目录下，然后在终端中输入"cd 当前工程名.xcodeproj所在文件路径"，在拖入此Shell脚本即可。</span>
+<span class="nv">g_project_name</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c">#打包模式 Debug/Release</span>
+<span class="nv">g_development_mode</span><span class="o">=</span><span class="s2">"Release"</span>
+
+<span class="c">#scheme名</span>
+<span class="nv">g_scheme_name</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c">#plist文件所在路径，里面需要包含Bundle ID和描述文件名称，注意：ExportOptions.plist文件必须放到"工程名.xcodeproj"同级目录下</span>
+<span class="nv">g_export_options</span><span class="o">=</span><span class="s2">"ExportOptions.plist"</span>
+
+<span class="c">#导出.ipa文件所在路径，默认在桌面的 auto-ipa 文件夹下</span>
+<span class="nv">g_ipa_path</span><span class="o">=</span><span class="s2">"~/Desktop/auto-ipa"</span>
+
+<span class="c">#导出 ipa 文件的时间</span>
+<span class="nv">g_current_time</span><span class="o">=</span><span class="s2">""</span>
+
+<span class="c"># 找到xcodeproj文件或者xcworkspace文件</span>
+FindProjFile<span class="o">()</span> <span class="o">{</span>
+	<span class="k">for </span>file <span class="k">in</span> ./<span class="k">*</span><span class="p">;</span> <span class="k">do</span>
+		<span class="c">#判断是否为文件夹</span>
+		<span class="k">if</span> <span class="o">[</span> <span class="nt">-d</span> <span class="s2">"</span><span class="nv">$file</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+			</span><span class="nv">file_name</span><span class="o">=</span><span class="si">$(</span><span class="nb">basename</span> <span class="s2">"</span><span class="nv">$file</span><span class="s2">"</span><span class="si">)</span>
+			<span class="c">#判断后缀名称</span>
+			<span class="nv">file_last</span><span class="o">=</span><span class="k">${</span><span class="nv">file_name</span><span class="p">##*.</span><span class="k">}</span>
+            <span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$file_last</span><span class="s2">"</span> <span class="o">=</span> <span class="s2">"xcodeproj"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+                </span><span class="nv">g_project_name</span><span class="o">=</span><span class="nv">$file_name</span>
+            <span class="k">fi
+            if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$file_last</span><span class="s2">"</span> <span class="o">=</span> <span class="s2">"xcworkspace"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+                </span><span class="nv">g_project_name</span><span class="o">=</span><span class="nv">$file_name</span>
+                <span class="nb">break
+            </span><span class="k">fi
+		fi
+	done</span>
+<span class="o">}</span>
+
+<span class="c"># 自动找到scheme</span>
+<span class="c"># list_proj=$(xcodebuild -list -project "$file_proj")</span>
+<span class="c"># list_scheme=${list_proj##*:}</span>
+<span class="c"># 使用awk去除换行，使用sed去除空格</span>
+<span class="c"># g_scheme_name=$(echo "$list_scheme" | awk '{printf "%s",$1}'| sed "s/ //g")</span>
+FindScheme<span class="o">()</span> <span class="o">{</span>
+    <span class="nv">temp_project_name</span><span class="o">=</span><span class="nv">$1</span>
+    <span class="nv">file_proj</span><span class="o">=</span><span class="k">${</span><span class="nv">temp_project_name</span><span class="p">%.*</span><span class="k">}</span>.xcodeproj
+    <span class="k">if</span> <span class="o">[</span> <span class="nt">-d</span> <span class="s2">"</span><span class="nv">$file_proj</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+        </span><span class="nv">proj_setting</span><span class="o">=</span><span class="si">$(</span>xcodebuild <span class="nt">-showBuildSettings</span><span class="si">)</span>
+        <span class="nv">s_scheme</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$proj_setting</span><span class="s2">"</span> | <span class="nb">grep </span>TARGET_NAME<span class="si">)</span>
+        <span class="nv">g_scheme_name</span><span class="o">=</span><span class="k">${</span><span class="nv">s_scheme</span><span class="p">#*= </span><span class="k">}</span>
+    <span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="c"># 创建ExportOptions.plist 文件</span>
+CreateExportOptionsPlist<span class="o">()</span> <span class="o">{</span>
+    <span class="nv">export_plist</span><span class="o">=</span><span class="nv">$1</span>
+    <span class="nv">proj_setting</span><span class="o">=</span><span class="si">$(</span>xcodebuild <span class="nt">-showBuildSettings</span><span class="si">)</span>
+    <span class="nv">s_identifier</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$proj_setting</span><span class="s2">"</span> | <span class="nb">grep </span>PRODUCT_BUNDLE_IDENTIFIER<span class="si">)</span>
+    <span class="nv">k_id</span><span class="o">=</span><span class="k">${</span><span class="nv">s_identifier</span><span class="p">#*= </span><span class="k">}</span>
+    <span class="nv">s_provision</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$proj_setting</span><span class="s2">"</span> | <span class="nb">grep </span>PROVISIONING_PROFILE_SPECIFIER<span class="si">)</span>
+    <span class="nv">k_pr</span><span class="o">=</span><span class="k">${</span><span class="nv">s_provision</span><span class="p">#*= </span><span class="k">}</span>
+    <span class="nv">s_team_id</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$proj_setting</span><span class="s2">"</span> | <span class="nb">grep </span>DEVELOPMENT_TEAM<span class="si">)</span>
+    <span class="nv">k_te</span><span class="o">=</span><span class="k">${</span><span class="nv">s_team_id</span><span class="p">#*= </span><span class="k">}</span>
+
+    <span class="c"># 添加team id</span>
+    /usr/libexec/PlistBuddy <span class="nt">-c</span> <span class="s2">"Add :teamID string </span><span class="nv">$k_te</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$export_plist</span><span class="s2">"</span>
+    <span class="c"># 添加描述文件</span>
+    /usr/libexec/PlistBuddy <span class="nt">-c</span> <span class="s2">"Add :provisioningProfiles dict"</span> <span class="s2">"</span><span class="nv">$export_plist</span><span class="s2">"</span>
+    <span class="c"># 添加value值,</span>
+    /usr/libexec/PlistBuddy <span class="nt">-c</span> <span class="s2">"Add :provisioningProfiles:</span><span class="nv">$k_id</span><span class="s2"> string </span><span class="nv">$k_pr</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$export_plist</span><span class="s2">"</span>
+
+    <span class="nb">echo</span> <span class="s2">"*** teamID：</span><span class="nv">$k_te</span><span class="s2">"</span>
+    <span class="nb">echo</span> <span class="s2">"*** provisioningProfiles：</span><span class="nv">$k_id</span><span class="s2">:</span><span class="nv">$k_pr</span><span class="s2">"</span>
+<span class="o">}</span>
+
+<span class="c"># 导出ipa</span>
+ArchiveIpa<span class="o">()</span> <span class="o">{</span>
+    <span class="nv">proj_name</span><span class="o">=</span><span class="nv">$1</span>
+    <span class="nv">proj_export_plist</span><span class="o">=</span><span class="nv">$2</span>
+    <span class="nv">proj_scheme</span><span class="o">=</span><span class="nv">$3</span>
+    <span class="nv">proj_ipa_path</span><span class="o">=</span><span class="nv">$4</span>
+    <span class="c"># 获取时间 如:20190613-092619</span>
+    <span class="nv">g_current_time</span><span class="o">=</span><span class="s2">"</span><span class="si">$(</span><span class="nb">date</span> +%Y%m%d-%H%M%S<span class="si">)</span><span class="s2">"</span>
+    <span class="nv">ipa_folder</span><span class="o">=</span><span class="s2">"</span><span class="nv">$proj_ipa_path</span><span class="s2">/</span><span class="nv">$proj_scheme$g_current_time</span><span class="s2">"</span>
+
+    xcodebuild <span class="nt">-exportArchive</span> <span class="nt">-archivePath</span> build/<span class="s2">"</span><span class="nv">$proj_name</span><span class="s2">"</span>.xcarchive <span class="se">\</span>
+	<span class="nt">-exportPath</span> <span class="s2">"</span><span class="nv">$ipa_folder</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">-destination</span> generic/platform<span class="o">=</span>ios <span class="se">\</span>
+	<span class="nt">-exportOptionsPlist</span> <span class="s2">"</span><span class="nv">$proj_export_plist</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">-allowProvisioningUpdates</span> <span class="se">\</span>
+	<span class="nt">-quiet</span> <span class="o">||</span> <span class="nb">exit</span>
+
+    <span class="c"># 删除build包</span>
+    <span class="k">if</span> <span class="o">[</span> <span class="nt">-d</span> build <span class="o">]</span><span class="p">;</span> <span class="k">then
+        </span><span class="nb">rm</span> <span class="nt">-rf</span> build <span class="nt">-r</span>
+    <span class="k">fi</span>
+<span class="o">}</span>
+
+<span class="c"># 编译项目</span>
+BuildProj<span class="o">()</span> <span class="o">{</span>
+    <span class="nv">proj_name</span><span class="o">=</span><span class="nv">$1</span>
+    <span class="nv">proj_mode</span><span class="o">=</span><span class="nv">$2</span>
+    <span class="nv">proj_scheme</span><span class="o">=</span><span class="nv">$3</span>
+    <span class="nv">proj_export_plist</span><span class="o">=</span><span class="nv">$4</span>
+    <span class="nv">proj_ipa_path</span><span class="o">=</span><span class="nv">$5</span>
+
+    <span class="nb">echo</span> <span class="s2">"*** 正在清理工程 ***"</span>
+    xcodebuild clean  <span class="nt">-project</span> <span class="s2">"</span><span class="nv">$proj_name</span><span class="s2">"</span>.xcodeproj <span class="se">\</span>
+    <span class="nt">-scheme</span> <span class="s2">"</span><span class="nv">$proj_scheme</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">-configuration</span> <span class="s2">"</span><span class="nv">$proj_mode</span><span class="s2">"</span> <span class="nt">-quiet</span> <span class="o">||</span> <span class="nb">exit
+    echo</span> <span class="s2">"*** 清理完成     ***"</span>
+
+    <span class="nb">echo</span> <span class="s2">"*** 正在编译 For </span><span class="nv">$proj_mode</span><span class="s2">"</span>
+    xcodebuild <span class="se">\</span>
+    archive <span class="nt">-project</span> <span class="s2">"</span><span class="nv">$proj_name</span><span class="s2">"</span>.xcodeproj <span class="se">\</span>
+    <span class="nt">-scheme</span> <span class="s2">"</span><span class="nv">$proj_scheme</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">-configuration</span> <span class="s2">"</span><span class="nv">$proj_mode</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">-archivePath</span> build/<span class="s2">"</span><span class="nv">$proj_name</span><span class="s2">"</span>.xcarchive <span class="se">\</span>
+    <span class="nt">-destination</span> generic/platform<span class="o">=</span>ios <span class="nt">-quiet</span> <span class="o">||</span> <span class="nb">exit
+    echo</span> <span class="s2">"*** 编译完成     ***"</span>
+
+    <span class="c"># 导出ipa</span>
+    <span class="nb">echo</span> <span class="s2">"*** 正在导出ipa  ***"</span>
+    ArchiveIpa <span class="s2">"</span><span class="nv">$proj_name</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$proj_export_plist</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$proj_scheme</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$proj_ipa_path</span><span class="s2">"</span>
+    <span class="nb">echo</span> <span class="s2">"*** ipa 已导出到目录：</span><span class="nv">$proj_ipa_path</span><span class="s2">"</span>
+<span class="o">}</span>
+
+BuildWorkspace<span class="o">()</span> <span class="o">{</span>
+    <span class="nv">proj_name</span><span class="o">=</span><span class="nv">$1</span>
+    <span class="nv">proj_mode</span><span class="o">=</span><span class="nv">$2</span>
+    <span class="nv">proj_scheme</span><span class="o">=</span><span class="nv">$3</span>
+    <span class="nv">proj_export_plist</span><span class="o">=</span><span class="nv">$4</span>
+    <span class="nv">proj_ipa_path</span><span class="o">=</span><span class="nv">$5</span>
+
+    <span class="nb">echo</span> <span class="s2">"*** 正在清理工程 ***"</span>
+    xcodebuild clean  <span class="nt">-workspace</span> <span class="s2">"</span><span class="nv">$proj_name</span><span class="s2">"</span>.xcworkspace <span class="se">\</span>
+    <span class="nt">-scheme</span> <span class="s2">"</span><span class="nv">$proj_scheme</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">-configuration</span> <span class="s2">"</span><span class="nv">$proj_mode</span><span class="s2">"</span> <span class="nt">-quiet</span> <span class="o">||</span> <span class="nb">exit
+    echo</span> <span class="s2">"*** 清理完成     ***"</span>
+
+    <span class="nb">echo</span> <span class="s2">"*** 正在编译 For </span><span class="nv">$proj_mode</span><span class="s2">"</span>
+    xcodebuild <span class="se">\</span>
+    archive <span class="nt">-workspace</span> <span class="s2">"</span><span class="nv">$proj_name</span><span class="s2">"</span>.xcworkspace <span class="se">\</span>
+    <span class="nt">-scheme</span> <span class="s2">"</span><span class="nv">$proj_scheme</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">-configuration</span> <span class="s2">"</span><span class="nv">$proj_mode</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">-archivePath</span> build/<span class="s2">"</span><span class="nv">$proj_name</span><span class="s2">"</span>.xcarchive <span class="se">\</span>
+    <span class="nt">-destination</span> generic/platform<span class="o">=</span>ios <span class="nt">-quiet</span> <span class="o">||</span> <span class="nb">exit
+    echo</span> <span class="s2">"*** 编译完成     ***"</span>
+
+     <span class="c"># 导出ipa</span>
+    <span class="nb">echo</span> <span class="s2">"*** 正在导出ipa  ***"</span>
+    ArchiveIpa <span class="s2">"</span><span class="nv">$proj_name</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$proj_export_plist</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$proj_scheme</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$proj_ipa_path</span><span class="s2">"</span>
+    <span class="nb">echo</span> <span class="s2">"*** ipa 已导出到目录：</span><span class="nv">$proj_ipa_path</span><span class="s2">"</span>
+<span class="o">}</span>
+
+<span class="c"># 程序主方法</span>
+Main<span class="o">()</span> <span class="o">{</span>
+    <span class="c"># 自动获取项目名称</span>
+    <span class="k">if</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$g_project_name</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+        </span>FindProjFile
+    <span class="k">fi</span>
+
+    <span class="c"># 自动获取scheme</span>
+    <span class="k">if</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$g_scheme_name</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+        </span>FindScheme <span class="s2">"</span><span class="nv">$g_project_name</span><span class="s2">"</span>
+    <span class="k">fi
+
+    if</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$g_project_name</span><span class="s2">"</span> <span class="o">]</span> <span class="o">||</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$g_scheme_name</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+        </span><span class="nb">echo</span> <span class="s2">"*** 提示：项目名称或 scheme 获取失败。 ***"</span>
+        <span class="nb">exit </span>0
+    <span class="k">fi
+
+    if</span> <span class="o">[</span> <span class="o">!</span> <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$g_export_options</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+        </span><span class="nb">echo</span> <span class="s2">"*** 未发现ExportOptions.plist文件，自动创建中... ***"</span>
+        CreateExportOptionsPlist <span class="s2">"</span><span class="nv">$g_export_options</span><span class="s2">"</span>
+    <span class="k">fi
+
+    </span><span class="nb">echo</span> <span class="s2">"*** 项目配置信息如下： ***"</span>
+    <span class="nb">echo</span> <span class="s2">"*** 工程名称：</span><span class="nv">$g_project_name</span><span class="s2">"</span>
+    <span class="nb">echo</span> <span class="s2">"*** 打包模式：</span><span class="nv">$g_development_mode</span><span class="s2">"</span>
+    <span class="nb">echo</span> <span class="s2">"*** scheme：</span><span class="nv">$g_scheme_name</span><span class="s2">"</span>
+    <span class="nb">echo</span> <span class="s2">"*** 导出配置：</span><span class="nv">$g_export_options</span><span class="s2">"</span>
+    <span class="nb">echo</span> <span class="s2">"*** 导出路径：</span><span class="nv">$g_ipa_path</span><span class="s2">"</span>
+    <span class="nb">echo</span> <span class="s2">"*** 项目配置完毕 ***"</span>
+
+    <span class="c"># 获取名称和后缀</span>
+    <span class="nv">file_head</span><span class="o">=</span><span class="k">${</span><span class="nv">g_project_name</span><span class="p">%.*</span><span class="k">}</span>
+    <span class="nv">file_last</span><span class="o">=</span><span class="k">${</span><span class="nv">g_project_name</span><span class="p">##*.</span><span class="k">}</span>
+    <span class="k">if</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$file_last</span><span class="s2">"</span> <span class="o">=</span> <span class="s2">"xcworkspace"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+        </span>BuildWorkspace <span class="s2">"</span><span class="nv">$file_head</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$g_development_mode</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$g_scheme_name</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$g_export_options</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$g_ipa_path</span><span class="s2">"</span>
+    <span class="k">else
+        </span>BuildProj <span class="s2">"</span><span class="nv">$file_head</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$g_development_mode</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$g_scheme_name</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$g_export_options</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$g_ipa_path</span><span class="s2">"</span> 
+    <span class="k">fi</span>
+
+    <span class="c"># 绝对路径</span>
+    <span class="nv">user_path</span><span class="o">=</span><span class="si">$(</span><span class="nb">cd</span> ~ <span class="o">&amp;&amp;</span> <span class="nb">pwd</span><span class="si">)</span>
+    <span class="nv">abs_ipa_folder</span><span class="o">=</span><span class="si">$(</span><span class="nb">echo</span> <span class="k">${</span><span class="nv">g_ipa_path</span><span class="p">/\~/</span><span class="s2">"</span><span class="nv">$user_path</span><span class="s2">"</span><span class="k">}</span><span class="si">)</span>
+
+    <span class="nv">ipa_path</span><span class="o">=</span><span class="s2">"</span><span class="nv">$abs_ipa_folder</span><span class="s2">/</span><span class="nv">$proj_scheme$g_current_time</span><span class="s2">/</span><span class="nv">$g_scheme_name</span><span class="s2">.ipa"</span>
+    <span class="k">if</span> <span class="o">[</span> <span class="nt">-e</span> <span class="s2">"</span><span class="nv">$ipa_path</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+        </span><span class="nb">echo</span> <span class="s2">"*** ipa 路径：</span><span class="nv">$ipa_path</span><span class="s2">"</span>
+    <span class="k">else
+        </span><span class="nb">echo</span> <span class="s2">"*** 创建 ipa 文件失败 ***"</span>
+    <span class="k">fi
+
+    </span><span class="nb">echo</span> <span class="s2">"*** 打包完成 ***"</span>
+<span class="o">}</span>
+
+<span class="nb">cd</span> <span class="s2">"</span><span class="si">$(</span><span class="nb">dirname</span> <span class="s2">"</span><span class="nv">$0</span><span class="s2">"</span><span class="si">)</span><span class="s2">"</span> <span class="o">||</span> <span class="nb">exit </span>0
+
+<span class="c"># 判断有无传递参数，Python脚本中传递有参数</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span>Main
+<span class="k">fi</span>
+
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="三shell-脚本完整版链接">三、Shell 脚本完整版链接</h2>
+
+<p>自动打包脚本和 .app 自动转换为 .ipa 的脚本下载链接<a href="https://github.com/muzipiao/dev-shell">下载链接</a>。</p>
+
+<p>如果您觉得有所帮助，请在<a href="https://github.com/muzipiao/dev-shell">GitHub dev-shell</a>上赏个Star ⭐️，您的鼓励是我前进的动力。</p>
+
+
+  </section>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">支持作者</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">谢谢您的咖啡☕️</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2016/12/iOS-%E7%AB%AF-RSA-%E5%8A%A0%E5%AF%86/" data-toggle="tooltip" data-placement="top" title="iOS 端 RSA 加密">上一篇：  <span>iOS 端 RSA 加密</span>
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/2017/01/Shell-%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/" data-toggle="tooltip" data-placement="top" title="Shell 使用总结">下一篇：  <span>Shell 使用总结</span>
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+
+</section>
+
+
+            <section class="footer">
+    <footer>
+        <div class = "footer_div">  
+        <nav class="cover-navigation navigation--social">
+          <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/muzipiao" title="@muzipiao 的 Github" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/github.png);"></div>
+            </a>
+          </li>
+          
+
+          
+
+          
+          <!-- Zhihu -->
+          <li class="navigation__item_social">
+            <a href="https://juejin.im/user/5b2f1c51f265da59ad439f69" title="@5b2f1c51f265da59ad439f69" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/juejin.png);"></div>
+            </a>
+          </li>
+
+          
+
+          
+
+          
+
+          
+          
+
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:lifei_zdjl@126.com" title="Contact me">
+              <div class="footer-social-icon" style="background-image:url(/images/email.png);"></div>
+            </a>
+          </li>
+          
+          
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/rss.png);"></div>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          </ul>
+        </nav>
+        </div>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>

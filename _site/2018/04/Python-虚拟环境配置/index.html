@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>Python 虚拟环境配置</title>
+  <meta name="description" content="总结一些使用 Python 开发过程过程中的环境配置，常用操作，常见错误处理等等。">
+  <meta name="author" content="leopardpan">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Python 虚拟环境配置">
+  <meta name="twitter:description" content="总结一些使用 Python 开发过程过程中的环境配置，常用操作，常见错误处理等等。">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Python 虚拟环境配置">
+  <meta property="og:description" content="总结一些使用 Python 开发过程过程中的环境配置，常用操作，常见错误处理等等。">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//libs.baidu.com/fontawesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2018/04/Python-%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/">
+  <link rel="alternate" type="application/rss+xml" title="cocoafei" href="http://localhost:4000/feed.xml">
+
+<!-- 百度统计 -->
+  
+
+<!-- google 统计 -->
+  
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">            
+            <a href="/#blog" title="前往 cocoafei 的主页" class="blog-button">
+                <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                <div class="info">
+                    <div class="info-back">
+                        <h2> 
+                            
+                                cocoafei
+                            
+                        </h2>
+                        <p>
+                           
+                                iOS / Python
+                            
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for cocoafei" class="blog-button">cocoafei</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">个人站</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">欢迎来到我的Blog~</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                  <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                  <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+                  <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>          
+        </div>
+
+
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-clear"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">Python 虚拟环境配置</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px" style="vertical-align:middle;"/> 
+      <time datetime="2018-04-06 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date" style="vertical-align:middle;">2018-04-06</time>
+    </p>  
+    </div>
+  </header>
+
+  <section class="post">
+    <p>总结一些使用 Python 开发过程过程中的环境配置，常用操作，常见错误处理等等。</p>
+
+<h2 id="虚拟环境搭建virtualenv">虚拟环境搭建(virtualenv)</h2>
+
+<p>Python 开发过程中，经常需要安装各种依赖库，Python 的第三方包成千上万，在一个 Python 环境下开发时间越久、安装依赖越多，就越容易出现依赖包冲突的问题。为了解决这个问题，开发者们开发出了 virtualenv，可以搭建虚拟且独立的 Python 环境。
+virtualenv 为每个项目提供了隔离的 Python 运行环境，解决了不同项目间多版本的冲突问题。而且，依赖包不安装在系统环境下，也保持了系统环境的干净。</p>
+
+<p>首先确认是否安装 Python，通过执行<code class="language-plaintext highlighter-rouge">python -V</code>或<code class="language-plaintext highlighter-rouge"> python3 -V</code>查看当前 python 版本。如果没有安装，Mac 可通过<code class="language-plaintext highlighter-rouge">brew install python3</code>来安装。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 安装 python3</span>
+brew <span class="nb">install </span>python3
+<span class="c"># 查看 python2 和 python3 版本</span>
+python <span class="nt">-V</span>
+python3 <span class="nt">-V</span>
+<span class="c"># 查看 python2 和 python3 安装位置</span>
+which python
+which python3
+</code></pre></div></div>
+
+<p>Python3 对 virtualenv 原生支持，不用安装任何依赖即可搭建虚拟环境。通过命令<code class="language-plaintext highlighter-rouge">python3 -m venv 虚拟环境名称例如venv</code>即可创建虚拟环境，<code class="language-plaintext highlighter-rouge">-m venv</code>选项是一独立的脚本运行标准库的 venv 包。如果是 Ubuntu Linux 系统预装 Python 3，则需要安装 python3-venv 包。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 创建名称为 venv 的虚拟环境</span>
+python3 <span class="nt">-m</span> venv venv
+<span class="c"># 激活虚拟环境</span>
+<span class="nb">source </span>venv/bin/activate
+</code></pre></div></div>
+
+<p>Python 2 安装 virtualenv 则需要安装依赖包 virtualenv。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 安装 virtualenv</span>
+pip <span class="nb">install </span>virtualenv
+<span class="c"># 初始化 virtualenv 环境 </span>
+virtualenv venv
+<span class="c"># 激活虚拟环境</span>
+<span class="nb">source </span>venv/bin/activate
+</code></pre></div></div>
+
+<p>其他命令，deactivate 退出虚拟环境，如果安装有多个 python 库，可指定版本<code class="language-plaintext highlighter-rouge">virtualenv -p /usr/bin/python venv</code>，将<code class="language-plaintext highlighter-rouge">/usr/bin/python</code>更换为需要指定的 python 库即可。</p>
+
+<h2 id="依赖">依赖</h2>
+
+<p>安装依赖库，使用<code class="language-plaintext highlighter-rouge">pip install</code>十分方便，例如需要安装 numpy 库和 matplotlib 库，执行：</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip <span class="nb">install </span>numpy
+pip <span class="nb">install </span>matplotlib
+</code></pre></div></div>
+
+<p>如果需要从测试环境切换到生产环境，如何导出 python 项目的全部依赖。使用<code class="language-plaintext highlighter-rouge">pip freeze</code>生成一个依赖记录文件 requirements.txt，名称随意，用于记录所有依赖包及其精确的版本号。以便新环境部署。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 生成一个名称为 requirements.txt 依赖包记录文件</span>
+<span class="o">(</span>venv<span class="o">)</span> <span class="nv">$ </span>pip freeze&gt;requirements.txt
+</code></pre></div></div>
+
+<p>那到一个新环境，如何一次安装项目需要的全部依赖，这时依赖记录文件 requirements.txt 就排上了用场。使用<code class="language-plaintext highlighter-rouge">pip install -r 依赖文件名称</code>命令即可一次安装全部所需依赖。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">(</span>venv<span class="o">)</span> <span class="nv">$ </span>pip <span class="nb">install</span> <span class="nt">-r</span> requirements.txt
+</code></pre></div></div>
+
+<h2 id="其他">其他</h2>
+
+<p>查看 Python 文档，执行命令<code class="language-plaintext highlighter-rouge">python -m pydoc -p xxxx(任意闲置端口号)</code>即可。</p>
+
+<p>修改环境变量，或将一些值保存到环境变量，临时更改可通过 export 命令更改，重启后失效。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 将变量增加至环境变量</span>
+<span class="nb">export </span><span class="nv">MAIL_USERNAME</span><span class="o">=</span><span class="s1">'lifei_zdjl@126.com'</span>
+<span class="nb">export </span><span class="nv">MAIL_PASSWORD</span><span class="o">=</span><span class="s1">'lifei888888888888'</span>
+<span class="c"># 使新环境变量生效</span>
+<span class="nb">source</span> /etc/profile
+<span class="c"># 检查环境变量是否生效</span>
+<span class="nb">echo</span> <span class="nv">$MAIL_USERNAME</span>
+<span class="nb">echo</span> <span class="nv">$MAIL_PASSWORD</span>
+</code></pre></div></div>
+
+<p>若想永久添加，则需要修改系统环境变量配置文件 profile文件 或 .bash_profile文件。配置文件作用域：</p>
+
+<ol>
+  <li>/etc/profile 为全局共有配置文件，所有用户共享。</li>
+  <li>~/.bash_profile 为用户级配置文件，对当前用户有效。</li>
+</ol>
+
+
+  </section>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">支持作者</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">谢谢您的咖啡☕️</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2017/08/iOS-%E5%BF%AB%E9%80%9F%E6%B7%BB%E5%8A%A0%E6%96%B0%E5%8A%9F%E8%83%BD%E6%8F%90%E7%A4%BA/" data-toggle="tooltip" data-placement="top" title="iOS 快速添加新功能提示">上一篇：  <span>iOS 快速添加新功能提示</span>
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/2018/06/iOS-%E7%BB%84%E4%BB%B6%E5%8C%96%E6%96%B9%E6%A1%88%E9%80%89%E5%9E%8B/" data-toggle="tooltip" data-placement="top" title="iOS 组件化方案选型">下一篇：  <span>iOS 组件化方案选型</span>
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+
+</section>
+
+
+            <section class="footer">
+    <footer>
+        <div class = "footer_div">  
+        <nav class="cover-navigation navigation--social">
+          <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/muzipiao" title="@muzipiao 的 Github" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/github.png);"></div>
+            </a>
+          </li>
+          
+
+          
+
+          
+          <!-- Zhihu -->
+          <li class="navigation__item_social">
+            <a href="https://juejin.im/user/5b2f1c51f265da59ad439f69" title="@5b2f1c51f265da59ad439f69" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/juejin.png);"></div>
+            </a>
+          </li>
+
+          
+
+          
+
+          
+
+          
+          
+
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:lifei_zdjl@126.com" title="Contact me">
+              <div class="footer-social-icon" style="background-image:url(/images/email.png);"></div>
+            </a>
+          </li>
+          
+          
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/rss.png);"></div>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          </ul>
+        </nav>
+        </div>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>

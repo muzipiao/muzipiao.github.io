@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>开发者快速配置环境指南</title>
+  <meta name="description" content="前言">
+  <meta name="author" content="leopardpan">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="开发者快速配置环境指南">
+  <meta name="twitter:description" content="前言">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="开发者快速配置环境指南">
+  <meta property="og:description" content="前言">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//libs.baidu.com/fontawesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2020/08/%E5%BC%80%E5%8F%91%E8%80%85%E5%BF%AB%E9%80%9F%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E6%8C%87%E5%8D%97/">
+  <link rel="alternate" type="application/rss+xml" title="cocoafei" href="http://localhost:4000/feed.xml">
+
+<!-- 百度统计 -->
+  
+
+<!-- google 统计 -->
+  
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">            
+            <a href="/#blog" title="前往 cocoafei 的主页" class="blog-button">
+                <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                <div class="info">
+                    <div class="info-back">
+                        <h2> 
+                            
+                                cocoafei
+                            
+                        </h2>
+                        <p>
+                           
+                                iOS / Python
+                            
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for cocoafei" class="blog-button">cocoafei</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">个人站</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">欢迎来到我的Blog~</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                  <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                  <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+                  <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>          
+        </div>
+
+
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-clear"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">开发者快速配置环境指南</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px" style="vertical-align:middle;"/> 
+      <time datetime="2020-08-08 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date" style="vertical-align:middle;">2020-08-08</time>
+    </p>  
+    </div>
+  </header>
+
+  <section class="post">
+    <h2 id="前言">前言</h2>
+
+<p>开发配置环境或更新时，经常被网络搞得精疲力竭，<code class="language-plaintext highlighter-rouge">403 Forbidden</code>、<code class="language-plaintext highlighter-rouge">443 Timeout</code>，<code class="language-plaintext highlighter-rouge">SSL_ERROR_SYSCALL</code>等各种错误，不经历如小媳妇盼夫归般的等待进度条<code class="language-plaintext highlighter-rouge">########    9.1%</code>慢慢爬行，<code class="language-plaintext highlighter-rouge">clone</code>至 99% 时突然<code class="language-plaintext highlighter-rouge">error</code>的绝望心情，是不会理解这种心情的 😤 。</p>
+
+<p>究其原因，是国外网络被屏蔽、速度慢，掉线等各种因素造成的；想学习时，可能花了一天配置环境，环境配置好早已没了心情。幸运的是国内高校和大公司都提供了镜像源，速度和稳定性都大幅度提升，国内直连，比付费 VPN 速度更快，稳定性更高。</p>
+
+<p>镜像源可简单理解为“复制的下载源”，例如下载一部电影，原始链接<code class="language-plaintext highlighter-rouge">https://movie.***.com</code>是国外服务器的下载链接，国内直接下载可能速度只有 20KB；这时如果国内有人花费一整天把电影下载后，把这部电影放到国内服务器上，并向外开放下载地址<code class="language-plaintext highlighter-rouge">https://movie.***.cn</code>，这时国内有人想下载这部电影，使用后面分享的这个链接，下载速度可能就达到 2MB 了；这里的比喻可能不太恰当，仅用于理解镜像源。</p>
+
+<p>本文提供 brew、pypi、docker，github 等部分解决方案，详细说明可查看镜像源的帮助文档。</p>
+
+<h2 id="镜像源">镜像源</h2>
+
+<p>国内镜像源做的比较好的是<strong>中科大</strong>和清华，其他大公司也提供了镜像源，例如阿里、腾讯，网易等，一般情况下中科大和清华镜像源完全能满足开发需求，以<strong>中科大</strong>镜像源举例。</p>
+
+<p><a href="https://mirrors.ustc.edu.cn/">中科大镜像源地址</a> <code class="language-plaintext highlighter-rouge">https://mirrors.ustc.edu.cn/</code>，这是自动解析线路，还可以根据自己的网络选择如下速度快的线路：</p>
+
+<ul>
+  <li><a href="https://mirrors.ustc.edu.cn/">自动解析 https://mirrors.ustc.edu.cn/</a></li>
+  <li><a href="https://ipv4.mirrors.ustc.edu.cn/">IPv4 线路 https://ipv4.mirrors.ustc.edu.cn/</a></li>
+  <li><a href="https://ipv6.mirrors.ustc.edu.cn/">IPv6 线路 https://ipv6.mirrors.ustc.edu.cn/</a></li>
+  <li><a href="https://cernet.mirrors.ustc.edu.cn/">教育网线路 https://cernet.mirrors.ustc.edu.cn/</a></li>
+  <li><a href="https://chinanet.mirrors.ustc.edu.cn/">电信线路 https://chinanet.mirrors.ustc.edu.cn/</a></li>
+  <li><a href="https://unicom.mirrors.ustc.edu.cn/">联通线路 https://unicom.mirrors.ustc.edu.cn/</a></li>
+  <li><a href="https://cmcc.mirrors.ustc.edu.cn/">移动线路 https://cmcc.mirrors.ustc.edu.cn/</a></li>
+  <li><a href="https://rsync.mirrors.ustc.edu.cn/">Rsync 线路 https://rsync.mirrors.ustc.edu.cn/</a></li>
+</ul>
+
+<p><strong>如何设置镜像源</strong>，可查看<a href="https://mirrors.ustc.edu.cn/help/">帮助文档</a><code class="language-plaintext highlighter-rouge">https://mirrors.ustc.edu.cn/help/</code>。</p>
+
+<p><strong>其他镜像源</strong></p>
+
+<ul>
+  <li><a href="https://mirrors.tuna.tsinghua.edu.cn/">清华镜像源 https://mirrors.tuna.tsinghua.edu.cn/</a></li>
+  <li><a href="https://developer.aliyun.com/mirror">阿里云镜像源 https://developer.aliyun.com/mirror</a></li>
+  <li><a href="https://mirrors.cloud.tencent.com/">腾讯镜像源 https://ipv6.mirrors.ustc.edu.cn/</a></li>
+  <li><a href="http://mirrors.163.com/">网易镜像源 http://mirrors.163.com/</a></li>
+</ul>
+
+<h2 id="brew">brew</h2>
+
+<p><strong>替换 brew 源</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 替换 brew.git:</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="si">$(</span>brew <span class="nt">--repo</span><span class="si">)</span><span class="s2">"</span>
+git remote set-url origin https://mirrors.ustc.edu.cn/brew.git
+
+<span class="c"># 替换 homebrew-core.git:</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="si">$(</span>brew <span class="nt">--repo</span><span class="si">)</span><span class="s2">/Library/Taps/homebrew/homebrew-core"</span>
+git remote set-url origin https://mirrors.ustc.edu.cn/homebrew-core.git
+
+<span class="c"># 替换 Homebrew Cask</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="si">$(</span>brew <span class="nt">--repo</span><span class="si">)</span><span class="s2">"</span>/Library/Taps/homebrew/homebrew-cask
+git remote set-url origin https://mirrors.ustc.edu.cn/homebrew-cask.git
+
+<span class="c"># 对于 bash 用户，替换 Homebrew-bottles</span>
+<span class="nb">echo</span> <span class="s1">'export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles'</span> <span class="o">&gt;&gt;</span> ~/.bash_profile
+<span class="nb">source</span> ~/.bash_profile
+
+<span class="c"># 对于 zsh 用户，替换 Homebrew-bottles</span>
+<span class="nb">echo</span> <span class="s1">'export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles'</span> <span class="o">&gt;&gt;</span> ~/.zshrc
+<span class="nb">source</span> ~/.zshrc
+</code></pre></div></div>
+
+<p><strong>还原 brew 为官方地址</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">Homebrew-bottles</code>还原，打开<code class="language-plaintext highlighter-rouge">.zshrc</code>或<code class="language-plaintext highlighter-rouge">.bash_profile</code>文件，删除上面添加的<code class="language-plaintext highlighter-rouge">HOMEBREW_BOTTLE_DOMAIN</code>行即可。</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 重置 brew.git 为官方地址</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="si">$(</span>brew <span class="nt">--repo</span><span class="si">)</span><span class="s2">"</span>
+git remote set-url origin https://github.com/Homebrew/brew.git
+
+<span class="c"># 重置 homebrew-core.git 为官方地址</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="si">$(</span>brew <span class="nt">--repo</span><span class="si">)</span><span class="s2">/Library/Taps/homebrew/homebrew-core"</span>
+git remote set-url origin https://github.com/Homebrew/homebrew-core.git
+
+<span class="c"># 重置 homebrew-cask 为官方地址</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="si">$(</span>brew <span class="nt">--repo</span><span class="si">)</span><span class="s2">"</span>/Library/Taps/homebrew/homebrew-cask
+git remote set-url origin https://github.com/Homebrew/homebrew-cask
+</code></pre></div></div>
+
+<h2 id="pypipip">pypi(pip)</h2>
+
+<p>pip 是 Python 包管理工具，pip 命令默认使用的是国外的 pypi 镜像（pypi.python.org），速度慢易掉线，切换为国内镜像源。</p>
+
+<p><strong>方法 1：</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 临时使用</span>
+pip <span class="nb">install</span> <span class="nt">-i</span> https://mirrors.ustc.edu.cn/pypi/web/simple package
+<span class="c"># 设为默认，升级 pip 到最新的版本 (&gt;=10.0.0) 后进行配置</span>
+pip <span class="nb">install</span> <span class="nt">-i</span> https://mirrors.ustc.edu.cn/pypi/web/simple pip <span class="nt">-U</span>
+pip config <span class="nb">set </span>global.index-url https://mirrors.ustc.edu.cn/pypi/web/simple
+</code></pre></div></div>
+
+<p><strong>方法 2：</strong></p>
+
+<p>当方法 1 不起作用时，可尝试此方法，在当前用户根目录下<code class="language-plaintext highlighter-rouge">~/.pip/pip.conf</code>，写入如下配置，没有文件夹和文件创建即可。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[[</span>tool.poetry.source]]
+name <span class="o">=</span> <span class="s2">"tsinghua"</span>
+url <span class="o">=</span> <span class="s2">"https://pypi.tuna.tsinghua.edu.cn/simple"</span>
+default <span class="o">=</span> <span class="nb">true</span>
+</code></pre></div></div>
+
+<h2 id="docker">Docker</h2>
+
+<p>安装完 Docker CE 之后，替换掉官方的 Docker Registry 服务，可加快拉取 Docker 镜像的速度，不同系统的更换方法不一致，参考镜像源帮助文档即可。</p>
+
+<p>以 macOS Catalina 的 Docker 为例，在 Preferences -&gt; Docker Engine 中添加以下配置，重启 Docker：</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s2">"registry-mirrors"</span> : <span class="o">[</span>
+   <span class="s2">"http://docker.mirrors.ustc.edu.cn"</span>,
+   <span class="s2">"http://hub-mirror.c.163.com"</span>,
+   <span class="s2">"https://mirror.ccs.tencentyun.com"</span>,
+   <span class="s2">"http://registry.docker-cn.com"</span>
+ <span class="o">]</span>,
+ <span class="s2">"insecure-registries"</span> : <span class="o">[</span>
+   <span class="s2">"registry.docker-cn.com"</span>,
+   <span class="s2">"docker.mirrors.ustc.edu.cn"</span>
+ <span class="o">]</span>,
+</code></pre></div></div>
+
+<h2 id="cocoapods">CocoaPods</h2>
+
+<p>CocoaPods 的 trunk 仓库大部分时候尚可，当速度慢或者失败时，可尝试如下配置。</p>
+
+<p><strong>对于旧版的 CocoaPods 可以使用如下方法使用 tuna 的镜像：</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pod repo remove master
+pod repo add master https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git
+pod repo update
+</code></pre></div></div>
+
+<p><strong>新版的 CocoaPods 不允许用pod repo add直接添加master库了，但是依然可以：</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd</span> ~/.cocoapods/repos 
+pod repo remove master
+git clone https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git master
+</code></pre></div></div>
+
+<p><strong>最后进入自己的工程，在自己工程的podFile第一行加上：</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source</span> <span class="s1">'https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git'</span>
+</code></pre></div></div>
+
+<h2 id="github">github</h2>
+
+<p><strong>github 域名污染</strong></p>
+
+<p>部分网络可能由于域名污染，github 出现访问失败、图片加载不出来的情况，这时候可以参考修改 hosts 文件，添加 IP与域名映射，通过直接访问 IP 地址的方式来访问，结合<a href="https://github.com/oldj/SwitchHosts">switchhosts</a>，可以实现自动修改更新 hosts 文件。</p>
+
+<p>github 的 IP 自动指向可参考<a href="https://github.com/521xueweihan/GitHub520">GitHub520</a>，此方法有效但作用有限，github 经常访问失败的同学可尝试一下。</p>
+
+<p><strong>github 下载速度慢</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">git clone</code>较大项目时，速度慢、总是失败的情况，可使用 VPN 加速，效果明显，此方法只适合有 VPN 或其他工具的用户。</p>
+
+<p>例如 VPN 的 socks5 端口是 49526，参考下方<strong>socks5协议</strong>配置：</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># socks5协议，49526 端口修改成自己的本地代理端口</span>
+git config <span class="nt">--global</span> http.https://github.com.proxy socks5://127.0.0.1:49526
+git config <span class="nt">--global</span> https.https://github.com.proxy socks5://127.0.0.1:49526
+
+<span class="c"># http协议，49527 端口修改成自己的本地代理端口127.0.0.1:49527</span>
+git config <span class="nt">--global</span> http.proxy http://127.0.0.1:49527
+git config <span class="nt">--global</span> https.proxy https://127.0.0.1:49527
+
+<span class="c"># http协议，49527 端口修改成自己的本地代理端口</span>
+git config <span class="nt">--global</span> http.https://github.com.proxy https://127.0.0.1:49527
+git config <span class="nt">--global</span> https.https://github.com.proxy https://127.0.0.1:49527
+
+<span class="c"># reset 代理设置</span>
+git config <span class="nt">--global</span> <span class="nt">--unset</span> http.https://github.com.proxy
+git config <span class="nt">--global</span> <span class="nt">--unset</span> https.https://github.com.proxy
+</code></pre></div></div>
+
+
+
+  </section>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">支持作者</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">谢谢您的咖啡☕️</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2019/12/SonarQube-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%89%AB%E6%8F%8F/" data-toggle="tooltip" data-placement="top" title="SonarQube 自动化扫描 iOS 项目">上一篇：  <span>SonarQube 自动化扫描 iOS 项目</span>
+            </a>
+        </li>
+        
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+
+</section>
+
+
+            <section class="footer">
+    <footer>
+        <div class = "footer_div">  
+        <nav class="cover-navigation navigation--social">
+          <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/muzipiao" title="@muzipiao 的 Github" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/github.png);"></div>
+            </a>
+          </li>
+          
+
+          
+
+          
+          <!-- Zhihu -->
+          <li class="navigation__item_social">
+            <a href="https://juejin.im/user/5b2f1c51f265da59ad439f69" title="@5b2f1c51f265da59ad439f69" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/juejin.png);"></div>
+            </a>
+          </li>
+
+          
+
+          
+
+          
+
+          
+          
+
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:lifei_zdjl@126.com" title="Contact me">
+              <div class="footer-social-icon" style="background-image:url(/images/email.png);"></div>
+            </a>
+          </li>
+          
+          
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/rss.png);"></div>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          </ul>
+        </nav>
+        </div>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>

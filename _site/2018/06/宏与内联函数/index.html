@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>宏与内联函数</title>
+  <meta name="description" content="宏与内联函数区别">
+  <meta name="author" content="leopardpan">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="宏与内联函数">
+  <meta name="twitter:description" content="宏与内联函数区别">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="宏与内联函数">
+  <meta property="og:description" content="宏与内联函数区别">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//libs.baidu.com/fontawesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2018/06/%E5%AE%8F%E4%B8%8E%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/">
+  <link rel="alternate" type="application/rss+xml" title="cocoafei" href="http://localhost:4000/feed.xml">
+
+<!-- 百度统计 -->
+  
+
+<!-- google 统计 -->
+  
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">            
+            <a href="/#blog" title="前往 cocoafei 的主页" class="blog-button">
+                <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                <div class="info">
+                    <div class="info-back">
+                        <h2> 
+                            
+                                cocoafei
+                            
+                        </h2>
+                        <p>
+                           
+                                iOS / Python
+                            
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for cocoafei" class="blog-button">cocoafei</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">个人站</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">欢迎来到我的Blog~</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                  <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                  <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+                  <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>          
+        </div>
+
+
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-clear"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">宏与内联函数</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px" style="vertical-align:middle;"/> 
+      <time datetime="2018-06-22 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date" style="vertical-align:middle;">2018-06-22</time>
+    </p>  
+    </div>
+  </header>
+
+  <section class="post">
+    <h2 id="宏与内联函数区别">宏与内联函数区别</h2>
+
+<p>在 iOS 开发中宏似乎是不可缺少的，尤其是替换一些重复文本字段时，简单实用。那内联函数呢，如果一些简单却需要频繁调用的函数，不断地有函数入栈，即函数栈，会造成栈空间或栈内存的大量消耗。C++ 语言为了解决这个问题，特别的引入了 inline 修饰符，表示为内联函数，内联扩展是用来消除函数调用时的时间开销。</p>
+
+<p>宏定义和内联函数有什么区别？对比一下。</p>
+
+<ul>
+  <li>内联函数在编译时展开，宏在预编译时展开；</li>
+  <li>内联函数直接嵌入到目标代码中，宏是简单的做文本替换；</li>
+  <li>内联函数有类型检测、语法判断等功能，而宏没有；</li>
+  <li>inline函数是函数，宏不是；</li>
+  <li>宏定义时要注意书写（参数要括起来）否则容易出现歧义，内联函数不会产生歧义。</li>
+</ul>
+
+<p>宏比较容易理解，而内联函数从源代码层看，有函数的结构，而在编译后，却不具备函数的性质。内联函数不是在调用时发生控制转移，而是在编译时将函数体嵌入在每一个调用处。编译时，类似宏替换，使用函数体替换调用处的函数名。</p>
+
+<h2 id="宏">宏</h2>
+
+<p>宏会在预编译的时候，将所有出现宏名的地方都替换为宏名对应值。</p>
+
+<h3 id="宏定义">宏定义</h3>
+
+<p>宏定义时命名一般为全部大写多个单词中使用_隔开或者 k 开头驼峰标识。宏定义分为带参数和不带参数，不带参数的宏较简单，格式为<code class="language-plaintext highlighter-rouge">#define 宏名称 宏的值</code>，带参数的宏格式为<code class="language-plaintext highlighter-rouge">#define 宏名(参数列表) 参数表达式</code>。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">/// 不带参数的宏，宏名称与值之间空格任意</span>
+<span class="cp">#define TOTAL_NUM     8
+#define kTotalNum     8
+#define APP_VERSION   @"8.0.0"
+#define GM_PUBKEY     @"SdFTF3Y8fghjklfghjkl56789qpGfxogIDIoa6P47"
+#define HOME_URL      @"https:\/\/www.baidu.com"
+#define kHomeURLCopy  HOME_URL
+</span><span class="c1">/// 带参数的宏较复杂，注意宏名称与()之间不可以有空格</span>
+<span class="cp">#define SUM(x,y) (x + y)
+#define PF(x,y)  ((x) * (y))
+</span><span class="c1">/// 用于终止宏定义的作用范围</span>
+<span class="cp">#undef TOTAL_NUM
+</span></code></pre></div></div>
+
+<p>注意点：</p>
+
+<ol>
+  <li>宏名与()之间不可以有空格；</li>
+  <li>参数列表中不可以有数据类型；</li>
+  <li>一般情况下参数表达式中的所有成员及结果都需要加上()；</li>
+  <li>若运算比较复杂还是使用函数。</li>
+</ol>
+
+<h3 id="宏条件编译">宏条件编译</h3>
+
+<p>因宏展开发生在预编译阶段，所以使用宏条件编译，可以读取不同的配置，比如区分测试环境和生产环境。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">/// #if 条件判断，当判断条件 &gt; 0 时成立</span>
+<span class="cp">#define kDebugSwitch 1
+#if kDebugSwitch
+</span><span class="n">NSLog</span><span class="p">(</span><span class="s">@"此时判断条件 kDebugSwitch 的值 &gt; 0"</span><span class="p">);</span>
+<span class="cp">#else
+</span><span class="n">NSLog</span><span class="p">(</span><span class="s">@"此时判断条件 kDebugSwitch 的值 &lt;= 0"</span><span class="p">);</span>
+<span class="cp">#endif
+</span>
+<span class="c1">/// #ifdef 条件判断，当定义了宏，无论宏为任何值，都成立；未定义宏则不成立。</span>
+<span class="cp">#define kSW xxx
+#ifdef kSW
+</span><span class="n">NSLog</span><span class="p">(</span><span class="err">@“此时宏</span> <span class="n">kSW</span> <span class="err">定义存在，不管</span> <span class="n">kSW</span> <span class="err">为任何值或者无值”</span><span class="p">);</span>
+<span class="cp">#else
+</span><span class="n">NSLog</span><span class="p">(</span><span class="err">@“此时宏</span> <span class="n">kSW</span> <span class="err">未定义”</span><span class="p">);</span>
+<span class="cp">#endif
+</span></code></pre></div></div>
+
+<h2 id="内联函数">内联函数</h2>
+
+<p>内联函数是 C++ 中的一种特殊函数，它可以像普通函数一样被调用，但是在调用时并不通过函数调用的机制，而是通过将函数体直接插入调用处来实现的，这样可以大大减少由函数调用带来的开销，从而提高程序的运行效率。一般来说 inline 用于定义类的成员函数。</p>
+
+<h3 id="内联函数特点">内联函数特点</h3>
+
+<ol>
+  <li>内联函数可声名在任何文件中，但不适用复杂的逻辑，以空间换取速度，因为内联函数会在任何调用它的地方展开，复杂代码会使代码膨胀（复制代码）；</li>
+  <li>不能包含复杂的结构控制语句例如 while、switch，并且内联函数本身不能是直接递归函数（自己内部还调用自己的函数）。如果包含复杂的结构控制语句，则视为普通函数。原因可能是复杂结构语句展开后会占用过多栈空间；</li>
+  <li>inline 字段必须与函数体放在一起才能成为内联函数，声名时放在一起不起作用。</li>
+</ol>
+
+<h3 id="内联函数定义">内联函数定义</h3>
+
+<p>内联函数的使用比较简单，只需要在声明或者定义函数时在头部加上inline关键字即可，格式如下:</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">inline</span> <span class="err">返回值类型</span> <span class="err">函数</span><span class="p">(</span><span class="err">函数参数</span><span class="p">){</span>
+<span class="c1">/// 此处定义函数体</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>具体示例，定义不同内联函数。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">/// 将尺寸转换为像素</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">CGFloat</span> <span class="nf">TransToPixel</span><span class="p">(</span><span class="n">CGFloat</span> <span class="n">size</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">return</span> <span class="n">size</span> <span class="o">*</span> <span class="p">[</span><span class="n">UIScreen</span> <span class="nf">mainScreen</span><span class="p">].</span><span class="n">scale</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">/// 字符串判空</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">NSString</span> <span class="o">*</span> <span class="n">_Nullable</span> <span class="nf">AdvoidStr</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span> <span class="n">_Nullable</span> <span class="n">str</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">str</span><span class="p">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">return</span> <span class="n">str</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">return</span> <span class="s">@""</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">/// 读取语言配置的示例</span>
+<span class="k">static</span> <span class="kr">inline</span> <span class="n">NSDictionary</span> <span class="o">*</span> <span class="n">_Nullable</span> <span class="nf">ReadDebugConfig</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span> <span class="n">_Nullable</span> <span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">static</span> <span class="n">NSDictionary</span> <span class="o">*</span><span class="n">configDict</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+<span class="k">static</span> <span class="n">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+<span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+<span class="n">configDict</span> <span class="o">=</span> <span class="p">@{</span><span class="s">@"zh"</span><span class="o">:</span><span class="s">@"zh.plist"</span><span class="p">,</span>
+<span class="s">@"en"</span><span class="o">:</span><span class="s">@"en.plist"</span><span class="p">,</span>
+<span class="s">@"fr"</span><span class="o">:</span><span class="s">@"fr.plist"</span><span class="p">};</span>
+<span class="p">});</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">return</span> <span class="n">configDict</span><span class="p">[</span><span class="nf">key</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="k">return</span> <span class="n">configDict</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+
+
+  </section>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">支持作者</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">谢谢您的咖啡☕️</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2018/06/ZipperDown-%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D/" data-toggle="tooltip" data-placement="top" title="ZipperDown 漏洞修复">上一篇：  <span>ZipperDown 漏洞修复</span>
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/2018/07/cocoapods-%E5%8F%91%E5%B8%83%E5%BA%93/" data-toggle="tooltip" data-placement="top" title="cocoapods 发布库">下一篇：  <span>cocoapods 发布库</span>
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+
+</section>
+
+
+            <section class="footer">
+    <footer>
+        <div class = "footer_div">  
+        <nav class="cover-navigation navigation--social">
+          <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/muzipiao" title="@muzipiao 的 Github" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/github.png);"></div>
+            </a>
+          </li>
+          
+
+          
+
+          
+          <!-- Zhihu -->
+          <li class="navigation__item_social">
+            <a href="https://juejin.im/user/5b2f1c51f265da59ad439f69" title="@5b2f1c51f265da59ad439f69" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/juejin.png);"></div>
+            </a>
+          </li>
+
+          
+
+          
+
+          
+
+          
+          
+
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:lifei_zdjl@126.com" title="Contact me">
+              <div class="footer-social-icon" style="background-image:url(/images/email.png);"></div>
+            </a>
+          </li>
+          
+          
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/rss.png);"></div>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          </ul>
+        </nav>
+        </div>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>

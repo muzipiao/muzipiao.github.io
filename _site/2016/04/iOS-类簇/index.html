@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>iOS 类簇</title>
+  <meta name="description" content="遇到类簇">
+  <meta name="author" content="leopardpan">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="iOS 类簇">
+  <meta name="twitter:description" content="遇到类簇">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="iOS 类簇">
+  <meta property="og:description" content="遇到类簇">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//libs.baidu.com/fontawesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2016/04/iOS-%E7%B1%BB%E7%B0%87/">
+  <link rel="alternate" type="application/rss+xml" title="cocoafei" href="http://localhost:4000/feed.xml">
+
+<!-- 百度统计 -->
+  
+
+<!-- google 统计 -->
+  
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">            
+            <a href="/#blog" title="前往 cocoafei 的主页" class="blog-button">
+                <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                <div class="info">
+                    <div class="info-back">
+                        <h2> 
+                            
+                                cocoafei
+                            
+                        </h2>
+                        <p>
+                           
+                                iOS / Python
+                            
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for cocoafei" class="blog-button">cocoafei</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">个人站</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">欢迎来到我的Blog~</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                  <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                  <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+                  <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>          
+        </div>
+
+
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-clear"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">iOS 类簇</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px" style="vertical-align:middle;"/> 
+      <time datetime="2016-04-05 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date" style="vertical-align:middle;">2016-04-05</time>
+    </p>  
+    </div>
+  </header>
+
+  <section class="post">
+    <h2 id="遇到类簇">遇到类簇</h2>
+
+<p>以前并不了解类簇的概念，直到在查找定位线上生产 Bug 时，看到了如下日志：</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="ss">reason: </span><span class="o">***</span> <span class="o">-</span><span class="p">[</span><span class="no">NSPlaceholderString</span> <span class="n">initWithString</span><span class="p">:]:</span> <span class="kp">nil</span> <span class="n">argument</span>
+<span class="ss">reason: </span><span class="o">***</span> <span class="o">-</span><span class="p">[</span><span class="no">NSPlaceholderString</span> <span class="n">initWithString</span><span class="p">:]:</span> <span class="kp">nil</span> <span class="n">argument</span>
+<span class="ss">callStackSymbols: </span><span class="p">(</span>
+<span class="mi">0</span> <span class="no">CoreFoundation</span> <span class="mh">0x00000001829f6dc8</span> <span class="o">&lt;</span><span class="n">redacted</span><span class="o">&gt;</span> <span class="o">+</span> <span class="mi">148</span>
+<span class="mi">1</span> <span class="n">libobjc</span><span class="o">.</span><span class="no">A</span><span class="p">.</span><span class="nf">dylib</span> <span class="mh">0x000000018205bf80</span> <span class="n">objc_exception_throw</span> <span class="o">+</span> <span class="mi">56</span>
+<span class="mi">2</span> <span class="no">CoreFoundation</span> <span class="mh">0x00000001829f6cf8</span> <span class="o">&lt;</span><span class="n">redacted</span><span class="o">&gt;</span> <span class="o">+</span> <span class="mi">0</span>
+<span class="mi">3</span> <span class="no">Foundation</span> <span class="mh">0x00000001832febbc</span> <span class="o">&lt;</span><span class="n">redacted</span><span class="o">&gt;</span> <span class="o">+</span> <span class="mi">112</span>
+<span class="mi">4</span> <span class="o">**************</span> <span class="err">以下堆栈信息省略</span> <span class="o">***************</span>
+</code></pre></div></div>
+
+<p>线上的 Bug 不能直接断点至 Crash 的位置，NSPlaceholderString 是什么，是 NSString 吗？没直接使用过，而且直接使用也会报错。于是 Google 调研，这才了解到类簇的概念。</p>
+
+<blockquote>
+  <p>类簇是Foundation框架中广泛使用的设计模式。类簇将一些私有的、具体的子类组合在一个公共的、抽象的超类下面，以这种方法来组织类可以简化一个面向对象框架的公开架构，而又不减少功能的丰富性。</p>
+</blockquote>
+
+<p>所以创建 NSString 对象时，得到的可能是 NSLiteralString、NSCFString、NSSimpleCString，NSPlaceholderString等。对程序员来说，我们创建不同的 NSString 对象调用同一个接口 A，接口 A 的底层实现可能是不同的，但对程序员来说是相同的稳定的，使我们编写的代码可以独立于底层实现。</p>
+
+<p>常见的类簇有 NSString、NSArray，NSDictionary等，我们以 NSString 为例，通过创建不同的 NSString 对象，然后使用 object_getClassName(obj) 方法打印对象，查看不同对象区别。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp"># NSPlaceholderString-&gt;NSString
+</span><span class="n">id</span> <span class="n">str0</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">alloc</span><span class="p">];</span>
+<span class="cp"># __NSCFConstantString-&gt;__NSCFString-&gt;NSMutableString-&gt;NSString
+</span><span class="n">id</span> <span class="n">str1</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSString</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+<span class="cp"># NSTaggedPointerString-&gt;NSString
+</span><span class="n">id</span> <span class="n">str3</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithFormat</span><span class="p">:</span><span class="s">@"123"</span><span class="p">];</span>
+<span class="cp"># NSPlaceholderMutableString-&gt;NSMutableString-&gt;NSString
+</span><span class="n">id</span> <span class="n">str4</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableString</span> <span class="nf">alloc</span><span class="p">];</span>
+<span class="cp"># __NSCFString-&gt;NSMutableString-&gt;NSString
+</span><span class="n">id</span> <span class="n">str5</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableString</span> <span class="nf">new</span><span class="p">];</span>
+</code></pre></div></div>
+
+<h2 id="定位解决问题">定位解决问题</h2>
+
+<p>经排查项目中大量使用了<code class="language-plaintext highlighter-rouge">[[NSString alloc] initWithString:</code>方法来初始化字符串对象，例如代码下面的代码，dict 是后台返回的数据，当 data 为 nil 时，就会发生<code class="language-plaintext highlighter-rouge">-[NSPlaceholderString initWithString:]: nil argument</code>的 crash。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">dict</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+<span class="n">NSString</span> <span class="o">*</span><span class="n">str</span> <span class="o">=</span> <span class="p">[[</span><span class="n">NSString</span> <span class="nf">alloc</span><span class="p">]</span><span class="nf">initWithString</span><span class="p">:[</span><span class="n">dict</span> <span class="nf">objectForKey</span><span class="p">:</span><span class="s">@"key"</span><span class="p">]];</span>
+<span class="n">NSLog</span><span class="p">(</span><span class="s">@"%@"</span><span class="p">,</span><span class="n">str</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>解决办法很简单，使用<code class="language-plaintext highlighter-rouge">[NSString stringWithFormat:@"%@",[dict objectForKey:@"key"]]</code>方法代替即可。但这样改动太大，例如项目中有八百多处，全部替换显然不理智。正确的方法是用运行时做 Crash 防护。</p>
+
+<p>新建一个 NSObject 分类，增加一个运行时交互的方法，在其他基类中很方便做运行时。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">///MARK: - NSObject+Swizzling.h</span>
+<span class="cp">#import &lt;Foundation/Foundation.h&gt;
+</span>
+<span class="k">@interface</span> <span class="nc">NSObject</span> <span class="p">(</span><span class="nl">Swizzling</span><span class="p">)</span>
+<span class="c1">///  NSObject 分类增加运行时交互的方法</span>
+<span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">swizzleSelector</span><span class="p">:(</span><span class="n">SEL</span><span class="p">)</span><span class="nv">originalSelector</span> <span class="nf">withSwizzledSelector</span><span class="p">:(</span><span class="n">SEL</span><span class="p">)</span><span class="nv">swizzledSelector</span><span class="p">;</span>
+<span class="k">@end</span>
+
+<span class="c1">///MARK: - NSObject+Swizzling.m</span>
+<span class="cp">#import "NSObject+Swizzling.h"
+#import &lt;objc/runtime.h&gt;
+</span><span class="k">@implementation</span> <span class="nc">NSObject</span> <span class="p">(</span><span class="nl">Swizzling</span><span class="p">)</span>
+<span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">swizzleSelector</span><span class="p">:(</span><span class="n">SEL</span><span class="p">)</span><span class="nv">originalSelector</span> <span class="nf">withSwizzledSelector</span><span class="p">:(</span><span class="n">SEL</span><span class="p">)</span><span class="nv">swizzledSelector</span> <span class="p">{</span>
+<span class="n">Class</span> <span class="n">class</span> <span class="o">=</span> <span class="p">[</span><span class="n">self</span> <span class="nf">class</span><span class="p">];</span>
+
+<span class="n">Method</span> <span class="n">originalMethod</span> <span class="o">=</span> <span class="n">class_getInstanceMethod</span><span class="p">(</span><span class="n">class</span><span class="p">,</span> <span class="n">originalSelector</span><span class="p">);</span>
+<span class="n">Method</span> <span class="n">swizzledMethod</span> <span class="o">=</span> <span class="n">class_getInstanceMethod</span><span class="p">(</span><span class="n">class</span><span class="p">,</span> <span class="n">swizzledSelector</span><span class="p">);</span>
+
+<span class="c1">// 若已经存在，则添加会失败</span>
+<span class="n">BOOL</span> <span class="n">didAddMethod</span> <span class="o">=</span> <span class="n">class_addMethod</span><span class="p">(</span><span class="n">class</span><span class="p">,</span>
+<span class="n">originalSelector</span><span class="p">,</span>
+<span class="n">method_getImplementation</span><span class="p">(</span><span class="n">swizzledMethod</span><span class="p">),</span>
+<span class="n">method_getTypeEncoding</span><span class="p">(</span><span class="n">swizzledMethod</span><span class="p">));</span>
+
+<span class="c1">// 若原来的方法并不存在，则添加即可</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">didAddMethod</span><span class="p">)</span> <span class="p">{</span>
+<span class="n">class_replaceMethod</span><span class="p">(</span><span class="n">class</span><span class="p">,</span>
+<span class="n">swizzledSelector</span><span class="p">,</span>
+<span class="n">method_getImplementation</span><span class="p">(</span><span class="n">originalMethod</span><span class="p">),</span>
+<span class="n">method_getTypeEncoding</span><span class="p">(</span><span class="n">originalMethod</span><span class="p">));</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+<span class="n">method_exchangeImplementations</span><span class="p">(</span><span class="n">originalMethod</span><span class="p">,</span> <span class="n">swizzledMethod</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre></div></div>
+
+<p>然后新建一个 NSString 的分类，在分类中做方法交换。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">///MARK: - NSString+solveBug.h</span>
+<span class="cp">#import &lt;Foundation/Foundation.h&gt;
+</span><span class="k">@interface</span> <span class="nc">NSString</span> <span class="p">(</span><span class="nl">solveBug</span><span class="p">)</span>
+<span class="k">@end</span>
+
+<span class="c1">///MARK: - NSString+solveBug.m</span>
+<span class="cp">#import "NSString+solveBug.h"
+#import "NSObject+Swizzling.h"
+#import &lt;objc/message.h&gt;
+</span>
+<span class="k">@implementation</span> <span class="nc">NSString</span> <span class="p">(</span><span class="nl">solveBug</span><span class="p">)</span>
+<span class="c1">//NSPlaceholderString</span>
+<span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">load</span> <span class="p">{</span>
+<span class="k">static</span> <span class="n">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+<span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+
+<span class="p">[</span><span class="n">objc_getClass</span><span class="p">(</span><span class="s">"NSPlaceholderString"</span><span class="p">)</span> <span class="nf">swizzleSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nf">initWithString</span><span class="p">:)</span>
+<span class="nl">withSwizzledSelector:</span><span class="k">@selector</span><span class="p">(</span><span class="n">safeInitWithString</span><span class="o">:</span><span class="p">)];</span>
+<span class="p">});</span>
+<span class="p">}</span>
+
+<span class="c1">// 防止 [[NSString alloc] initWithString:nil] 崩溃</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">safeInitWithString</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">obj</span> <span class="p">{</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">obj</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">return</span> <span class="s">@""</span><span class="p">;</span>
+<span class="p">}</span><span class="k">else</span><span class="p">{</span>
+<span class="k">return</span>  <span class="p">[</span><span class="n">self</span> <span class="nf">safeInitWithString</span><span class="p">:</span><span class="n">obj</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre></div></div>
+
+<p>同理，新建一个 NSMutableString 的分类，防止 NSMutableString 使用 initWithString 的时候 Crash。</p>
+
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import &lt;Foundation/Foundation.h&gt;
+</span><span class="n">NS_ASSUME_NONNULL_BEGIN</span>
+<span class="k">@interface</span> <span class="nc">NSMutableString</span> <span class="p">(</span><span class="nl">solveBug</span><span class="p">)</span>
+<span class="err">@en</span>
+<span class="n">NS_ASSUME_NONNULL_END</span>
+
+<span class="cp">#import "NSMutableString+solveBug.h"
+#import "NSObject+Swizzling.h"
+#import &lt;objc/message.h&gt;
+</span>
+<span class="k">@implementation</span> <span class="nc">NSMutableString</span> <span class="p">(</span><span class="nl">solveBug</span><span class="p">)</span>
+
+<span class="c1">//NSPlaceholderMutableString</span>
+<span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">load</span> <span class="p">{</span>
+<span class="k">static</span> <span class="n">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+<span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+
+<span class="p">[</span><span class="n">objc_getClass</span><span class="p">(</span><span class="s">"NSPlaceholderMutableString"</span><span class="p">)</span> <span class="nf">swizzleSelector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nf">initWithString</span><span class="p">:)</span>
+<span class="nl">withSwizzledSelector:</span><span class="k">@selector</span><span class="p">(</span><span class="n">safeInitWithString</span><span class="o">:</span><span class="p">)];</span>
+<span class="p">});</span>
+<span class="p">}</span>
+
+<span class="c1">// 防止 [[NSMutableString alloc] initWithString:nil] 崩溃</span>
+<span class="k">-</span> <span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="nf">safeInitWithString</span><span class="p">:(</span><span class="n">id</span><span class="p">)</span><span class="nv">obj</span> <span class="p">{</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">obj</span> <span class="o">==</span> <span class="nb">nil</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">return</span> <span class="p">[</span><span class="n">self</span> <span class="nf">safeInitWithString</span><span class="p">:</span><span class="s">@""</span><span class="p">];</span>
+<span class="p">}</span><span class="k">else</span><span class="p">{</span>
+<span class="k">return</span> <span class="p">[</span><span class="n">self</span> <span class="nf">safeInitWithString</span><span class="p">:</span><span class="n">obj</span><span class="p">];</span>
+<span class="p">}</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</code></pre></div></div>
+
+
+  </section>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">支持作者</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">谢谢您的咖啡☕️</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2016/03/Shell-%E6%89%B9%E5%A4%84%E7%90%86%E8%84%9A%E6%9C%AC/" data-toggle="tooltip" data-placement="top" title="Shell 批处理脚本">上一篇：  <span>Shell 批处理脚本</span>
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/2016/10/%E6%8C%87%E7%BA%B9-%E9%9D%A2%E5%AE%B9-%E7%99%BB%E5%BD%95%E6%88%96%E6%94%AF%E4%BB%98/" data-toggle="tooltip" data-placement="top" title="指纹（面容）登录或支付">下一篇：  <span>指纹（面容）登录或支付</span>
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+
+</section>
+
+
+            <section class="footer">
+    <footer>
+        <div class = "footer_div">  
+        <nav class="cover-navigation navigation--social">
+          <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/muzipiao" title="@muzipiao 的 Github" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/github.png);"></div>
+            </a>
+          </li>
+          
+
+          
+
+          
+          <!-- Zhihu -->
+          <li class="navigation__item_social">
+            <a href="https://juejin.im/user/5b2f1c51f265da59ad439f69" title="@5b2f1c51f265da59ad439f69" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/juejin.png);"></div>
+            </a>
+          </li>
+
+          
+
+          
+
+          
+
+          
+          
+
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:lifei_zdjl@126.com" title="Contact me">
+              <div class="footer-social-icon" style="background-image:url(/images/email.png);"></div>
+            </a>
+          </li>
+          
+          
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/rss.png);"></div>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          </ul>
+        </nav>
+        </div>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>

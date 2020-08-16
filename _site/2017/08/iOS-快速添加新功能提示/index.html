@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>iOS 快速添加新功能提示</title>
+  <meta name="description" content="iOS快速添加新功能提示">
+  <meta name="author" content="leopardpan">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="iOS 快速添加新功能提示">
+  <meta name="twitter:description" content="iOS快速添加新功能提示">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="iOS 快速添加新功能提示">
+  <meta property="og:description" content="iOS快速添加新功能提示">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//libs.baidu.com/fontawesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2017/08/iOS-%E5%BF%AB%E9%80%9F%E6%B7%BB%E5%8A%A0%E6%96%B0%E5%8A%9F%E8%83%BD%E6%8F%90%E7%A4%BA/">
+  <link rel="alternate" type="application/rss+xml" title="cocoafei" href="http://localhost:4000/feed.xml">
+
+<!-- 百度统计 -->
+  
+
+<!-- google 统计 -->
+  
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">            
+            <a href="/#blog" title="前往 cocoafei 的主页" class="blog-button">
+                <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                <div class="info">
+                    <div class="info-back">
+                        <h2> 
+                            
+                                cocoafei
+                            
+                        </h2>
+                        <p>
+                           
+                                iOS / Python
+                            
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for cocoafei" class="blog-button">cocoafei</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">个人站</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">欢迎来到我的Blog~</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                  <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                  <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+                  <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>          
+        </div>
+
+
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-clear"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">iOS 快速添加新功能提示</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px" style="vertical-align:middle;"/> 
+      <time datetime="2017-08-30 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date" style="vertical-align:middle;">2017-08-30</time>
+    </p>  
+    </div>
+  </header>
+
+  <section class="post">
+    <h1 id="ios快速添加新功能提示">iOS快速添加新功能提示</h1>
+
+<p>当App迭代版本，增加新功能时，往往会在用户点进相应界面的时候，<code class="language-plaintext highlighter-rouge">高亮</code>显示新功能，并配上相应的图片文字吸引用户注意。例如<strong>XX功能更新了，办理什么业务再也不用排队了；通过XX新功能可以直接查询什么功能了…</strong>，如图简易提示：</p>
+
+<div style="float:left;border:solid 1px 000;margin:2px;"><a href="/images/posts/guidemask/GuideMaskImages_Big/guidemask0.png"><img src="/images/posts/guidemask/GuideMaskImages_Small/guidemask0.png" alt="screenshot" title="screenshot" width="100" height="178" /></a></div>
+<div style="float:left;border:solid 1px 000;margin:2px;"><a href="/images/posts/guidemask/GuideMaskImages_Big/guidemask1.png"><img src="/images/posts/guidemask/GuideMaskImages_Small/guidemask1.png" alt="screenshot" title="screenshot" width="100" height="178" /></a></div>
+<div style="float:left;border:solid 1px 000;margin:2px;"><a href="/images/posts/guidemask/GuideMaskImages_Big/guidemask2.png"><img src="/images/posts/guidemask/GuideMaskImages_Small/guidemask2.png" alt="screenshot" title="screenshot" width="100" height="178" /></a></div>
+<div style="float:left;border:solid 1px 000;margin:2px;"><a href="/images/posts/guidemask/GuideMaskImages_Big/guidemask3.png"><img src="/images/posts/guidemask/GuideMaskImages_Small/guidemask3.png" alt="screenshot" title="screenshot" width="100" height="178" /></a></div>
+<div style="float:left;border:solid 1px 000;margin:2px;"><a href="/images/posts/guidemask/GuideMaskImages_Big/guidemask4.png"><img src="/images/posts/guidemask/GuideMaskImages_Small/guidemask4.png" alt="screenshot" title="screenshot" width="100" height="178" /></a></div>
+<div style="clear:both;"></div>
+
+<p><strong>NOTE:</strong> 上图提示简易，实际需求由UI设计漂亮醒目的图片文字(点击上面的小图片可查看高清大图)。</p>
+
+<h2 id="方法思考">方法思考</h2>
+
+<p>通常比较<strong>懒</strong>的做法，是由UI做出<strong>全屏的新功能提示图片</strong>，由开发人员控制进入相应界面时，全屏展示相应提示图片。</p>
+
+<p>这样做的缺点主要有2个：</p>
+
+<ol>
+  <li>我们全屏添加到视图上面的图片，由于手机屏幕缩放的原因，提前设计的固定图片，上面<strong>高亮指向→</strong>的部分，往往和我们实际待高亮提示控件的位置不一致，图片移除时，会给人控件位置跳动一下的感觉；</li>
+  <li>全屏图片想要高清展示，压缩后也有上百KB，如果新功能提示较多，App安装包体积会明显增大。</li>
+</ol>
+
+<p>通过观察发现，新功能提示大同小异，都是<code class="language-plaintext highlighter-rouge">高亮</code>待提示的部分，再用小的图片文字指向新功能提示用户。每个界面除了指向新功能的小图片提示，和后面蒙版高亮控件的位置不一样外，其他都一样。因此，我们可以通过代码生成高亮控件的背景图片，再叠加指向新功能的<code class="language-plaintext highlighter-rouge">小图片</code>即可，这样高亮提示的位置准确，图片体积也显著减少。</p>
+
+<h2 id="代码生成高亮待提示控件位置的背景图片">代码生成高亮待提示控件位置的背景图片</h2>
+
+<pre><code class="language-objective-c">
+#pragma mark - 背景图片
+//传入待提示控件的Frame 和切圆角的半径(默认为5)
+-(UIImage *)imageWithTipRect:(CGRect)tipRect tipRectRadius:(CGFloat)tipRectRadius{
+    
+    //开启当前的图形上下文
+    UIGraphicsBeginImageContextWithOptions([UIScreen mainScreen].bounds.size, NO, 0.0);
+    
+    // 获取图形上下文，画板
+    CGContextRef cxtRef = UIGraphicsGetCurrentContext();
+    
+    //将提示框增大，并与控件保持中心对齐，默认增大尺寸为切圆角的半径，需要特殊处理改下面尺寸
+    CGFloat plusSize = tipRectRadius;
+    CGRect tipRectPlus = CGRectMake(tipRect.origin.x - plusSize * 0.5, tipRect.origin.y - plusSize * 0.5, tipRect.size.width + plusSize, tipRect.size.height + plusSize);
+    
+    //绘制提示路径
+    UIBezierPath *tipRectPath = [UIBezierPath bezierPathWithRoundedRect:tipRectPlus cornerRadius:tipRectRadius];
+    
+    //绘制蒙版
+    UIBezierPath *screenPath = [UIBezierPath bezierPathWithRect:[UIScreen mainScreen].bounds];
+    
+    //填充色，默认为半透明，灰黑色背景；如果设置了自定义颜色，则使用自定义颜色
+    if (self.bgColor) {
+        CGContextSetFillColorWithColor(cxtRef, self.bgColor.CGColor);
+    }else{
+        CGContextSetFillColorWithColor(cxtRef, [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:0.2].CGColor);
+    }
+    
+    //添加路径到图形上下文
+    CGContextAddPath(cxtRef, tipRectPath.CGPath);
+    CGContextAddPath(cxtRef, screenPath.CGPath);
+    
+    //渲染，选择奇偶模式
+    CGContextDrawPath(cxtRef, kCGPathEOFill);
+    
+    //从画布总读取图形
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    //关闭图形上下文
+    UIGraphicsEndImageContext();
+    
+    return image;
+}
+
+</code></pre>
+
+<h2 id="添加指向新功能的提示图片">添加指向新功能的提示图片</h2>
+
+<pre><code class="language-objective-c">//背景容器
+UIView *bView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+instance.bgView = bView;
+
+//添加展示背景图片的图层
+UIImageView *maskImageView = [[UIImageView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+[bView addSubview:maskImageView];
+
+//添加指向新功能的提示图片
+UIImageView *tipImageView = [[UIImageView alloc]initWithFrame:CGRectZero];
+[bView addSubview:tipImageView];
+
+//添加至Windows，展示在最上面
+[[UIApplication sharedApplication].delegate.window addSubview: bView];
+        
+</code></pre>
+
+<p><strong>NOTE:</strong> 以上代码主要提供一个思路，您可能有更好的方法，欢迎指导。</p>
+
+<h2 id="封装">封装</h2>
+
+<p>程序猿都是“很懒”的，这个“懒”是指不愿意干重复的工作。我们可以将此功能封装一下，最好下次使用时，一两行代码搞定。</p>
+
+<p>封装思路分析：</p>
+
+<ol>
+  <li>从外部接口考虑，我们肯定需要传入多个待高亮提示的控件位置，由于CGRect不是对象，存入取出数组都需转换，我们直接把待提示的控件放入数组中，传入即可。</li>
+  <li>每个功能提示界面，肯定有一张指向新功能的图片，我们命名图片的时候，可以按照功能命名，例如functionImage0，functionImage1，functionImage2…；这样我们只需要传入一个图片名称前缀即可。</li>
+  <li>用户可能需要自定义背景色，需暴露一个设置颜色的属性。</li>
+  <li>指向新功能的图片位置默认在下方，可以自定义位置。</li>
+  <li>用户设置颜色和位置的顺序可能不固定，可能会先创建背景视图和添加功能提示图片。</li>
+  <li>提示图片的位置，肯定都是围绕在新功能<code class="language-plaintext highlighter-rouge">高亮提示</code>附近的，可用枚举列举常用位置。</li>
+</ol>
+
+<h3 id="api-接口">API 接口</h3>
+
+<pre><code class="language-objective-c">//定义为单例
++(instancetype)shareGuide;
+
+/**
+创建遮罩提示层
+@param beGuidedViews 数组存入需要高亮的控件
+@param prefixName 提示图片的前缀，例如preName0前缀为preName,图片按照此格式命名
+*/
+-(void)addGuideViews:(NSArray *)beGuidedViews imagePrefixName:(NSString *)prefixName;
+        
+</code></pre>
+
+<h2 id="完整代码">完整代码</h2>
+
+<p><code class="language-plaintext highlighter-rouge">完整代码</code>已经封装并上传至GitHub，下载地址<a href="https://github.com/muzipiao/GuideMask">GuideMaskDemo</a>，如有错误，欢迎指正。</p>
+
+<p>封装好的代码已上传至CocoaPods，名称为<code class="language-plaintext highlighter-rouge">GuideMask </code>，可通过编辑Podfile文件，增加行 <code class="language-plaintext highlighter-rouge">pod 'GuideMask'</code>，一键导入集成。</p>
+
+<h2 id="用法">用法</h2>
+
+<p><code class="language-plaintext highlighter-rouge">GuideMask</code>默认为单例，灰黑色半透明背景，提示图片展示在待提示功能下方。</p>
+
+<p>假设提示图片依次命名为arrow0，arrow1，arrow2，arrow3…</p>
+
+<pre><code class="language-objective-c">#import "GuideMask.h"
+//创建提示
+GuideMask *mask = [GuideMask shareGuide];
+//将待提示的View和提示小图片名称导入
+[mask addGuideViews:@[self.richTextBtn,self.dateBtn,self.refreshBtn,self.fmdbBtn] imagePrefixName:@"arrow"];
+</code></pre>
+
+<p>当然你可以自定义背景颜色和透明度，和每张图片的位置，位置分为上，下，左，右，左上，左下，右上，右下，中心对齐，图片全屏覆盖手机等几种，能满足大部分需求。</p>
+
+<pre><code class="language-objective-c">//-------------------------可选----------------
+//指定位置，默认在正下方
+mask.tipImageLocation = @[@(GuideMaskPositionUp),@(GuideMaskPositionDown),@(GuideMaskPositionLeft),@(GuideMaskPositionRight),@(GuideMaskPositionLeftUp),@(GuideMaskPositionRightUp),@(GuideMaskPositionLeftDown),@(GuideMaskPositionRightDown)];
+//背景色
+mask.bgColor = [UIColor colorWithRed:128.0/255.0 green:128.0/255.0 blue:128.0/255.0 alpha:0.7];
+</code></pre>
+
+<p>如果您觉得有所帮助，请在<a href="https://github.com/muzipiao/GuideMask">GitHub GuideMaskDemo</a>上赏个Star ⭐️，您的鼓励是我前进的动力！</p>
+
+
+  </section>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">支持作者</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">谢谢您的咖啡☕️</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2017/08/iOS-%E8%8E%B7%E5%8F%96%E7%A1%AC%E4%BB%B6%E4%BF%A1%E6%81%AF/" data-toggle="tooltip" data-placement="top" title="iOS 获取硬件信息">上一篇：  <span>iOS 获取硬件信息</span>
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/2018/04/Python-%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" data-toggle="tooltip" data-placement="top" title="Python 虚拟环境配置">下一篇：  <span>Python 虚拟环境配置</span>
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+
+</section>
+
+
+            <section class="footer">
+    <footer>
+        <div class = "footer_div">  
+        <nav class="cover-navigation navigation--social">
+          <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/muzipiao" title="@muzipiao 的 Github" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/github.png);"></div>
+            </a>
+          </li>
+          
+
+          
+
+          
+          <!-- Zhihu -->
+          <li class="navigation__item_social">
+            <a href="https://juejin.im/user/5b2f1c51f265da59ad439f69" title="@5b2f1c51f265da59ad439f69" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/juejin.png);"></div>
+            </a>
+          </li>
+
+          
+
+          
+
+          
+
+          
+          
+
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:lifei_zdjl@126.com" title="Contact me">
+              <div class="footer-social-icon" style="background-image:url(/images/email.png);"></div>
+            </a>
+          </li>
+          
+          
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/rss.png);"></div>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          </ul>
+        </nav>
+        </div>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>

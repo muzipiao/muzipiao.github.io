@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>iOS 钥匙串 Keychain 安全机制</title>
+  <meta name="description" content="iOS钥匙串Keychain安全机制">
+  <meta name="author" content="leopardpan">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="iOS 钥匙串 Keychain 安全机制">
+  <meta name="twitter:description" content="iOS钥匙串Keychain安全机制">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="iOS 钥匙串 Keychain 安全机制">
+  <meta property="og:description" content="iOS钥匙串Keychain安全机制">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//libs.baidu.com/fontawesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2017/05/iOS-%E9%92%A5%E5%8C%99%E4%B8%B2-Keychain-%E5%AE%89%E5%85%A8%E6%9C%BA%E5%88%B6/">
+  <link rel="alternate" type="application/rss+xml" title="cocoafei" href="http://localhost:4000/feed.xml">
+
+<!-- 百度统计 -->
+  
+
+<!-- google 统计 -->
+  
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">            
+            <a href="/#blog" title="前往 cocoafei 的主页" class="blog-button">
+                <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                <div class="info">
+                    <div class="info-back">
+                        <h2> 
+                            
+                                cocoafei
+                            
+                        </h2>
+                        <p>
+                           
+                                iOS / Python
+                            
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for cocoafei" class="blog-button">cocoafei</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">个人站</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">欢迎来到我的Blog~</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                  <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                  <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+                  <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>          
+        </div>
+
+
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-clear"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">iOS 钥匙串 Keychain 安全机制</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px" style="vertical-align:middle;"/> 
+      <time datetime="2017-05-08 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date" style="vertical-align:middle;">2017-05-08</time>
+    </p>  
+    </div>
+  </header>
+
+  <section class="post">
+    <h2 id="ios钥匙串keychain安全机制">iOS钥匙串Keychain安全机制</h2>
+
+<h3 id="一keychain简介"><strong>一、Keychain简介：</strong></h3>
+
+<ul>
+  <li>iOS的钥匙串Keychain是苹果的一种安全机制，可理解为苹果系统的<code class="language-plaintext highlighter-rouge">保险柜</code>，我们可以将重要的东西保存在里面，例如用户名，密码，VPN凭证等等。</li>
+  <li>Keychain的实质是一个安全的数据库，Keychain里面的所有数据都是加密的。</li>
+</ul>
+
+<h3 id="二keychain保存特性"><strong>二、Keychain保存特性：</strong></h3>
+
+<ul>
+  <li>QQ是我们经常用的App，当我们卸载QQ又重新安装后，惊奇的发现，用户名和密码还在，自动填充到了输入框里面。这就是利用了Keychain的特性，Keychain里保存的信息不会因App被删除而丢失，所以在重装App后，Keychain里的数据还能使用。</li>
+  <li>注意，恢复出厂设置可清空钥匙串里面的信息。</li>
+</ul>
+
+<h3 id="三keychain安全性"><strong>三、Keychain安全性：</strong></h3>
+
+<ul>
+  <li>我们知道，iOS系统下每个应用都有自己对应的沙盒，每个沙盒之间都是相互独立的，互不能访问（没有越狱的情况下），正因为这样的沙盒机制让iOS的系统变得更安全。</li>
+  <li>同理，不同App之间Keychain是不能相互访问的，除非是同一供应商开发的App(例如腾讯公司开发的“QQ”和“微信”属于同一供应商)，经过设置后可访问设置共有钥匙串部分信息。简单来说就是自己公司开发的App能访问自己的钥匙串，别的公司是无法访问你的App的钥匙串的。</li>
+  <li>钥匙串Keychain的安全性依赖于苹果提供的安全，尽管苹果系统是安全的，苹果系统里面的加密的Keychain更加安全，但出于高安全的考虑，我们尽量避免明文储存密码等敏感信息，一般都是加密后存储在Keychain里面，增加安全系数。</li>
+  <li>同一公司开发的App可设置共享部分。如图：</li>
+</ul>
+
+<p>3.1、未对应用APP的进行配置时，会默认存储在自身BundleID的条目下，不能相互访问。</p>
+
+<p><img src="/images/posts/keychain/appKeychain1.png" alt=" " /></p>
+
+<p>3.2、对APP的进行配置后，APP具有对某个条目的访问权限。</p>
+
+<p><img src="/images/posts/keychain/appKeychain2.png" alt=" " /></p>
+
+<h3 id="四app使用的钥匙串keychain与iphone中的的钥匙串的区别"><strong>四、App使用的钥匙串Keychain与iPhone中的的钥匙串的区别</strong></h3>
+
+<p>4.1、iPhone中的钥匙串功能：保存各种密码、WiFi、appleID、网站密码等等。</p>
+
+<p><img src="/images/posts/keychain/iosKeychainSw.png" alt=" " /></p>
+
+<p>4.2、App中的钥匙串Keychain主要是保存App的用户名密码等重要信息。</p>
+
+<p><img src="/images/posts/keychain/keychainSw.png" alt=" " /></p>
+
+<h3 id="五app的keychain清除条件"><strong>五、App的Keychain清除条件</strong></h3>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">操作条件</th>
+      <th style="text-align: center">更换Apple ID</th>
+      <th style="text-align: center">还原所有设置</th>
+      <th style="text-align: center">抹掉所有内容和设置</th>
+      <th style="text-align: center">还原网络设置</th>
+      <th style="text-align: center">还原键盘字典</th>
+      <th style="text-align: center">还原主屏幕布局</th>
+      <th style="text-align: center">还原位置与隐私</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">是否清除Keychain数据</td>
+      <td style="text-align: center">否</td>
+      <td style="text-align: center">否</td>
+      <td style="text-align: center">是</td>
+      <td style="text-align: center">否</td>
+      <td style="text-align: center">否</td>
+      <td style="text-align: center">否</td>
+      <td style="text-align: center">否</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <ul>
+    <li>更换Apple ID，不会抹去应用App和Keychain内容。这一点我开始有点主观臆断，以为Apple ID和Windows用户一样，不同用户间互不干扰。更换Apple ID后，App仍旧能读取存储在Keychain的内容。更换Apple ID只会抹除照片图库，通讯录，Safari的账户信息等。</li>
+    <li>还原所有设置，不能删除App，也不能删除Keychain。</li>
+    <li>抹掉所有内容和设置会清空手机，并清空Keychain里面的内容。</li>
+    <li>还原网络设置，将删除所有的网络设置，将WiFi，4G等网络设置还原为出厂设置。</li>
+    <li>还原键盘字典，将删除键盘上键入的所有自定义字，并将键盘字典恢复为出厂设置。</li>
+    <li>还原主屏幕布局，将主屏幕还原为厂家默认的布局。</li>
+    <li>还原位置与隐私，会将手机的位置和隐私设置还原为厂家默认值。</li>
+  </ul>
+</blockquote>
+
+
+
+  </section>
+</article>
+
+<section>
+
+            <div class="content-play">
+              <p><a href="javascript:void(0)" onclick="dashangToggle()" class="dashang" title="打赏，支持一下">支持作者</a></p>
+              <div class="hide_box-play"></div>
+              <div class="shang_box-play">
+                <a class="shang_close-play" href="javascript:void(0)" onclick="dashangToggle()" title="关闭"><img src="/images/payimg/close.jpg" alt="取消" /></a>
+                <div class="shang_tit-play">
+                  <p>感谢您的支持，我会继续努力的!</p>
+                </div>
+                <div class="shang_payimg">
+                    <img src="/images/payimg/alipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+              <div class="shang_payimg">    
+                    <img src="/images/payimg/weipayimg.jpg" alt="扫码支持" title="扫一扫" />
+                </div>
+                <div class="pay_explain">谢谢您的咖啡☕️</div>
+                <div class="shang_payselect">
+                  <div class="pay_item checked" data-id="alipay">
+                    <span class="pay_logo"><img src="/images/payimg/alipay.jpg" alt="支付宝" /></span>
+                  </div>
+                  <div class="pay_item" data-id="weipay">
+                    <span class="pay_logo"><img src="/images/payimg/wechat.jpg" alt="微信" /></span>
+                  </div>
+                </div>
+                <div class="shang_info-play">
+                  <p>打开<span id="shang_pay_txt">支付宝</span>扫一扫，即可进行扫码打赏哦</p>
+                </div>
+              </div>
+            </div>
+            <script type="text/javascript">
+            function dashangToggle(){
+              $(".hide_box-play").fadeToggle();
+              $(".shang_box-play").fadeToggle();
+            }
+            </script>
+
+            <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+            <style type="text/css">
+              .content-play{width:80%;margin-top: 20px;margin-bottom: 10px;height:40px;}
+              .hide_box-play{z-index:999;filter:alpha(opacity=50);background:#666;opacity: 0.5;-moz-opacity: 0.5;left:0;top:0;height:99%;width:100%;position:fixed;display:none;}
+              .shang_box-play{width:540px;height:540px;padding:10px;background-color:#fff;border-radius:10px;position:fixed;z-index:1000;left:50%;top:50%;margin-left:-280px;margin-top:-280px;border:1px dotted #dedede;display:none;}
+              .shang_box-play img{border:none;border-width:0;}
+              .dashang{display:block;width:100px;margin:5px auto;height:25px;line-height:25px;padding:10px;background-color:#E74851;color:#fff;text-align:center;text-decoration:none;border-radius:10px;font-weight:bold;font-size:16px;transition: all 0.3s;}
+              .dashang:hover{opacity:0.8;padding:15px;font-size:18px;}
+              .shang_close-play{float:right;display:inline-block;
+                margin-right: 10px;margin-top: 20px;
+              }
+              .shang_logo{display:block;text-align:center;margin:20px auto;}
+              .shang_tit-play{width: 100%;height: 75px;text-align: center;line-height: 66px;color: #a3a3a3;font-size: 16px;background: url('/images/payimg/cy-reward-title-bg.jpg');font-family: 'Microsoft YaHei';margin-top: 7px;margin-right:2px;}
+              .shang_tit-play p{color:#a3a3a3;text-align:center;font-size:16px;}
+              .shang_payimg{width:140px;padding:10px;padding-left: 80px; /*border:6px solid #EA5F00;**/margin:0 auto;border-radius:3px;height:140px;display:inline-block;}
+              .shang_payimg img{display:inline-block;margin-right:10px;float:left;text-align:center;width:140px;height:140px; }
+              .pay_explain{text-align:center;margin:10px auto;font-size:12px;color:#545454;}
+              .shang_payselect{text-align:center;margin:0 auto;margin-top:40px;cursor:pointer;height:60px;width:500px;margin-left:110px;}
+              .shang_payselect .pay_item{display:inline-block;margin-right:140px;float:left;}
+              .shang_info-play{clear:both;}
+              .shang_info-play p,.shang_info-play a{color:#C3C3C3;text-align:center;font-size:12px;text-decoration:none;line-height:2em;}
+            </style>
+
+       <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2017/01/Shell-%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/" data-toggle="tooltip" data-placement="top" title="Shell 使用总结">上一篇：  <span>Shell 使用总结</span>
+            </a>
+        </li>
+        
+        
+        <li class="next">
+            <a href="/2017/05/iOS-%E9%80%9A%E7%94%A8%E9%93%BE%E6%8E%A5(Universal-Link)/" data-toggle="tooltip" data-placement="top" title=" iOS 通用链接(Universal Link)">下一篇：  <span> iOS 通用链接(Universal Link)</span>
+            </a>
+        </li>
+        
+    </ul>
+</section>
+
+<section class="post-comments">
+
+</section>
+
+
+            <section class="footer">
+    <footer>
+        <div class = "footer_div">  
+        <nav class="cover-navigation navigation--social">
+          <ul class="navigation">
+
+          
+          <!-- Github -->
+          <li class="navigation__item_social">
+            <a href="https://github.com/muzipiao" title="@muzipiao 的 Github" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/github.png);"></div>
+            </a>
+          </li>
+          
+
+          
+
+          
+          <!-- Zhihu -->
+          <li class="navigation__item_social">
+            <a href="https://juejin.im/user/5b2f1c51f265da59ad439f69" title="@5b2f1c51f265da59ad439f69" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/juejin.png);"></div>
+            </a>
+          </li>
+
+          
+
+          
+
+          
+
+          
+          
+
+
+          
+          <!-- Email -->
+          <li class="navigation__item_social">
+            <a href="mailto:lifei_zdjl@126.com" title="Contact me">
+              <div class="footer-social-icon" style="background-image:url(/images/email.png);"></div>
+            </a>
+          </li>
+          
+          
+          <!-- RSS -->
+          <li class="navigation__item_social">
+            <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+              <div class="footer-social-icon" style="background-image:url(/images/rss.png);"></div>
+              <span class="label">RSS</span>
+            </a>
+          </li>
+
+          </ul>
+        </nav>
+        </div>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>
