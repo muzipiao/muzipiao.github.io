@@ -431,6 +431,12 @@ img::-moz-selection {
     color: #7b0f19; 
 }
 
+.footer__copyright img {
+    vertical-align: middle;
+    width: 13px;
+    height: 13px;
+}
+
 .beian
 
 .avatar,
