@@ -5,9 +5,77 @@
     <description>欢迎来到我的Blog~</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 03 Sep 2020 16:51:47 +0800</pubDate>
-    <lastBuildDate>Thu, 03 Sep 2020 16:51:47 +0800</lastBuildDate>
+    <pubDate>Fri, 04 Dec 2020 19:02:26 +0800</pubDate>
+    <lastBuildDate>Fri, 04 Dec 2020 19:02:26 +0800</lastBuildDate>
     <generator>Jekyll v4.1.1</generator>
+    
+      <item>
+        <title>iOS 手机号一键登录</title>
+        <description>&lt;h2 id=&quot;什么是一键登录&quot;&gt;什么是一键登录&lt;/h2&gt;
+
+&lt;p&gt;iOS 无法直接获取当前设备手机号码（不包含使用私有 API），但电信服务运营商（移动/联通/电信等）是知道流量哪张手机卡消耗的，结合运营商的网关认证能力，就可以识别出当前使用的手机卡号码。通常说的场景是指&lt;strong&gt;一键登录&lt;/strong&gt;和&lt;strong&gt;本机号码认证&lt;/strong&gt;两个不同的功能，使用场景不一样，无需一起使用。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;一键登录使用场景&lt;/strong&gt;：用户无需输入手机号码，SDK 会拉起授权页，用户确认授权后，SDK 会获取 token，服务端携带 token 到运营商网关获取用户当前上网使用的号码（eg. 服务端调用 GetMobile 接口），并返回给 App 服务端，服务端可将当前用户置为登录状态，并把手机号返回客户端。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;本机号码认证使用场景&lt;/strong&gt;：用户输入手机号码，通过 SDK 获取 token，服务端携带输入的手机号码和 token 去运营商网关进行校验（eg. 服务端调用 VerifyMobile 接口），返回的结果是用户当前上网使用的号码与输入的号码是否一致。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;token 由集成的 SDK 生成，例如集成的是移动认证 SDK，则调用对应 API 返回 token；&lt;/li&gt;
+  &lt;li&gt;用户必须开启 4G 流量，如果是多卡手机，则只能认证当前使用的流量的手机卡，2G/3G 影响识别效果；&lt;/li&gt;
+  &lt;li&gt;手机号一键登录功能不支持任意应用，待使用的 APP 必须在管理平台配置对应的 APP 包名和唯一标识（Android为签名，iOS 为 Bundle ID）。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;运营商&quot;&gt;运营商&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;电信运营商都公布自己的开放平台和 SDK：&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;移动 - 互联网能力开放平台（http://dev.10086.cn/numIdentific?from=index）&lt;/li&gt;
+  &lt;li&gt;电信 - 天翼账号开放平台（http://id.189.cn/banner/unPassword）&lt;/li&gt;
+  &lt;li&gt;联通 - WO+ 开放平台（http://www.open.wo.com.cn/aep/index.html）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;三方运营商：&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;三方运营商一般会整合了三大运营商的网关认证能力，其实就是在三大运营商 SDK 基础上进行了封装。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;极光认证（https://www.jiguang.cn/identify）&lt;/li&gt;
+  &lt;li&gt;友盟认证（https://market.aliyun.com/products/57124001/cmapi00036707.html）&lt;/li&gt;
+  &lt;li&gt;网易认证（https://dun.163.com/product/phone-verification）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;集成测试对比，移动、极光和友盟，文档较齐全，移动 SDK 与项目冲突概率较小，极光和友盟可能需要项目已集成的对应 SDK 基础库版本，友盟还可能会与其他阿里组件冲突。&lt;/p&gt;
+
+&lt;h2 id=&quot;一键登录流程&quot;&gt;一键登录流程&lt;/h2&gt;
+
+&lt;p&gt;一键登录与本机号码认证流程很类似，用户使用体验的区别，可简单归纳为是否输入手机号码。一键登录流程如下：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;SDK 初始化：调用 SDK 的初始化方法，传入项目在平台上的 AppKey 和 AppSecret；&lt;/li&gt;
+  &lt;li&gt;唤起授权页：调用 SDK 唤起授权接口。SDK 会先向运营商发起获取手机号掩码的请求，请求成功后跳转到授权页。授权页会显示手机号掩码以及运营商协议给用户确认；&lt;/li&gt;
+  &lt;li&gt;同意授权并登录：用户同意相关协议，点击授权页面的登录按钮，SDK 会请求本次取号的 token，请求成功后将 token 返回给客户端；&lt;/li&gt;
+  &lt;li&gt;取号：将获取到的 token 发送到我们自己的服务器，由服务器携带 token 调用运营商一键登录的接口，调用成功就返回手机号码了。服务器用手机号进行登录或注册操作，返回操作结果给客户端，完成一键登录。&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;流程图如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/phone_oauth/phone_oauth0.png&quot; alt=&quot;一键登录流程&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;一键登录授权页面大致如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/phone_oauth/phone_oauth1.png&quot; alt=&quot;一键登录授权&quot; /&gt;&lt;/p&gt;
+</description>
+        <pubDate>Fri, 09 Oct 2020 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2020/10/iOS-%E6%89%8B%E6%9C%BA%E5%8F%B7%E4%B8%80%E9%94%AE%E7%99%BB%E5%BD%95/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/10/iOS-%E6%89%8B%E6%9C%BA%E5%8F%B7%E4%B8%80%E9%94%AE%E7%99%BB%E5%BD%95/</guid>
+        
+        <category>iOS</category>
+        
+        
+      </item>
     
       <item>
         <title>开发者快速配置环境指南</title>
@@ -2436,309 +2504,6 @@ NSLog(@&quot;解压缩失败&quot;);
         <guid isPermaLink="true">http://localhost:4000/2018/06/ZipperDown-%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D/</guid>
         
         <category>ZipperDown</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>iOS 组件化方案选型</title>
-        <description>&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;#1_0&quot;&gt;一、组件化概念&lt;/a&gt;
-    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#1_1&quot;&gt;1.1、项目目前现状&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#1_2&quot;&gt;1.2、解决方案&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#1_3&quot;&gt;1.3、正确的组件化解耦&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#2_0&quot;&gt;二、组件化主流方案&lt;/a&gt;
-    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#2_1&quot;&gt;2.1、url-block (代表：蘑菇街组件化方案MGJRouter)&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#2_2&quot;&gt;2.2、Protocol方案(代表：阿里的BeeHive)&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#2_3&quot;&gt;2.3、Target-Action方案(casatwy组件化方案)&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#3_0&quot;&gt;三、组件化方案对比&lt;/a&gt;
-    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#3_1&quot;&gt;3.1、url-block方式&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#3_2&quot;&gt;3.2、Protocol方案&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#3_3&quot;&gt;3.3、Target_Action方案&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#4_0&quot;&gt;四、组件化实现原则&lt;/a&gt;
-    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#4_1&quot;&gt;4.1、抽象化原则&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#4_2&quot;&gt;4.2、稳定性原则&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#4_3&quot;&gt;4.3、自备性完整&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#4_4&quot;&gt;4.4、不要让Common出现&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#4_5&quot;&gt;4.5、业务模块真正解耦&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#4_6&quot;&gt;4.6、单向依赖&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#5_0&quot;&gt;五、组件化具体实施步骤&lt;/a&gt;
-    &lt;ul&gt;
-      &lt;li&gt;&lt;a href=&quot;#5_1&quot;&gt;5.1、组件化第一步，剥离产品公共库和基础库&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#5_2&quot;&gt;5.2、组件化第二步，独立业务模块单独成库&lt;/a&gt;&lt;/li&gt;
-      &lt;li&gt;&lt;a href=&quot;#5_3&quot;&gt;5.3、组件化第三步，对外服务最小化&lt;/a&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#6_0&quot;&gt;六、总结&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;#7_0&quot;&gt;七、参考&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;-一组件化概念&quot;&gt;&lt;a id=&quot;1_0&quot;&gt;&lt;/a&gt; 一、组件化概念&lt;/h2&gt;
-
-&lt;h3 id=&quot;-11项目目前现状&quot;&gt;&lt;a id=&quot;1_1&quot;&gt;&lt;/a&gt; 1.1、项目目前现状&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;各模块直接调用，耦合严重。业务模块间划分不清晰，相互引用，模块之间耦合度很大，非常难维护。&lt;/li&gt;
-  &lt;li&gt;所有模块代码都编写在一个项目中，测试某个模块或功能，需要编译运行整个项目，不能独立运行。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/module/1.1.png&quot; alt=&quot;耦合严重&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;-12解决方案&quot;&gt;&lt;a id=&quot;1_2&quot;&gt;&lt;/a&gt; 1.2、解决方案&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;所有的模块间的调用都会经过中间层中转(参考Router)，但是发现增加这个中间层后，耦合还是存在的。&lt;/li&gt;
-  &lt;li&gt;中间层对被调用模块存在耦合，其他模块也需要耦合中间层才能发起调用。这样还是存在之前的相互耦合的问题，虽然可解决了统一调用的问题，而且本质上比之前更麻烦了。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/module/1.2.png&quot; alt=&quot;错误解耦&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;-13正确的组件化解耦&quot;&gt;&lt;a id=&quot;1_3&quot;&gt;&lt;/a&gt; 1.3、正确的组件化解耦&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;正确的解耦应该是，只让其他模块对中间层产生耦合关系，中间层不对其他模块发生耦合。&lt;/li&gt;
-  &lt;li&gt;对于这个问题，可以采用组件化的架构，将每个模块作为一个组件。并且建立一个主项目，这个主项目负责集成所有组件。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/module/1.3.png&quot; alt=&quot;正确解耦&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;-二组件化主流方案&quot;&gt;&lt;a id=&quot;2_0&quot;&gt;&lt;/a&gt; 二、组件化主流方案&lt;/h2&gt;
-
-&lt;h3 id=&quot;-21url-block-代表蘑菇街组件化方案mgjrouter&quot;&gt;&lt;a id=&quot;2_1&quot;&gt;&lt;/a&gt; 2.1、url-block (代表：蘑菇街组件化方案MGJRouter)&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;蘑菇街通过&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;MGJRouter&lt;/code&gt;实现中间层，通过MGJRouter进行组件间的消息转发，从名字上来说更像是路由器。实现方式大致是，在提供服务的组件中提前注册block，然后在调用方组件中通过URL调用block，下面是调用方式。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;架构设计&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/module/2.1.png&quot; alt=&quot;架构设计&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;MGJRouter组件化架构&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/module/2.1_1.png&quot; alt=&quot;架构设计&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;MGJRouter是一个&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;单例对象&lt;/code&gt;，在其内部维护着一个&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;“URL -&amp;gt; block”&lt;/code&gt;格式的注册表，通过这个注册表来保存服务方注册的block，以及使调用方可以通过URL映射出block，并通过MGJRouter对服务方发起调用。&lt;/li&gt;
-  &lt;li&gt;在程序开始运行时，需要将所有服务方的接口类实例化，以完成这个注册工作，使MGJRouter中所有服务方的block可以正常提供服务。在这个服务注册完成后，就可以被调用方调起并提供服务。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;2.1.1 、MGJRouter调用，代码模拟对详情页的注册、调用，在调用过程中传递id参数。下面是注册的示例代码。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-Objective-C&quot;&gt;[MGJRouter registerURLPattern:@&quot;mgj://detail?id=id&quot; toHandler:^(NSDictionary *routerParameters) {
-// 下面可以在拿到参数后，为其他组件提供对应的服务
-NSString uid = routerParameters[@&quot;id&quot;];
-}];
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;2.1.2、通过openURL:方法传入的URL参数，对详情页已经注册的block方法发起调用。调用方式类似于GET请求，URL地址后面拼接参数。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-Objective-C&quot;&gt;[MGJRouter openURL:@&quot;mgj://detail?id=404&quot;];
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;2.1.3、也可以通过字典方式传参，MGJRouter提供了带有字典参数的方法，这样就可以传递非字符串之外的其他类型参数。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-Objective-C&quot;&gt;[MGJRouter openURL:@&quot;mgj://detail?&quot; withParam:@{@&quot;id&quot; : @&quot;404&quot;}];
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;短链管理这时候会发现一个问题，在蘑菇街组件化架构中，存在了很多硬编码的URL和参数。&lt;/li&gt;
-  &lt;li&gt;在代码实现过程中URL编写出错会导致调用失败，而且参数是一个字典类型，调用方不知道服务方需要哪些参数，这些都是个问题。&lt;/li&gt;
-  &lt;li&gt;对于这些数据的管理，蘑菇街开发了一个web页面，这个web页面统一来管理所有的URL和参数，Android和iOS都使用这一套URL，可以保持统一性。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;-22protocol方案代表阿里的beehive&quot;&gt;&lt;a id=&quot;2_2&quot;&gt;&lt;/a&gt; 2.2、Protocol方案(代表：阿里的BeeHive)&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;面向接口调用，我们知道只要直接引用代码，就会有依赖，比如：&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-Objective-C&quot;&gt;// A 模块
-- (void)getSomeDataFromB {
-B.getSomeData();
-}
-// B 模块
-- (void)getSomeData {
-return self.data;
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;strong&gt;那么我们可以实现一个 getSomeDataFromB 的接口，让 A 只依赖这个接口，而 B 来实现这个接口，这样就实现了 A 与 B 的解耦。&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-Objective-C&quot;&gt;// 接口
-@protocol BService &amp;lt;NSObject&amp;gt;
-- (void)getSomeData;
-@end
-// A 模块, 只依赖接口
-- (void)getSomeDataFromB {
-id b = findService(@protocol(BService));
-b.getSomeData;
-}
-// B 模块，实现BService接口
-@interface B : NSObject &amp;lt;BService&amp;gt;
-- (void)getSomeData {
-return self.data;
-}
-@end
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;strong&gt;这样就可以实现了即满足了模块之间调用，也实现了解耦。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;优点：&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;接口类似代码，可以非常灵活的定义函数和回调等。&lt;/li&gt;
-  &lt;li&gt;解决了硬编码的问题。&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;缺点：&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;接口定义文件需要放在一个模块以供依赖，但是这个模块不回贡献代码，所以还好。&lt;/li&gt;
-  &lt;li&gt;使用较为麻烦，每各调用都需要定义一个service，并实现, 对于一些具有普适性规律的场景不太合适，比如页面统一跳转。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;strong&gt;BeeHive框架&lt;/strong&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Module负责管理模块的注册和释放&lt;/li&gt;
-  &lt;li&gt;Protocol负责公开组件开放的接口&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/module/2.2.jpg&quot; alt=&quot;BeeHive框架&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;优势：扩展组件的生命周期，大厂开源
-注意：BeeHive采用GPL开源协议，若有修改，不允许私有化，必须开源分享。&lt;/strong&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;-23target-action方案casatwy组件化方案&quot;&gt;&lt;a id=&quot;2_3&quot;&gt;&lt;/a&gt; 2.3、Target-Action方案(casatwy组件化方案)&lt;/h3&gt;
-
-&lt;h4 id=&quot;231调用方式&quot;&gt;2.3.1、调用方式&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;整体架构casatwy组件化方案分为两种调用方式，远程调用和本地调用，对于两个不同的调用方式分别对应两个接口。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;远程调用通过AppDelegate代理方法传递到当前应用后，调用远程接口并在内部做一些处理，处理完成后会在远程接口内部调用本地接口，以实现本地调用为远程调用服务。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;本地调用由performTarget:action:params:方法负责，但调用方一般不直接调用performTarget:方法。CTMediator会对外提供明确参数和方法名的方法，在方法内部调用performTarget:方法和参数的转换。&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;232架构设计思路&quot;&gt;2.3.2、架构设计思路&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;casatwy是通过CTMediator类实现组件化的，在此类中对外提供明确参数类型的接口，接口内部通过performTarget方法调用服务方组件的Target、Action。&lt;/li&gt;
-  &lt;li&gt;由于CTMediator类的调用是通过runtime主动发现服务的，所以服务方对此类是完全解耦的。&lt;/li&gt;
-  &lt;li&gt;但如果CTMediator类对外提供的方法都放在此类中，将会对CTMediator造成极大的负担和代码量。&lt;/li&gt;
-  &lt;li&gt;解决方法就是对每个服务方组件创建一个CTMediator的Category，并将对服务方的performTarget调用放在对应的Category中，这些Category都属于CTMediator中间件，从而实现了感官上的接口分离。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h4 id=&quot;233casatwy组件化实现细节&quot;&gt;2.3.3、casatwy组件化实现细节&lt;/h4&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;对于服务方的组件来说，每个组件都提供一个或多个Target类，在Target类中声明Action方法。&lt;/li&gt;
-  &lt;li&gt;Target类是当前组件对外提供的一个“服务类”，Target将当前组件中所有的服务都定义在里面，CTMediator通过runtime主动发现服务。&lt;/li&gt;
-  &lt;li&gt;在Target中的所有Action方法，都只有一个字典参数，所以可以传递的参数很灵活，这也是casatwy提出的去Model化的概念。&lt;/li&gt;
-  &lt;li&gt;在Action的方法实现中，对传进来的字典参数进行解析，再调用组件内部的类和方法。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;-三组件化方案对比&quot;&gt;&lt;a id=&quot;3_0&quot;&gt;&lt;/a&gt; 三、组件化方案对比&lt;/h2&gt;
-
-&lt;h3 id=&quot;-31url-block方式&quot;&gt;&lt;a id=&quot;3_1&quot;&gt;&lt;/a&gt; 3.1、url-block方式&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;硬编码问题，每个组件参数调用都需要查找对应。蘑菇街为此开发了一个web页面，这个web页面统一来管理所有的URL和参数。&lt;/li&gt;
-  &lt;li&gt;需要在内存中维护url-block的表，组件多了可能会有内存问题。&lt;/li&gt;
-  &lt;li&gt;url的参数传递受到限制，只能传递常规的字符串参数，无法传递非常规参数，如UIImage、NSData等类型。&lt;/li&gt;
-  &lt;li&gt;没有区分本地调用和远程调用的情况，尤其是远程调用，会因为url参数受限，导致一些功能受限。&lt;/li&gt;
-  &lt;li&gt;组件本身依赖了中间件，且分散注册使的耦合较多。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;-32protocol方案&quot;&gt;&lt;a id=&quot;3_2&quot;&gt;&lt;/a&gt; 3.2、Protocol方案&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;0硬编码，代码可读性高;&lt;/li&gt;
-  &lt;li&gt;Protocol方案需要在启动的时候向ProtocolManager注册，侵入较大。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;-33target_action方案&quot;&gt;&lt;a id=&quot;3_3&quot;&gt;&lt;/a&gt; 3.3、Target_Action方案&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;侵入最小，但硬编码较多。&lt;/li&gt;
-  &lt;li&gt;runtime编译阶段不检查,运行时才检查对应类或者方法是否存在，对开发要求较高。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;-四组件化实现原则&quot;&gt;&lt;a id=&quot;4_0&quot;&gt;&lt;/a&gt; 四、组件化实现原则&lt;/h2&gt;
-
-&lt;h3 id=&quot;-41抽象化原则&quot;&gt;&lt;a id=&quot;4_1&quot;&gt;&lt;/a&gt; 4.1、抽象化原则&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;越底层的模块，应该越稳定，越抽象，越具有高复用度。&lt;/li&gt;
-  &lt;li&gt;稳定的最直观表现就是API很久都不用变化，所有的变化因子不要暴露出来，避免传递给依赖它的模块。&lt;/li&gt;
-  &lt;li&gt;但是要做到设计一套API很久都不用改变，那么就需要设计的时候能越抽象, 即需要我们抽象总结的能力。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;-42稳定性原则&quot;&gt;&lt;a id=&quot;4_2&quot;&gt;&lt;/a&gt; 4.2、稳定性原则&lt;/h3&gt;
-
-&lt;p&gt;不要让稳定的模块依赖不稳定的模块， 减少依赖，稳定性 还有一个特点就是会传递，比如 B 模块依赖了 A 模块，如果 B 模块很稳定，但是 A 模块不稳定，那么B模块也会变的不稳定了。&lt;/p&gt;
-
-&lt;h3 id=&quot;-43自备性完整&quot;&gt;&lt;a id=&quot;4_3&quot;&gt;&lt;/a&gt; 4.3、自备性完整&lt;/h3&gt;
-
-&lt;p&gt;提升模块的复用度，自完备性有时候要优于代码复用；什么是自完备性，就是尽可能的依赖少的模块来达到代码可复用；我有个模块 Utils 里面放了大量的category工具方法等，在日常UI产品开发中，依赖这个Utils会很方便，但是我现在要写一个比较基础的模块，应该就要求复用度更高一些，这个时候需要用到Utils里面的几个方法，那这个时候还适合直接依赖Utils吗，当然不合适了，这与我们上面的设计原则相悖了啊，因此我们这时候为了这个模块的自完备性，就可以重新实现下这几个方法，而不是依赖Utils模块。&lt;/p&gt;
-
-&lt;h3 id=&quot;-44不要让common出现&quot;&gt;&lt;a id=&quot;4_4&quot;&gt;&lt;/a&gt; 4.4、不要让Common出现&lt;/h3&gt;
-
-&lt;p&gt;每个模块只做好一件事情，不要让Common出现，按照你架构的层数从上到下依赖，不要出现下层模块依赖上层模块的现象，业务模块之间也尽量不要耦合。&lt;/p&gt;
-
-&lt;h3 id=&quot;-45业务模块真正解耦&quot;&gt;&lt;a id=&quot;4_5&quot;&gt;&lt;/a&gt; 4.5、业务模块真正解耦&lt;/h3&gt;
-
-&lt;p&gt;为什么要解耦吧，模块化并不是说你把工程的代码拆分成 50 个 pod 或者framework就算完事了，要实现模块之间真正的解耦才算真正的模块化，否则如果模块之间还都是互相调用代码，循环依赖，那么和原本放文件夹里面没啥两样。那么什么是模块间的解耦呢？模块解耦的目标就是, 在基于模块设计原则上, 让模块之间没有循环依赖, 让业务模块之间解除依赖。&lt;/p&gt;
-
-&lt;h3 id=&quot;-46单向依赖&quot;&gt;&lt;a id=&quot;4_6&quot;&gt;&lt;/a&gt; 4.6、单向依赖&lt;/h3&gt;
-
-&lt;p&gt;基础模块下沉，这块其实还是讲的模块设计，一个工程的架构可能会分为很多层，然而在开发的过程中，很容易有人不注意让应该处于较底层的模块依赖了上层的模块，这种情况下应该对模块的设计进行改造实现单向依赖。&lt;/p&gt;
-
-&lt;h2 id=&quot;-五组件化具体实施步骤&quot;&gt;&lt;a id=&quot;5_0&quot;&gt;&lt;/a&gt; 五、组件化具体实施步骤&lt;/h2&gt;
-
-&lt;h3 id=&quot;-51组件化第一步剥离产品公共库和基础库&quot;&gt;&lt;a id=&quot;5_1&quot;&gt;&lt;/a&gt; 5.1、组件化第一步，剥离产品公共库和基础库&lt;/h3&gt;
-
-&lt;p&gt;包括组件中间件，网络请求，第三方SDK管理封装，WebView(封装js，且以服务形式提供)，自定义键盘，UI基础组件，分类。然后在项目里用pod进行管理。其中，针对三方库，最好再封装一层，使我们的项目不直接依赖三方库，方便后续开发过程中的更换。&lt;/p&gt;
-
-&lt;h3 id=&quot;-52组件化第二步独立业务模块单独成库&quot;&gt;&lt;a id=&quot;5_2&quot;&gt;&lt;/a&gt; 5.2、组件化第二步，独立业务模块单独成库&lt;/h3&gt;
-
-&lt;p&gt;拆分粒度可以先粗后细，将相对独立的组件拆分出来。在开发过程中，对一些独立的模块，如：登录模块、账户模块等等，也可以封装成组件，因为这些组件是项目强依赖的，调用的频次比较多。另外，在拆分组件化的过程中，拆分的粒度要合适，尽量做到组件的独立性。同时，组件化是一个渐进的过程，不可能把一个完整的工程一下子全部组件化，要分步进行，通过不停的迭代，来最终实现项目的组件化。&lt;/p&gt;
-&lt;h3 id=&quot;-53组件化第三步对外服务最小化&quot;&gt;&lt;a id=&quot;5_3&quot;&gt;&lt;/a&gt; 5.3、组件化第三步，对外服务最小化&lt;/h3&gt;
-
-&lt;p&gt;在前两步都完成的情况下，我们可以根据组件被调用的需求来抽象出组件对外的最小化接口。&lt;/p&gt;
-
-&lt;h2 id=&quot;-六总结&quot;&gt;&lt;a id=&quot;6_0&quot;&gt;&lt;/a&gt; 六、总结&lt;/h2&gt;
-
-&lt;p&gt;组件化方案选型到此结束，但实际实施起来估计又会遇到各种蛋疼的事，尤其是一些旧项目，一堆一堆无注释的旧代码旧逻辑，看起来没用，但又不敢贸然删除，每删除一段代码就需要把像粑粑一样的代码逻辑捋一遍，个中滋味不便于人细说！&lt;/p&gt;
-
-&lt;p&gt;如果您觉得有所帮助，请在&lt;a href=&quot;https://github.com/muzipiao&quot;&gt;GitHub&lt;/a&gt;上赏个Star ⭐️，您的鼓励是我前进的动力&lt;/p&gt;
-
-&lt;h2 id=&quot;-七参考&quot;&gt;&lt;a id=&quot;7_0&quot;&gt;&lt;/a&gt; 七、参考&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://limboy.me/tech/2016/03/10/mgj-components.html&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://limboy.me/tech/2016/03/10/mgj-components.html&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://www.open-open.com/lib/view/open1487318191631.html&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://blog.cnbang.net/tech/3080/&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://limboy.me/tech/2016/03/10/mgj-components.html&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Tue, 05 Jun 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/06/iOS-%E7%BB%84%E4%BB%B6%E5%8C%96%E6%96%B9%E6%A1%88%E9%80%89%E5%9E%8B/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/06/iOS-%E7%BB%84%E4%BB%B6%E5%8C%96%E6%96%B9%E6%A1%88%E9%80%89%E5%9E%8B/</guid>
-        
-        <category>组件化</category>
         
         
       </item>
