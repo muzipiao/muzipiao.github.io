@@ -29,6 +29,8 @@ jobs:
       
       # Runs a set of commands using the runners shell
       - name: Get cocoafei.top response status code.
+        with:
+          username: ${{secrets.MAIL_USERNAME}}
         run: |
           export status_code=$(curl -I -m 15 -s -w "%{http_code}\n" -o /dev/null  cocoafei.top)
           echo "abccc${{secrets.MAIL_USERNAME}}+"${{secrets.MAIL_USERNAME}}

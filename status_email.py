@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding=UTF-8
 
-import sys
+import os, sys
 import smtplib
 from email.mime.text import MIMEText
 
@@ -14,6 +14,9 @@ mail_host = "smtp.qq.com"
 mail_user = str(sys.argv[1])
 mail_pass = str(sys.argv[2])
 status_code = int(sys.argv[3])
+
+user_name = os.popen("echo $username").read()
+print("用户名：" + str(user_name))
 
 if status_code == 301 or status_code == 200:
     print("网站状态正常" + str(status_code))
