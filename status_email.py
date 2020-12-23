@@ -17,6 +17,7 @@ status_code = int(sys.argv[3])
 
 user_name = os.popen("echo $username").read()
 print("用户名：" + str(user_name))
+print("用户名：" + mail_user)
 
 if status_code == 301 or status_code == 200:
     print("网站状态正常" + str(status_code))
