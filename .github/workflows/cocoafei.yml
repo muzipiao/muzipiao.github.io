@@ -21,27 +21,28 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Runs a set of commands using the runners shell
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      # Runs a single command using the runners shell
+      # - name: Run a one-line script
+      #   run: echo $(curl -I -m 15 -s -w "%{http_code}\n" -o /dev/null  cocoafei.top) > status_code.txt
+      
+      Runs a set of commands using the runners shell
       - name: Get cocoafei.top response status code.
         run: |
           export status_code=$(curl -I -m 15 -s -w "%{http_code}\n" -o /dev/null  cocoafei.top)
-          echo cocoafei.top response status code is "$status_code" or $status_code or ${status_code}. > status_code.txt
-          echo "--------------------------"
-          cat status_code.txt
-      
-      # Runs a single command using the runners shell
-      - name: Get global variable.
-        run: echo Hello, "$status_code" or $status_code or ${status_code}!
+          echo "abccc${{secrets.MAIL_USERNAME}}+"${{secrets.MAIL_USERNAME}}
+          python ./status_email.py ${{secrets.MAIL_USERNAME}} ${{secrets.MAIL_PASSWORD}} $status_code
 
-      # Runs a set of commands using the runners shell
-      - name: Send mail
-        uses: dawidd6/action-send-mail@v2
-        with:
-          server_address: smtp.qq.com
-          server_port: 587
-          username: ${{secrets.MAIL_USERNAME}}
-          password: ${{secrets.MAIL_PASSWORD}}
-          subject: Github Actions - ping cocoafei.top
-          body: file://status_code.txt
-          to: lifei_zdjl@qq.com,lifei_zdjl@126.com
-          from: Github Actions
+      # Send email
+      # - name: Send mail
+      #   uses: dawidd6/action-send-mail@v2
+      #   with:
+      #     server_address: smtp.qq.com
+      #     server_port: 587
+      #     username: ${{secrets.MAIL_USERNAME}}
+      #     password: ${{secrets.MAIL_PASSWORD}}
+      #     subject: Github Actions - ping cocoafei.top
+      #     body: file://status_code.txt
+      #     to: lifei_zdjl@qq.com,lifei_zdjl@126.com
+      #     from: Github Actions
