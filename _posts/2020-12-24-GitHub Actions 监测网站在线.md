@@ -9,12 +9,12 @@ tag: GitHub
 
 ## GitHub Actions
 
-GitHub Actions 是 GitHub 的持续集成服务，如果接触过 Jenkins 或 Travis CI，那么对持续集成不会陌生。我们经常使用的功能，在 push 代码到仓库时触发或定时触发抓取代码、自动打包、自动部署到服务器、自动化测试等，都属于持续集成类。GitHub Actions 功能更强大，不仅可以自己添加脚本，而且允许开发者分享自己的脚本到[应用市场](https://github.com/marketplace?type=actions)，其他人使用时直接引用即可。
+GitHub Actions 是 GitHub 的持续集成服务，如果接触过 Jenkins 或 Travis CI，那么对持续集成不会陌生。我们经常使用的功能，在 push 代码到仓库时，或定时抓取代码、自动打包、自动部署到服务器、自动化测试等，都属于持续集成类。GitHub Actions 功能更强大，不仅可以自己添加脚本，而且允许开发者分享自己的脚本到[Actions 应用市场](https://github.com/marketplace?type=actions)，其他人使用时直接引用即可。
 
-例如下方所示工作流程，引用应用市场他人脚本`dawidd6/action-send-mail@v2` 可实现 push 代码到仓库时，使用谷歌邮箱自动发送一封 Email 到指定邮箱，内容为 README.md 文本内容。其中 `{% raw %}${{secrets.MAIL_USERNAME}}{% endraw %}` 和 `{% raw %}${{secrets.MAIL_PASSWORD}}{% endraw %}` 分别为邮箱账号和授权码，注意一定**不要在代码中直接使用密码**，密钥类要配置在当前仓库的`Settings/Secrets`目录下，使用`{% raw %}${{secrets.变量名称}}{% endraw %}`引用，具体配置方法，稍后具体说明。
+通过一个示例工作流程，对 GitHub Actions 先有一个简单印象。如下名称为 Notice 工作流程可实现 push 代码到仓库时，使用谷歌邮箱自动发送一封 Email 到指定邮箱。
 
 ```yml
-name: CI 
+name: Notice 
 on:
   push:
     branches: [ master ]
@@ -34,6 +34,10 @@ jobs:
           to: obiwan@tatooine.com,yoda@dagobah.com
           from: Luke Skywalker
 ```
+
+Notice 工作流程的实现，除了设置触发条件外，主要通过引用他人脚本`dawidd6/action-send-mail@v2` 实现发送邮件功能，邮件内容可以为字符串或文件，这里为 README.md 文本内容。
+
+工作流程中的 `{% raw %}${{secrets.MAIL_USERNAME}}{% endraw %}` 和 `{% raw %}${{secrets.MAIL_PASSWORD}}{% endraw %}` 分别为邮箱账号和授权码，注意**不要在代码中直接使用密码**，密钥类要配置在当前仓库的`Settings/Secrets`目录下，使用`{% raw %}${{secrets.变量名称}}{% endraw %}`引用，具体配置方法，稍后具体说明。
 
 ## 监测网站
 
@@ -68,7 +72,7 @@ curl -I -m 15 -s -w "%{http_code}\n" -o /dev/null  cocoafei.top
 
 ## python 发送 Email
 
-由于需要判断网站状态，网站不在线时再发送邮件，在线时忽略，市场上发送邮件的 Action 不符合需求。
+由于需要判断网站状态，网站不在线时再发送邮件，在线时忽略，市场上发送邮件的 Action 不符合需求，我们自己写一个 Python 脚本来实现。
 
 使用 Python 脚本实现判断状态码和发邮件功能，需要传入三个参数，分别是发送邮件的邮箱名称，邮箱授权码和 curl 网站获取的网络状态码。
 
