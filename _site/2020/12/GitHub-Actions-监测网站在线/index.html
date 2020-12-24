@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>GitHub Actions 监测网站在线</title>
+  <meta name="description" content="GitHub Actions">
+  <meta name="author" content="leopardpan">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="GitHub Actions 监测网站在线">
+  <meta name="twitter:description" content="GitHub Actions">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="GitHub Actions 监测网站在线">
+  <meta property="og:description" content="GitHub Actions">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//libs.baidu.com/fontawesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2020/12/GitHub-Actions-%E7%9B%91%E6%B5%8B%E7%BD%91%E7%AB%99%E5%9C%A8%E7%BA%BF/">
+  <link rel="alternate" type="application/rss+xml" title="cocoafei" href="http://localhost:4000/feed.xml">
+
+<!-- 百度统计 -->
+  
+
+<!-- google 统计 -->
+  
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.png')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">            
+            <a href="/#blog" title="前往 cocoafei 的主页" class="blog-button">
+                <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                <div class="info">
+                    <div class="info-back">
+                        <h2> 
+                            
+                                cocoafei
+                            
+                        </h2>
+                        <p>
+                           
+                                iOS / Python
+                            
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for cocoafei" class="blog-button">cocoafei</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">个人站</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">欢迎来到我的Blog~</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                  <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                  <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+                  <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>          
+        </div>
+
+
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-clear"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">GitHub Actions 监测网站在线</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px" style="vertical-align:middle;"/> 
+      <time datetime="2020-12-24 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date" style="vertical-align:middle;">2020-12-24</time>
+    </p>  
+    </div>
+  </header>
+
+  <section class="post">
+    <h2 id="github-actions">GitHub Actions</h2>
+
+<p>GitHub Actions 是 GitHub 的持续集成服务，如果接触过 Jenkins 或 Travis CI，那么对持续集成不会陌生。我们经常使用的功能，在 push 代码到仓库时触发或定时触发抓取代码、自动打包、自动部署到服务器、自动化测试等，都属于持续集成类。GitHub Actions 功能更强大，不仅可以自己添加脚本，而且允许开发者分享自己的脚本到<a href="https://github.com/marketplace?type=actions">应用市场</a>，其他人使用时直接引用即可。</p>
+
+<p>例如下方所示工作流程，引用应用市场他人脚本<code class="language-plaintext highlighter-rouge">dawidd6/action-send-mail@v2</code> 可实现 push 代码到仓库时，使用谷歌邮箱自动发送一封 Email 到指定邮箱，内容为 README.md 文本内容。其中 <code class="language-plaintext highlighter-rouge">${{secrets.MAIL_USERNAME}}</code> 和 <code class="language-plaintext highlighter-rouge">${{secrets.MAIL_PASSWORD}}</code> 分别为邮箱账号和授权码，注意一定<strong>不要在代码中直接使用密码</strong>，密钥类要配置在当前仓库的<code class="language-plaintext highlighter-rouge">Settings/Secrets</code>目录下，使用<code class="language-plaintext highlighter-rouge">${{secrets.变量名称}}</code>引用，具体配置方法，稍后具体说明。</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">CI</span> 
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">push</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span> <span class="nv">master</span> <span class="pi">]</span>
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">build</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Send mail</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">dawidd6/action-send-mail@v2</span>
+        <span class="na">with</span><span class="pi">:</span>
+          <span class="na">server_address</span><span class="pi">:</span> <span class="s">smtp.gmail.com</span>
+          <span class="na">server_port</span><span class="pi">:</span> <span class="m">465</span>
+          <span class="na">username</span><span class="pi">:</span> <span class="s">${{secrets.MAIL_USERNAME}}</span>
+          <span class="na">password</span><span class="pi">:</span> <span class="s">${{secrets.MAIL_PASSWORD}}</span>
+          <span class="na">subject</span><span class="pi">:</span> <span class="s">Github Actions job result</span>
+          <span class="na">body</span><span class="pi">:</span> <span class="s">file://README.md</span>
+          <span class="na">to</span><span class="pi">:</span> <span class="s">obiwan@tatooine.com,yoda@dagobah.com</span>
+          <span class="na">from</span><span class="pi">:</span> <span class="s">Luke Skywalker</span>
+</code></pre></div></div>
+
+<h2 id="监测网站">监测网站</h2>
+
+<p>自建的网站/博客经常会出现 HTTPS 证书过期，服务器宕机等各种情况，这时候需要另外一台服务器定时监测网站是否在线。GitHub Actions 完全可以满足这个需求，通过定时执行脚本，来检测网站是否在线，而且是稳定免费的。</p>
+
+<p>实现思路：</p>
+
+<ol>
+  <li>添加一个工作流程 (workflow)，并设置定时触发（每隔 15 分钟）此工作流程；</li>
+  <li>在工作流程中使用 curl 命令检查 cocoafei.top 的 HTTP 请求状态码；</li>
+  <li>使用 python 脚本判断状态码，如果不是 200 或 301 就发送邮件通知，是的话忽略；</li>
+</ol>
+
+<p>流程图如下：</p>
+
+<p><img src="/images/posts/github_actions/flow_chart.png" alt="actions流程图" /></p>
+
+<h2 id="curl-查询网站状态">curl 查询网站状态</h2>
+
+<p>curl 功能很强大，我们判断网站是否在线，只需要使用 curl 查询请求网站，获取网站 HTTP 状态码，200/301 时表示网站正常。</p>
+
+<ul>
+  <li>-I 仅测试HTTP头</li>
+  <li>-m 15 表示最多查询15s</li>
+  <li>-o /dev/null 屏蔽原有输出信息</li>
+  <li>-s silent 模式，不输出任何东西</li>
+  <li>-w %{http_code} 控制额外输出</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 这里表示静默获取网站 cocoafei.top 的 HTTP 请求状态码，最多查询 15s</span>
+curl <span class="nt">-I</span> <span class="nt">-m</span> 15 <span class="nt">-s</span> <span class="nt">-w</span> <span class="s2">"%{http_code}</span><span class="se">\n</span><span class="s2">"</span> <span class="nt">-o</span> /dev/null  cocoafei.top
+</code></pre></div></div>
+
+<p><img src="/images/posts/github_actions/curl_result.png" alt="curl 查询结果" /></p>
+
+<h2 id="python-发送-email">python 发送 Email</h2>
+
+<p>由于需要判断网站状态，网站不在线时再发送邮件，在线时忽略，市场上发送邮件的 Action 不符合需求。</p>
+
+<p>使用 Python 脚本实现判断状态码和发邮件功能，需要传入三个参数，分别是发送邮件的邮箱名称，邮箱授权码和 curl 网站获取的网络状态码。</p>
+
+<p><strong>警告[FBI WARNING]</strong>⚠️：不要把邮箱授权码写在代码里面，会造成邮箱被盗。</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python
+# coding=UTF-8
+</span>
+<span class="kn">import</span> <span class="nn">os</span><span class="p">,</span> <span class="n">sys</span>
+<span class="kn">import</span> <span class="nn">smtplib</span>
+<span class="kn">from</span> <span class="nn">email.mime.text</span> <span class="kn">import</span> <span class="n">MIMEText</span>
+
+<span class="s">"""
+参数 1 SMTP 服务器的用户名，发送邮箱名称
+参数 2 SMTP 服务器的密码，发送邮箱授权码（注意非邮箱原密码）
+参数 3 curl 网站返回的状态码，如 200
+"""</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"参数个数错误"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)))</span>
+    <span class="n">sys</span><span class="p">.</span><span class="nb">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># SMTP 服务器名称
+</span><span class="n">mail_host</span> <span class="o">=</span> <span class="s">"smtp.qq.com"</span>
+<span class="c1"># SMTP 服务器的用户名
+</span><span class="n">mail_user</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="c1"># SMTP 服务器的密码
+</span><span class="n">mail_pass</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="c1"># curl 网站返回的状态码
+</span><span class="n">status_code</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+
+<span class="c1"># cocoafei.top 使用重定向域名，因此会返回 301，表示网站正常，不用发送邮件
+</span><span class="k">if</span> <span class="n">status_code</span> <span class="o">==</span> <span class="mi">301</span> <span class="ow">or</span> <span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"网站状态正常"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">status_code</span><span class="p">))</span>
+    <span class="n">sys</span><span class="p">.</span><span class="nb">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># 发送邮箱，这里自己给自己发送一封邮件
+</span><span class="n">sender</span> <span class="o">=</span> <span class="n">mail_user</span>
+<span class="c1"># 接收邮箱，多个邮箱使用逗号隔开，eg. [1234@qq.com, 5678@126.com]
+</span><span class="n">receivers</span> <span class="o">=</span> <span class="p">[</span><span class="n">mail_user</span><span class="p">]</span>
+<span class="c1"># 邮件正文文字
+</span><span class="n">message</span> <span class="o">=</span> <span class="n">MIMEText</span><span class="p">(</span><span class="s">'curl cocoafei.top 状态码:'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">status_code</span><span class="p">),</span> <span class="s">'plain'</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">)</span>
+<span class="c1"># 发件人名称，eg. 发件人：GithubActions &lt;actions@github.com&gt;
+</span><span class="n">message</span><span class="p">[</span><span class="s">'From'</span><span class="p">]</span> <span class="o">=</span> <span class="s">"GithubActions &lt;actions@github.com&gt;"</span>
+<span class="c1"># 收件人名称，eg. 收件人：lifei
+</span><span class="n">message</span><span class="p">[</span><span class="s">'To'</span><span class="p">]</span> <span class="o">=</span> <span class="s">"lifei&lt;cocoafei.top&gt;"</span>
+<span class="c1"># 邮件标题
+</span><span class="n">message</span><span class="p">[</span><span class="s">'Subject'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'cocoafei.top 网络故障'</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">smtpObj</span> <span class="o">=</span> <span class="n">smtplib</span><span class="p">.</span><span class="n">SMTP</span><span class="p">()</span>
+    <span class="c1"># 链接 SMTP 服务器，QQ 发送邮件服务器：smtp.qq.com，使用SSL，端口号465或587
+</span>    <span class="n">smtpObj</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">mail_host</span><span class="p">,</span> <span class="mi">587</span><span class="p">)</span>
+    <span class="c1"># 登录 SMTP 服务器
+</span>    <span class="n">smtpObj</span><span class="p">.</span><span class="n">login</span><span class="p">(</span><span class="n">mail_user</span><span class="p">,</span><span class="n">mail_pass</span><span class="p">)</span>
+    <span class="c1"># 发送邮件
+</span>    <span class="n">smtpObj</span><span class="p">.</span><span class="n">sendmail</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">receivers</span><span class="p">,</span> <span class="n">message</span><span class="p">.</span><span class="n">as_string</span><span class="p">())</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"邮件发送成功，网站状态码："</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">status_code</span><span class="p">))</span>
+<span class="k">except</span> <span class="n">smtplib</span><span class="p">.</span><span class="n">SMTPException</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"无法发送邮件，失败原因：</span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">smtplib</span><span class="p">.</span><span class="nb">Exception</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h2 id="添加-actions">添加 Actions</h2>
+
+<p>(1) 选择当前仓库，点击 Actions 标签：</p>
+
+<p><img src="/images/posts/github_actions/create_action1.png" alt="选择 Actions 标签" /></p>
+
+<p>(2) 选择自定义工作流程：</p>
+
+<p><img src="/images/posts/github_actions/create_action2.png" alt="自定义工作流程" /></p>
+
+<p>(3) 重命名 yml 文件名称，名称无限制，yml 配置文件基本格式如下：</p>
+
+<p><img src="/images/posts/github_actions/create_action3.png" alt="yml 文件" /></p>
+
+<h2 id="yml-文件格式">yml 文件格式</h2>
+
+<p>GitHub 只要发现 <code class="language-plaintext highlighter-rouge">.github/workflows</code> 目录里面有.yml文件，就会自动运行该文件，主要格式：</p>
+
+<ol>
+  <li>
+    <p>workflow（工作流程）：可简单理解为一个 yml 文件就是一个 workflow。</p>
+  </li>
+  <li>
+    <p>job（任务）：一个 workflow 由一个或多个 jobs 构成，一次可以完成多个任务。</p>
+  </li>
+  <li>
+    <p>step（步骤）：每个 job 由多个 step 构成，一步一步逐个完成。</p>
+  </li>
+  <li>
+    <p>action（动作）：每个 step 可以依次执行一个或多个命令（action）。</p>
+  </li>
+</ol>
+
+<p>如本次定时检查网站是否在线的 yml 文件，不用监听 push/pull 请求触发，定时触发，每 15 分钟执行一次 curl 命令，并将返回的 HTTP 状态码存储在变量 status_code，将发送邮件的邮箱账号、密码和status_code 的值传入 python 脚本中，如果不是 200/301 就发送通知邮件。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 获取 cocoafei.top 的 HTTP 状态码，并将返回的 HTTP 状态码存储在变量 status_code</span>
+<span class="nb">export </span><span class="nv">status_code</span><span class="o">=</span><span class="si">$(</span>curl <span class="nt">-I</span> <span class="nt">-m</span> 15 <span class="nt">-s</span> <span class="nt">-w</span> <span class="s2">"%{http_code}</span><span class="se">\n</span><span class="s2">"</span> <span class="nt">-o</span> /dev/null  cocoafei.top<span class="si">)</span>
+<span class="c"># 将发送邮件的邮箱账号、密码和status_code 传入 Python 脚本，判断是否需要发送邮件</span>
+python ./email_status.py <span class="k">${</span><span class="p">{secrets.MAIL_USERNAME</span><span class="k">}</span><span class="o">}</span> <span class="k">${</span><span class="p">{secrets.MAIL_PASSWORD</span><span class="k">}</span><span class="o">}</span> <span class="nv">$status_code</span>
+</code></pre></div></div>
+
+<p>监测网站的完整 yml 文件如下，可参考下方注释理解。</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 工作流程 (workflow) 名称</span>
+<span class="na">name</span><span class="pi">:</span> <span class="s">cocoafei.top</span>
+
+<span class="c1"># 触发条件</span>
+<span class="na">on</span><span class="pi">:</span>
+  <span class="c1"># 每天每 15 分钟运行一次此工作流</span>
+  <span class="na">schedule</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">cron</span><span class="pi">:</span> <span class="s1">'</span><span class="s">*/15</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*'</span>
+
+<span class="c1"># 任务，一个工作流程由一个或多个任务 (job) 构成</span>
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="c1"># build 任务，这个工作流程包含一个名称为 "build" 的任务 (job)</span>
+  <span class="na">build</span><span class="pi">:</span>
+    <span class="c1"># 任务 (job) 运行的环境类型，运行在虚拟机环境 ubuntu-latest</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+
+    <span class="c1"># 步骤 (step) 表示将作为任务 (job) 一部分执行的一系列任务</span>
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="c1"># 第一步是获取源码，引用现成的检出 action，将代码检出到虚拟机上</span>
+      <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v2</span>
+      
+      <span class="c1"># 运行一组 shell 名称，获取 cocoafei.top 的网站状态，并判断是否需要发送邮件</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Get cocoafei.top response status code.</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+          <span class="s">export status_code=$(curl -I -m 15 -s -w "%{http_code}\n" -o /dev/null  cocoafei.top)</span>
+          <span class="s">python ./email_status.py ${{secrets.MAIL_USERNAME}} ${{secrets.MAIL_PASSWORD}} $status_code</span>
+
+</code></pre></div></div>
+
+<h2 id="on-触发条件">on 触发条件</h2>
+
+<p>可以通过 push 或 pull 请求事件触发工作流，或定时触发工作流，并可指定分支。</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">cocoafei.top</span>
+<span class="c1"># 此工作流程的触发条件</span>
+<span class="na">on</span><span class="pi">:</span>
+  <span class="c1"># push 或 pull 请求事件触发工作流，且仅针对 master 分支</span>
+  <span class="na">push</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span> <span class="nv">master</span> <span class="pi">]</span>
+  <span class="na">pull_request</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span> <span class="pi">[</span> <span class="nv">master</span> <span class="pi">]</span>
+  <span class="c1"># 每天每 15 分钟运行一次此工作流</span>
+  <span class="na">schedule</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">cron</span><span class="pi">:</span> <span class="s1">'</span><span class="s">*/15</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*'</span>
+</code></pre></div></div>
+
+<p>schedule 计划任务语法有五个字段，中间用空格分隔，每个字段代表一个时间单位。</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 计划任务语法有五个字段，中间用空格分隔，每个字段代表一个时间单位。</span>
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">schedule</span><span class="pi">:</span>
+    <span class="c1"># 每 15 分钟运行一次此工作流</span>
+    <span class="pi">-</span> <span class="na">cron</span><span class="pi">:</span> <span class="s1">'</span><span class="s">*/15</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*'</span>
+    <span class="c1"># 每 5 分支运行一次此工作流</span>
+    <span class="pi">-</span> <span class="na">cron</span><span class="pi">:</span> <span class="s1">'</span><span class="s">*/15</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*'</span>
+    <span class="c1"># 每天在国际标准时间 20 点（北京时间早上 4 点）运行一次此工作流</span>
+    <span class="pi">-</span> <span class="na">cron</span><span class="pi">:</span> <span class="s1">'</span><span class="s">0</span><span class="nv"> </span><span class="s">20</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*'</span>
+    <span class="c1"># 每周一在国际时间下午 1 点（北京时间下午 9 点）运行一次此工作流</span>
+    <span class="pi">-</span> <span class="na">cron</span><span class="pi">:</span> <span class="s1">'</span><span class="s">0</span><span class="nv"> </span><span class="s">13</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">1'</span>
+    <span class="c1"># 每天国际时间 0 点（北京时间上午 8 点）运行一次此工作流</span>
+    <span class="pi">-</span> <span class="na">cron</span><span class="pi">:</span> <span class="s1">'</span><span class="s">0</span><span class="nv"> </span><span class="s">0</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*'</span>
+    
+<span class="s">┌───────────── minute (0 - 59)</span>
+<span class="s">│ ┌───────────── hour (0 - 23)</span>
+<span class="s">│ │ ┌───────────── day of the month (1 - 31)</span>
+<span class="s">│ │ │ ┌───────────── month (1 - 12 or JAN-DEC)</span>
+<span class="s">│ │ │ │ ┌───────────── day of the week (0 - 6 or SUN-SAT)</span>
+<span class="s">│ │ │ │ │</span>                                   
+<span class="s">│ │ │ │ │</span>
+<span class="s">│ │ │ │ │</span>
+<span class="err">*</span> <span class="err">*</span> <span class="err">*</span> <span class="err">*</span> <span class="err">*</span>
+</code></pre></div></div>
+
+<p>您可在这五个字段中使用以下运算符：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>运算符</th>
+      <th>描述</th>
+      <th>示例</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>*</td>
+      <td>任意值</td>
+      <td>* * * * * 在每天的每分钟运行。</td>
+    </tr>
+    <tr>
+      <td>,</td>
+      <td>值列表分隔符</td>
+      <td>2,10 4,5 * * * 在每天第 4 和第 5 小时的第 2 和第 10 分钟运行。</td>
+    </tr>
+    <tr>
+      <td>-</td>
+      <td>值的范围</td>
+      <td>0 4-6 * * * 在第 4、5、6 小时的第 0 分钟运行。</td>
+    </tr>
+    <tr>
+      <td>/</td>
+      <td>步骤值</td>
+      <td>20/15 * * * * 从第 20 分钟到第 59 分钟每隔 15 分钟运行（第 20、35 和 50 分钟）。</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="配置-secrets-变量">配置 Secrets 变量</h2>
+
+<p>由于 Python 脚本使用 QQ 邮箱发送 Email，QQ 邮箱不允许直接使用密码，需要提前获取 QQ 邮箱授权码，具体获取方法，先登录 QQ 邮箱，在路径<code class="language-plaintext highlighter-rouge">设置-账户-POP3/IMAP/SMTP/Exchange/CardDAV/CalDAV服务</code>，根据提示，查看说明开启获取授权码即可，其他邮箱操作类似。</p>
+
+<p>(1) 选择当前仓库的 Setting 目录，在 <code class="language-plaintext highlighter-rouge">Settings/Secrets</code>，可看到如下界面：</p>
+
+<p><img src="/images/posts/github_actions/add_secrets1.png" alt="选择 Secrets" /></p>
+
+<p>(2) 选择 <code class="language-plaintext highlighter-rouge">New repository secret</code> 按钮，看到如下画面，填入变量名称（如 MAIL_PASSWORD）和变量值（如获取的邮箱授权码），点击 <code class="language-plaintext highlighter-rouge">Add secret</code> 保存。</p>
+
+<p><img src="/images/posts/github_actions/add_secrets2.png" alt="添加 Secret" /></p>
+
+<p>(3) 通过 <code class="language-plaintext highlighter-rouge">${{secrets.变量名称}}</code> 使用变量值（例如 <code class="language-plaintext highlighter-rouge">${{secrets.MAIL_PASSWORD}}</code>）。</p>
+
+<h2 id="自动执行效果">自动执行效果</h2>
+
+<p><img src="/images/posts/github_actions/run_result1.png" alt="执行效果" /></p>
+
+<p><img src="/images/posts/github_actions/run_result2.png" alt="执行效果" /></p>
+
+<p><img src="/images/posts/github_actions/run_result3.png" alt="执行效果" /></p>
+
+<p><img src="/images/posts/github_actions/run_result4.png" alt="执行效果" /></p>
+
+<h2 id="参考">参考</h2>
+
+<p><a href="https://docs.github.com/cn/free-pro-team@latest/actions/reference/events-that-trigger-workflows">官方文档-触发工作流程的事件</a></p>
+
+<p><a href="http://www.ruanyifeng.com/blog/2019/12/github_actions.html">示例-定时发送天气</a></p>
+
+<p><a href="http://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html">示例-GitHub Actions</a></p>
+
+
+  </section>
+</article>
+
+<section>
+
+    <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+    <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2020/10/iOS-%E6%89%8B%E6%9C%BA%E5%8F%B7%E4%B8%80%E9%94%AE%E7%99%BB%E5%BD%95/" data-toggle="tooltip"
+                data-placement="top" title="iOS 手机号一键登录">上一篇： <span>iOS 手机号一键登录</span>
+            </a>
+        </li>
+        
+        
+    </ul>
+</section>
+<section class="post-comments">
+
+</section>
+
+
+            <section class="footer">
+    <footer>
+        <div class = "footer_div">
+            <nav class="cover-navigation navigation--social">
+                <ul class="navigation">
+                    
+                    
+                    <!-- Github -->
+                    <li class="navigation__item_social">
+                        <a href="https://github.com/muzipiao" title="@muzipiao 的 Github" target="_blank">
+                            <div class="footer-social-icon" style="background-image:url(/images/github.png);"></div>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    
+                    
+                    <!-- Zhihu -->
+                    <li class="navigation__item_social">
+                        <a href="https://juejin.im/user/5b2f1c51f265da59ad439f69" title="@5b2f1c51f265da59ad439f69" target="_blank">
+                            <div class="footer-social-icon" style="background-image:url(/images/juejin.png);"></div>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <!-- Email -->
+                    <li class="navigation__item_social">
+                        <a href="mailto:lifei_zdjl@126.com" title="Contact me">
+                            <div class="footer-social-icon" style="background-image:url(/images/email.png);"></div>
+                        </a>
+                    </li>
+                    
+                    
+                    <!-- RSS -->
+                    <li class="navigation__item_social">
+                        <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+                            <div class="footer-social-icon" style="background-image:url(/images/rss.png);"></div>
+                            <span class="label">RSS</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </nav>
+        </div>
+        <div><br><br></div>
+        <div class="footer__copyright" >
+            <br>
+            <span>©2020&nbsp;cocoafei&nbsp;</span>
+            <img src="/images/beian.png"/>
+            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010702002032" target="_blank">京公网安备 11010702002032号</a>
+            <span>&nbsp;</span>
+            <a href="http://beian.miit.gov.cn/" target="_blank">京ICP备2020033870号</a>
+        </div>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>

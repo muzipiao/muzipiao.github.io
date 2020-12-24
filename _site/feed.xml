@@ -5,9 +5,327 @@
     <description>欢迎来到我的Blog~</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 04 Dec 2020 19:02:26 +0800</pubDate>
-    <lastBuildDate>Fri, 04 Dec 2020 19:02:26 +0800</lastBuildDate>
+    <pubDate>Thu, 24 Dec 2020 16:55:17 +0800</pubDate>
+    <lastBuildDate>Thu, 24 Dec 2020 16:55:17 +0800</lastBuildDate>
     <generator>Jekyll v4.1.1</generator>
+    
+      <item>
+        <title>GitHub Actions 监测网站在线</title>
+        <description>&lt;h2 id=&quot;github-actions&quot;&gt;GitHub Actions&lt;/h2&gt;
+
+&lt;p&gt;GitHub Actions 是 GitHub 的持续集成服务，如果接触过 Jenkins 或 Travis CI，那么对持续集成不会陌生。我们经常使用的功能，在 push 代码到仓库时触发或定时触发抓取代码、自动打包、自动部署到服务器、自动化测试等，都属于持续集成类。GitHub Actions 功能更强大，不仅可以自己添加脚本，而且允许开发者分享自己的脚本到&lt;a href=&quot;https://github.com/marketplace?type=actions&quot;&gt;应用市场&lt;/a&gt;，其他人使用时直接引用即可。&lt;/p&gt;
+
+&lt;p&gt;例如下方所示工作流程，引用应用市场他人脚本&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dawidd6/action-send-mail@v2&lt;/code&gt; 可实现 push 代码到仓库时，使用谷歌邮箱自动发送一封 Email 到指定邮箱，内容为 README.md 文本内容。其中 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;${{secrets.MAIL_USERNAME}}&lt;/code&gt; 和 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;${{secrets.MAIL_PASSWORD}}&lt;/code&gt; 分别为邮箱账号和授权码，注意一定&lt;strong&gt;不要在代码中直接使用密码&lt;/strong&gt;，密钥类要配置在当前仓库的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Settings/Secrets&lt;/code&gt;目录下，使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;${{secrets.变量名称}}&lt;/code&gt;引用，具体配置方法，稍后具体说明。&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;CI&lt;/span&gt; 
+&lt;span class=&quot;na&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;branches&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;master&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;jobs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;runs-on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ubuntu-latest&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Send mail&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;dawidd6/action-send-mail@v2&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;server_address&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;smtp.gmail.com&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;server_port&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;465&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;username&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;${{secrets.MAIL_USERNAME}}&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;password&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;${{secrets.MAIL_PASSWORD}}&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;subject&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Github Actions job result&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;file://README.md&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;obiwan@tatooine.com,yoda@dagobah.com&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;from&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Luke Skywalker&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;监测网站&quot;&gt;监测网站&lt;/h2&gt;
+
+&lt;p&gt;自建的网站/博客经常会出现 HTTPS 证书过期，服务器宕机等各种情况，这时候需要另外一台服务器定时监测网站是否在线。GitHub Actions 完全可以满足这个需求，通过定时执行脚本，来检测网站是否在线，而且是稳定免费的。&lt;/p&gt;
+
+&lt;p&gt;实现思路：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;添加一个工作流程 (workflow)，并设置定时触发（每隔 15 分钟）此工作流程；&lt;/li&gt;
+  &lt;li&gt;在工作流程中使用 curl 命令检查 cocoafei.top 的 HTTP 请求状态码；&lt;/li&gt;
+  &lt;li&gt;使用 python 脚本判断状态码，如果不是 200 或 301 就发送邮件通知，是的话忽略；&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;流程图如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/github_actions/flow_chart.png&quot; alt=&quot;actions流程图&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;curl-查询网站状态&quot;&gt;curl 查询网站状态&lt;/h2&gt;
+
+&lt;p&gt;curl 功能很强大，我们判断网站是否在线，只需要使用 curl 查询请求网站，获取网站 HTTP 状态码，200/301 时表示网站正常。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;-I 仅测试HTTP头&lt;/li&gt;
+  &lt;li&gt;-m 15 表示最多查询15s&lt;/li&gt;
+  &lt;li&gt;-o /dev/null 屏蔽原有输出信息&lt;/li&gt;
+  &lt;li&gt;-s silent 模式，不输出任何东西&lt;/li&gt;
+  &lt;li&gt;-w %{http_code} 控制额外输出&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# 这里表示静默获取网站 cocoafei.top 的 HTTP 请求状态码，最多查询 15s&lt;/span&gt;
+curl &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 15 &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-w&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;%{http_code}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; /dev/null  cocoafei.top
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/github_actions/curl_result.png&quot; alt=&quot;curl 查询结果&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;python-发送-email&quot;&gt;python 发送 Email&lt;/h2&gt;
+
+&lt;p&gt;由于需要判断网站状态，网站不在线时再发送邮件，在线时忽略，市场上发送邮件的 Action 不符合需求。&lt;/p&gt;
+
+&lt;p&gt;使用 Python 脚本实现判断状态码和发邮件功能，需要传入三个参数，分别是发送邮件的邮箱名称，邮箱授权码和 curl 网站获取的网络状态码。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;警告[FBI WARNING]&lt;/strong&gt;⚠️：不要把邮箱授权码写在代码里面，会造成邮箱被盗。&lt;/p&gt;
+
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;#!/usr/bin/env python
+# coding=UTF-8
+&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;os&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;smtplib&lt;/span&gt;
+&lt;span class=&quot;kn&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;email.mime.text&lt;/span&gt; &lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MIMEText&lt;/span&gt;
+
+&lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;
+参数 1 SMTP 服务器的用户名，发送邮箱名称
+参数 2 SMTP 服务器的密码，发送邮箱授权码（注意非邮箱原密码）
+参数 3 curl 网站返回的状态码，如 200
+&quot;&quot;&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;参数个数错误&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)))&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# SMTP 服务器名称
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mail_host&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;smtp.qq.com&quot;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# SMTP 服务器的用户名
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mail_user&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# SMTP 服务器的密码
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mail_pass&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# curl 网站返回的状态码
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;status_code&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# cocoafei.top 使用重定向域名，因此会返回 301，表示网站正常，不用发送邮件
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;status_code&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;301&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;or&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;status_code&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;网站状态正常&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;status_code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# 发送邮箱，这里自己给自己发送一封邮件
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sender&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mail_user&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# 接收邮箱，多个邮箱使用逗号隔开，eg. [1234@qq.com, 5678@126.com]
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;receivers&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mail_user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# 邮件正文文字
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;message&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MIMEText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'curl cocoafei.top 状态码:'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;status_code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'plain'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'utf-8'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# 发件人名称，eg. 发件人：GithubActions &amp;lt;actions@github.com&amp;gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'From'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;GithubActions &amp;lt;actions@github.com&amp;gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# 收件人名称，eg. 收件人：lifei
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'To'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;lifei&amp;lt;cocoafei.top&amp;gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# 邮件标题
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Subject'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'cocoafei.top 网络故障'&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;smtpObj&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;smtplib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SMTP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# 链接 SMTP 服务器，QQ 发送邮件服务器：smtp.qq.com，使用SSL，端口号465或587
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;smtpObj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;connect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mail_host&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;587&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# 登录 SMTP 服务器
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;smtpObj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;login&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mail_user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mail_pass&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# 发送邮件
+&lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;smtpObj&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sendmail&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sender&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;receivers&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;as_string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;邮件发送成功，网站状态码：&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;status_code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;except&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;smtplib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SMTPException&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;无法发送邮件，失败原因：&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;smtplib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;Exception&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;添加-actions&quot;&gt;添加 Actions&lt;/h2&gt;
+
+&lt;p&gt;(1) 选择当前仓库，点击 Actions 标签：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/github_actions/create_action1.png&quot; alt=&quot;选择 Actions 标签&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;(2) 选择自定义工作流程：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/github_actions/create_action2.png&quot; alt=&quot;自定义工作流程&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;(3) 重命名 yml 文件名称，名称无限制，yml 配置文件基本格式如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/github_actions/create_action3.png&quot; alt=&quot;yml 文件&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;yml-文件格式&quot;&gt;yml 文件格式&lt;/h2&gt;
+
+&lt;p&gt;GitHub 只要发现 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.github/workflows&lt;/code&gt; 目录里面有.yml文件，就会自动运行该文件，主要格式：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;workflow（工作流程）：可简单理解为一个 yml 文件就是一个 workflow。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;job（任务）：一个 workflow 由一个或多个 jobs 构成，一次可以完成多个任务。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;step（步骤）：每个 job 由多个 step 构成，一步一步逐个完成。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;action（动作）：每个 step 可以依次执行一个或多个命令（action）。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;如本次定时检查网站是否在线的 yml 文件，不用监听 push/pull 请求触发，定时触发，每 15 分钟执行一次 curl 命令，并将返回的 HTTP 状态码存储在变量 status_code，将发送邮件的邮箱账号、密码和status_code 的值传入 python 脚本中，如果不是 200/301 就发送通知邮件。&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# 获取 cocoafei.top 的 HTTP 状态码，并将返回的 HTTP 状态码存储在变量 status_code&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;status_code&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;curl &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 15 &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-w&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;%{http_code}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; /dev/null  cocoafei.top&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 将发送邮件的邮箱账号、密码和status_code 传入 Python 脚本，判断是否需要发送邮件&lt;/span&gt;
+python ./email_status.py &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{secrets.MAIL_USERNAME&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{secrets.MAIL_PASSWORD&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$status_code&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;监测网站的完整 yml 文件如下，可参考下方注释理解。&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# 工作流程 (workflow) 名称&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;cocoafei.top&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# 触发条件&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# 每天每 15 分钟运行一次此工作流&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;schedule&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cron&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*/15&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*'&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# 任务，一个工作流程由一个或多个任务 (job) 构成&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;jobs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# build 任务，这个工作流程包含一个名称为 &quot;build&quot; 的任务 (job)&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# 任务 (job) 运行的环境类型，运行在虚拟机环境 ubuntu-latest&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;runs-on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ubuntu-latest&lt;/span&gt;
+
+    &lt;span class=&quot;c1&quot;&gt;# 步骤 (step) 表示将作为任务 (job) 一部分执行的一系列任务&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;c1&quot;&gt;# 第一步是获取源码，引用现成的检出 action，将代码检出到虚拟机上&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;actions/checkout@v2&lt;/span&gt;
+      
+      &lt;span class=&quot;c1&quot;&gt;# 运行一组 shell 名称，获取 cocoafei.top 的网站状态，并判断是否需要发送邮件&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Get cocoafei.top response status code.&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;|&lt;/span&gt;
+          &lt;span class=&quot;s&quot;&gt;export status_code=$(curl -I -m 15 -s -w &quot;%{http_code}\n&quot; -o /dev/null  cocoafei.top)&lt;/span&gt;
+          &lt;span class=&quot;s&quot;&gt;python ./email_status.py ${{secrets.MAIL_USERNAME}} ${{secrets.MAIL_PASSWORD}} $status_code&lt;/span&gt;
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;on-触发条件&quot;&gt;on 触发条件&lt;/h2&gt;
+
+&lt;p&gt;可以通过 push 或 pull 请求事件触发工作流，或定时触发工作流，并可指定分支。&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;cocoafei.top&lt;/span&gt;
+&lt;span class=&quot;c1&quot;&gt;# 此工作流程的触发条件&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# push 或 pull 请求事件触发工作流，且仅针对 master 分支&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;branches&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;master&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;pull_request&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;branches&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;master&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# 每天每 15 分钟运行一次此工作流&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;schedule&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cron&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*/15&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*'&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;schedule 计划任务语法有五个字段，中间用空格分隔，每个字段代表一个时间单位。&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# 计划任务语法有五个字段，中间用空格分隔，每个字段代表一个时间单位。&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;schedule&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# 每 15 分钟运行一次此工作流&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cron&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*/15&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*'&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# 每 5 分支运行一次此工作流&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cron&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*/15&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*'&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# 每天在国际标准时间 20 点（北京时间早上 4 点）运行一次此工作流&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cron&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*'&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# 每周一在国际时间下午 1 点（北京时间下午 9 点）运行一次此工作流&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cron&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;13&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;1'&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# 每天国际时间 0 点（北京时间上午 8 点）运行一次此工作流&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;cron&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;*'&lt;/span&gt;
+    
+&lt;span class=&quot;s&quot;&gt;┌───────────── minute (0 - 59)&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;│ ┌───────────── hour (0 - 23)&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;│ │ ┌───────────── day of the month (1 - 31)&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;│ │ │ ┌───────────── month (1 - 12 or JAN-DEC)&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;│ │ │ │ ┌───────────── day of the week (0 - 6 or SUN-SAT)&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;│ │ │ │ │&lt;/span&gt;                                   
+&lt;span class=&quot;s&quot;&gt;│ │ │ │ │&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;│ │ │ │ │&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;*&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;您可在这五个字段中使用以下运算符：&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;运算符&lt;/th&gt;
+      &lt;th&gt;描述&lt;/th&gt;
+      &lt;th&gt;示例&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;*&lt;/td&gt;
+      &lt;td&gt;任意值&lt;/td&gt;
+      &lt;td&gt;* * * * * 在每天的每分钟运行。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;,&lt;/td&gt;
+      &lt;td&gt;值列表分隔符&lt;/td&gt;
+      &lt;td&gt;2,10 4,5 * * * 在每天第 4 和第 5 小时的第 2 和第 10 分钟运行。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;-&lt;/td&gt;
+      &lt;td&gt;值的范围&lt;/td&gt;
+      &lt;td&gt;0 4-6 * * * 在第 4、5、6 小时的第 0 分钟运行。&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;/&lt;/td&gt;
+      &lt;td&gt;步骤值&lt;/td&gt;
+      &lt;td&gt;20/15 * * * * 从第 20 分钟到第 59 分钟每隔 15 分钟运行（第 20、35 和 50 分钟）。&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;配置-secrets-变量&quot;&gt;配置 Secrets 变量&lt;/h2&gt;
+
+&lt;p&gt;由于 Python 脚本使用 QQ 邮箱发送 Email，QQ 邮箱不允许直接使用密码，需要提前获取 QQ 邮箱授权码，具体获取方法，先登录 QQ 邮箱，在路径&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;设置-账户-POP3/IMAP/SMTP/Exchange/CardDAV/CalDAV服务&lt;/code&gt;，根据提示，查看说明开启获取授权码即可，其他邮箱操作类似。&lt;/p&gt;
+
+&lt;p&gt;(1) 选择当前仓库的 Setting 目录，在 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Settings/Secrets&lt;/code&gt;，可看到如下界面：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/github_actions/add_secrets1.png&quot; alt=&quot;选择 Secrets&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;(2) 选择 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;New repository secret&lt;/code&gt; 按钮，看到如下画面，填入变量名称（如 MAIL_PASSWORD）和变量值（如获取的邮箱授权码），点击 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Add secret&lt;/code&gt; 保存。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/github_actions/add_secrets2.png&quot; alt=&quot;添加 Secret&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;(3) 通过 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;${{secrets.变量名称}}&lt;/code&gt; 使用变量值（例如 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;${{secrets.MAIL_PASSWORD}}&lt;/code&gt;）。&lt;/p&gt;
+
+&lt;h2 id=&quot;自动执行效果&quot;&gt;自动执行效果&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/github_actions/run_result1.png&quot; alt=&quot;执行效果&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/github_actions/run_result2.png&quot; alt=&quot;执行效果&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/github_actions/run_result3.png&quot; alt=&quot;执行效果&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/github_actions/run_result4.png&quot; alt=&quot;执行效果&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;参考&quot;&gt;参考&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://docs.github.com/cn/free-pro-team@latest/actions/reference/events-that-trigger-workflows&quot;&gt;官方文档-触发工作流程的事件&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.ruanyifeng.com/blog/2019/12/github_actions.html&quot;&gt;示例-定时发送天气&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html&quot;&gt;示例-GitHub Actions&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Thu, 24 Dec 2020 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2020/12/GitHub-Actions-%E7%9B%91%E6%B5%8B%E7%BD%91%E7%AB%99%E5%9C%A8%E7%BA%BF/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/12/GitHub-Actions-%E7%9B%91%E6%B5%8B%E7%BD%91%E7%AB%99%E5%9C%A8%E7%BA%BF/</guid>
+        
+        <category>GitHub</category>
+        
+        
+      </item>
     
       <item>
         <title>iOS 手机号一键登录</title>
@@ -2420,90 +2738,6 @@ TestProj 是一个简单的库，使用 TestProj 可快速实现什么功能。
         <guid isPermaLink="true">http://localhost:4000/2018/06/%E5%AE%8F%E4%B8%8E%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/</guid>
         
         <category>iOS</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>ZipperDown 漏洞修复</title>
-        <description>&lt;p&gt;&lt;strong&gt;ZipperDown漏洞&lt;/strong&gt;是由盘古实验室发现的，该漏洞是盘古团队针对不同客户的iOS应用安全审计的过程中发现的，大约有10％的iOS应用会受到此漏洞的影响。类似&lt;strong&gt;解压&lt;/strong&gt;等通用功能的漏洞，一个平台爆出了漏洞，其他平台往往也受到牵连，不久前Android平台上的unZip解压文件漏洞，和这个漏洞几乎是完全一样，只是平台和第三方解压库不同而已。&lt;/p&gt;
-
-&lt;h2 id=&quot;危害&quot;&gt;危害&lt;/h2&gt;
-
-&lt;p&gt;利用此漏洞可以做很多事情，例如实现目录遍历攻击和App沙盒目录中任意文件&lt;strong&gt;覆盖风险&lt;/strong&gt;，影响究竟有多大，取决于具体App。例如，如果集成了&lt;strong&gt;热修复&lt;/strong&gt;，且未做相应的安全处理，通过覆盖热修复的JS代码，可以在&lt;strong&gt;非越狱的手机上&lt;/strong&gt;达到修改执行源码的目的。&lt;/p&gt;
-
-&lt;h2 id=&quot;原理&quot;&gt;原理&lt;/h2&gt;
-
-&lt;p&gt;&lt;strong&gt;ZipperDown漏洞&lt;/strong&gt;并非&lt;strong&gt;iOS平台自身&lt;/strong&gt;问题，而是与Zip文件解压有关。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;iOS平台没有提供&lt;strong&gt;官方&lt;/strong&gt;解压类库，所以开发中往往引用&lt;strong&gt;第三方&lt;/strong&gt;库来实现解压功能；&lt;/li&gt;
-  &lt;li&gt;由于现有的iOS App基本上采用SSZipArchive或Ziparchive来实现解压，因此漏洞是来自使用第三方Zip库解压Zip文件的过程中没有对Zip内文件名做校验导致的；&lt;/li&gt;
-  &lt;li&gt;例如 SSZipArchive解压时会吧文件名直接拼接到目标路径后面，如果文件名中含有“../”则可以实现目录的上一级跳转，从而实现应用内任意目录的跳转，进一步可以实现文件覆盖；&lt;/li&gt;
-  &lt;li&gt;如果把App的热修复hotpatch文件覆盖替换了，可以达到执行黑客指定指令，从而按照黑客的意图实现任意应用内攻击。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;攻击条件&quot;&gt;攻击条件&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;使用了SSZipArchive或Ziparchive第三方解压库;&lt;/li&gt;
-  &lt;li&gt;Zip包在解压时没有做完整性校验;&lt;/li&gt;
-  &lt;li&gt;文件名中包含../等路径特殊符号，解压时没有对文件名过滤处理;&lt;/li&gt;
-  &lt;li&gt;使用了JSPatch或其他热修复库，且本地脚本没有加密等安全处理;&lt;/li&gt;
-  &lt;li&gt;连接不可靠的WIFI热点或者网络被人劫持。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;注：若App没有使用热修复功能，并且在沙盒文件中没有保存重要的配置/信息，则可忽略此漏洞。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;修复&quot;&gt;修复&lt;/h2&gt;
-
-&lt;p&gt;iOS端修复很简单，下载文件成功后，解压文件时，不用&lt;strong&gt;网络传输&lt;/strong&gt;过来的文件名称，或者将文件名中的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;./&lt;/code&gt;等特殊符号全部都&lt;strong&gt;过滤替换掉&lt;/strong&gt;就可以了。&lt;/p&gt;
-
-&lt;h2 id=&quot;demo演示&quot;&gt;Demo演示&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;假设我们App使用了热修复，热修复文件放在沙盒的library/Caches/jspatch/hot.js(hot.js内容为 &lt;strong&gt;jjjjjjjjjj&lt;/strong&gt;);&lt;/li&gt;
-  &lt;li&gt;我们需要从这个链接(&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;https://raw.githubusercontent.com/muzipiao/CommonResource/master/zip/hot.zip&lt;/code&gt;)下载一个包含图片的ZIP文件，下载解压的目标路径为library/Caches/zip/default;&lt;/li&gt;
-  &lt;li&gt;黑客通过替换压缩包，将压缩包中内容替换为假的hot.js(hot.js内容为 &lt;strong&gt;hack hack hack&lt;/strong&gt;)，并将压缩重命名为&lt;strong&gt;../jspatch&lt;/strong&gt;；&lt;/li&gt;
-  &lt;li&gt;我们下载解压后发现，JS热修复文件(library/Caches/jspatch/hot.js)内容变成了&lt;strong&gt;hack hack hack&lt;/strong&gt;；&lt;/li&gt;
-  &lt;li&gt;如果使用的是Http，可以通过&lt;strong&gt;charles&lt;/strong&gt;代理抓包替换来达到模拟的目的，这里我们通过手动修改压缩包名称来模拟。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;攻击示意图&quot;&gt;攻击示意图&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;/images/posts/zipperdown/ZipperDownImg1.png&quot; alt=&quot;攻击示意图&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;代码示例&quot;&gt;代码示例&lt;/h2&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-Objective-C&quot;&gt;//----------------------解压缩示例------------------------
-//网络资源zip地址
-NSString *zipFileURLPath = [filePath path];
-//library/Caches/没有zip文件夹则创建zip文件夹
-NSString *cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
-NSString *zipPath = [cachePath stringByAppendingPathComponent:@&quot;zip&quot;];
-//我们直接存到文件夹下，若fileName含有../字符串，通过拼接组合则可以打开任意目录文件
-NSString *desPath = [NSString stringWithFormat:@&quot;%@/%@&quot;,zipPath,fileName];
-//解压新的压缩文件，可能会覆盖掉原有文件
-BOOL isSuccess = [SSZipArchive unzipFileAtPath:zipFileURLPath toDestination:desPath];
-// 压缩
-if (isSuccess) {
-NSLog(@&quot;解压缩成功&quot;);
-}else{
-NSLog(@&quot;解压缩失败&quot;);
-}
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;如果您觉得有所帮助，请在&lt;a href=&quot;https://github.com/muzipiao/ZipperDownDemo&quot;&gt;ZipperDownDemo&lt;/a&gt;上赏个Star ⭐️，您的鼓励是我前进的动力&lt;/p&gt;
-
-&lt;p&gt;参考：&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;https://blog.csdn.net/yidunmarket/article/details/80359004&lt;/code&gt;&lt;/p&gt;
-</description>
-        <pubDate>Tue, 05 Jun 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/06/ZipperDown-%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/06/ZipperDown-%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D/</guid>
-        
-        <category>ZipperDown</category>
         
         
       </item>
