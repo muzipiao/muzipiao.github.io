@@ -5,8 +5,8 @@
     <description>欢迎来到我的Blog~</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 24 Dec 2020 16:55:17 +0800</pubDate>
-    <lastBuildDate>Thu, 24 Dec 2020 16:55:17 +0800</lastBuildDate>
+    <pubDate>Thu, 24 Dec 2020 17:23:15 +0800</pubDate>
+    <lastBuildDate>Thu, 24 Dec 2020 17:23:15 +0800</lastBuildDate>
     <generator>Jekyll v4.1.1</generator>
     
       <item>
@@ -47,10 +47,10 @@
 &lt;ol&gt;
   &lt;li&gt;添加一个工作流程 (workflow)，并设置定时触发（每隔 15 分钟）此工作流程；&lt;/li&gt;
   &lt;li&gt;在工作流程中使用 curl 命令检查 cocoafei.top 的 HTTP 请求状态码；&lt;/li&gt;
-  &lt;li&gt;使用 python 脚本判断状态码，如果不是 200 或 301 就发送邮件通知，是的话忽略；&lt;/li&gt;
+  &lt;li&gt;使用 python 脚本判断状态码，如果不是 200 或 301 就发送邮件通知，是的话忽略。&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;流程图如下：&lt;/p&gt;
+&lt;p&gt;流程图：&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/posts/github_actions/flow_chart.png&quot; alt=&quot;actions流程图&quot; /&gt;&lt;/p&gt;
 
