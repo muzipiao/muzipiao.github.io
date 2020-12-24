@@ -1,31 +1,26 @@
-# This is a basic workflow to help you get started with Actions
-
+# 工作流程 (workflow) 名称
 name: cocoafei.top
 
-# Controls when the action will run. 
+# 触发条件
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
-#  push:
-#    branches: [ master ]
-#  pull_request:
-#    branches: [ master ]
+  # 每天每 15 分钟运行一次此工作流
   schedule:
-    - cron: '0 21 * * *'
+    - cron: '*/15 * * * *'
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# 任务，一个工作流程由一个或多个任务 (job) 构成
 jobs:
-  # This workflow contains a single job called "build"
+  # build 任务，这个工作流程包含一个名称为 "build" 的任务 (job)
   build:
-    # The type of runner that the job will run on
+    # 任务 (job) 运行的环境类型，运行在虚拟机环境 ubuntu-latest
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    # 步骤 (step) 表示将作为任务 (job) 一部分执行的一系列任务
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      # 第一步是获取源码，引用现成的检出 action，将代码检出到虚拟机上
       - uses: actions/checkout@v2
       
-      # Runs a set of commands using the runners shell
+      # 运行一组 shell 名称，获取 cocoafei.top 的网站状态，并判断是否需要发送邮件
       - name: Get cocoafei.top response status code.
         run: |
           export status_code=$(curl -I -m 15 -s -w "%{http_code}\n" -o /dev/null  cocoafei.top)
-          python ./status_email.py ${{secrets.MAIL_USERNAME}} ${{secrets.MAIL_PASSWORD}} $status_code
+          python ./email_status.py ${{secrets.MAIL_USERNAME}} ${{secrets.MAIL_PASSWORD}} $status_code
