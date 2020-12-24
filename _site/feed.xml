@@ -5,19 +5,19 @@
     <description>欢迎来到我的Blog~</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 24 Dec 2020 17:23:15 +0800</pubDate>
-    <lastBuildDate>Thu, 24 Dec 2020 17:23:15 +0800</lastBuildDate>
+    <pubDate>Thu, 24 Dec 2020 18:07:32 +0800</pubDate>
+    <lastBuildDate>Thu, 24 Dec 2020 18:07:32 +0800</lastBuildDate>
     <generator>Jekyll v4.1.1</generator>
     
       <item>
         <title>GitHub Actions 监测网站在线</title>
         <description>&lt;h2 id=&quot;github-actions&quot;&gt;GitHub Actions&lt;/h2&gt;
 
-&lt;p&gt;GitHub Actions 是 GitHub 的持续集成服务，如果接触过 Jenkins 或 Travis CI，那么对持续集成不会陌生。我们经常使用的功能，在 push 代码到仓库时触发或定时触发抓取代码、自动打包、自动部署到服务器、自动化测试等，都属于持续集成类。GitHub Actions 功能更强大，不仅可以自己添加脚本，而且允许开发者分享自己的脚本到&lt;a href=&quot;https://github.com/marketplace?type=actions&quot;&gt;应用市场&lt;/a&gt;，其他人使用时直接引用即可。&lt;/p&gt;
+&lt;p&gt;GitHub Actions 是 GitHub 的持续集成服务，如果接触过 Jenkins 或 Travis CI，那么对持续集成不会陌生。我们经常使用的功能，在 push 代码到仓库时，或定时抓取代码、自动打包、自动部署到服务器、自动化测试等，都属于持续集成类。GitHub Actions 功能更强大，不仅可以自己添加脚本，而且允许开发者分享自己的脚本到&lt;a href=&quot;https://github.com/marketplace?type=actions&quot;&gt;Actions 应用市场&lt;/a&gt;，其他人使用时直接引用即可。&lt;/p&gt;
 
-&lt;p&gt;例如下方所示工作流程，引用应用市场他人脚本&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dawidd6/action-send-mail@v2&lt;/code&gt; 可实现 push 代码到仓库时，使用谷歌邮箱自动发送一封 Email 到指定邮箱，内容为 README.md 文本内容。其中 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;${{secrets.MAIL_USERNAME}}&lt;/code&gt; 和 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;${{secrets.MAIL_PASSWORD}}&lt;/code&gt; 分别为邮箱账号和授权码，注意一定&lt;strong&gt;不要在代码中直接使用密码&lt;/strong&gt;，密钥类要配置在当前仓库的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Settings/Secrets&lt;/code&gt;目录下，使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;${{secrets.变量名称}}&lt;/code&gt;引用，具体配置方法，稍后具体说明。&lt;/p&gt;
+&lt;p&gt;通过一个示例工作流程，对 GitHub Actions 先有一个简单印象。如下名称为 Notice 工作流程可实现 push 代码到仓库时，使用谷歌邮箱自动发送一封 Email 到指定邮箱。&lt;/p&gt;
 
-&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;CI&lt;/span&gt; 
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Notice&lt;/span&gt; 
 &lt;span class=&quot;na&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
   &lt;span class=&quot;na&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
     &lt;span class=&quot;na&quot;&gt;branches&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;master&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
@@ -37,6 +37,10 @@
           &lt;span class=&quot;na&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;obiwan@tatooine.com,yoda@dagobah.com&lt;/span&gt;
           &lt;span class=&quot;na&quot;&gt;from&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Luke Skywalker&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Notice 工作流程的实现，除了设置触发条件外，主要通过引用他人脚本&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;dawidd6/action-send-mail@v2&lt;/code&gt; 实现发送邮件功能，邮件内容可以为字符串或文件，这里为 README.md 文本内容。&lt;/p&gt;
+
+&lt;p&gt;工作流程中的 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;${{secrets.MAIL_USERNAME}}&lt;/code&gt; 和 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;${{secrets.MAIL_PASSWORD}}&lt;/code&gt; 分别为邮箱账号和授权码，注意&lt;strong&gt;不要在代码中直接使用密码&lt;/strong&gt;，密钥类要配置在当前仓库的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Settings/Secrets&lt;/code&gt;目录下，使用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;${{secrets.变量名称}}&lt;/code&gt;引用，具体配置方法，稍后具体说明。&lt;/p&gt;
 
 &lt;h2 id=&quot;监测网站&quot;&gt;监测网站&lt;/h2&gt;
 
@@ -74,7 +78,7 @@ curl &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; &lt;span class=&quot;nt&qu
 
 &lt;h2 id=&quot;python-发送-email&quot;&gt;python 发送 Email&lt;/h2&gt;
 
-&lt;p&gt;由于需要判断网站状态，网站不在线时再发送邮件，在线时忽略，市场上发送邮件的 Action 不符合需求。&lt;/p&gt;
+&lt;p&gt;由于需要判断网站状态，网站不在线时再发送邮件，在线时忽略，市场上发送邮件的 Action 不符合需求，我们自己写一个 Python 脚本来实现。&lt;/p&gt;
 
 &lt;p&gt;使用 Python 脚本实现判断状态码和发邮件功能，需要传入三个参数，分别是发送邮件的邮箱名称，邮箱授权码和 curl 网站获取的网络状态码。&lt;/p&gt;
 
