@@ -5,9 +5,159 @@
     <description>欢迎来到我的Blog~</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 24 Dec 2020 18:07:32 +0800</pubDate>
-    <lastBuildDate>Thu, 24 Dec 2020 18:07:32 +0800</lastBuildDate>
+    <pubDate>Wed, 06 Jan 2021 19:40:00 +0800</pubDate>
+    <lastBuildDate>Wed, 06 Jan 2021 19:40:00 +0800</lastBuildDate>
     <generator>Jekyll v4.1.1</generator>
+    
+      <item>
+        <title>XCFramework 解决 Xcode 12 编译报错</title>
+        <description>&lt;p&gt;我们先看一个 Xcode 12 编译时的常见错误，GMObjC.framework 同时包含 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;x86_64 arm64&lt;/code&gt; 架构，在 Xcode 12 之前的版本，编译时并不会报错，但现在却报错如下：&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 当在真机运行时，编译报错
+xx.xcodeproj Building for iOS, but the linked and embedded framework 'GMObjC.framework' was built for iOS + iOS Simulator.
+# 当在模拟器运行时，编译报错
+xx.xcodeproj Building for iOS Simulator, but the linked and embedded framework 'GMObjC.framework' was built for iOS + iOS Simulator.
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;很明显，新版本 Xcode 在使用包含多架构的库时会报错。从 stackoverflow 很容易找到解决方案，在工程的 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Build Settings -&amp;gt; Excluded Architectures&lt;/code&gt; 依次添加编译对应架构时，需要排除的架构。&lt;/p&gt;
+
+&lt;p&gt;以包含 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;x86_64 arm64&lt;/code&gt; 架构的 GMObjC.framework 为例，在编译模拟器时，需要移除 arm64 架构；同理编译真机时，需要移除 x86_64 架构。选择 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Excluded Architectures&lt;/code&gt;，点击加号”➕“，依次添加&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Any iOS Simulator&lt;/code&gt; 值为 arm64，&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Any iOS&lt;/code&gt; 值为 x86_64，再次编译即可通过。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/xcframework/xcframework1.png&quot; alt=&quot;Xcode 12 报错解决&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;那 Xcode 为什么会编译报错呢，而之前不会。和 UIWebView、UIAlertView 类似，苹果在督促我们开发者放弃旧类型，使用新类型 XCFramework。&lt;/p&gt;
+
+&lt;h2 id=&quot;xcframework-是什么&quot;&gt;XCFramework 是什么&lt;/h2&gt;
+
+&lt;p&gt;首先回顾一下 iOS 开发中的静态库和动态库。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;静态库(.a/.framework)：链接时完整地拷贝至可执行文件中，被多次使用就有多份冗余拷贝；&lt;/li&gt;
+  &lt;li&gt;动态库(.dylib/.tbd/.framework)：程序运行时由系统动态加载到内存，系统动态库可被多个程序共享。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;XCFramework 是苹果新出的库类型，在 Xcode 11 及 cocoapods 1.9 以上版本被支持，与普通动态库/静态库最大的区别是将&lt;strong&gt;多个平台&lt;/strong&gt;的二进制库，捆绑到一个可分发的&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.xcframework&lt;/code&gt;捆绑包中，支持所有的苹果平台和架构。&lt;/p&gt;
+
+&lt;p&gt;这里的关键词是&lt;strong&gt;多个平台&lt;/strong&gt;（iOS, macOS, tvOS, watchOS, iPadOS, carPlayOS），我们使用的普通动态库/静态库属于&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;fat file&lt;/code&gt;，仅仅是包含多个架构，如&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;armv7 armv7s arm64 arm64e x86_64&lt;/code&gt;等，而 XCFramework 可以包含 iOS 设备，iOS 模拟器和 Mac Catalyst 等多个平台的二进制库。&lt;/p&gt;
+
+&lt;p&gt;苹果引入 XCFramework 支持所有苹果平台，以支持苹果想实现&lt;strong&gt;大一统&lt;/strong&gt;的规划，而且 XCFramework 编译的 Swift 库，使用者不再需要使用相同 Xcode 版本编译器（使用 Swift 库实现组件化的开发者应该深有感触），对比使用 .framework 格式，使用 .xcframework 格式 APP 包大小和启动速度都有提升。&lt;/p&gt;
+
+&lt;h2 id=&quot;制作-xcframework&quot;&gt;制作 XCFramework&lt;/h2&gt;
+
+&lt;p&gt;制作 XCFramework 很简单，通过&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;xcodebuild -create-xcframework&lt;/code&gt;命令即可完成，我通过合并 GMObjC 库的模拟器和真机版本来演示。&lt;/p&gt;
+
+&lt;p&gt;当前文件夹下有编译好的 GMObjC.framework 分别是真机版本和模拟器版本。&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;.
+├── Release-iphoneos
+│   ├── 0CD1FB8D-9D63-3092-B68B-2E579A306D3F.bcsymbolmap
+│   ├── GMObjC.framework
+│   └── GMObjC.framework.dSYM
+└── Release-iphonesimulator
+    ├── GMObjC.framework
+    └── GMObjC.framework.dSYM
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;通过&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;xcodebuild -create-xcframework&lt;/code&gt;命令来合并为 XCFramework。&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# 创建合并包 GMObjC.xcframework&lt;/span&gt;
+xcodebuild &lt;span class=&quot;nt&quot;&gt;-create-xcframework&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-framework&lt;/span&gt; Release-iphoneos/GMObjC.framework &lt;span class=&quot;nt&quot;&gt;-framework&lt;/span&gt; Release-iphonesimulator/GMObjC.framework &lt;span class=&quot;nt&quot;&gt;-output&lt;/span&gt; GMObjC.xcframework
+&lt;span class=&quot;c&quot;&gt;# 或者换行展示更清晰&lt;/span&gt;
+xcodebuild &lt;span class=&quot;nt&quot;&gt;-create-xcframework&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+          &lt;span class=&quot;nt&quot;&gt;-framework&lt;/span&gt; Release-iphoneos/GMObjC.framework &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+          &lt;span class=&quot;nt&quot;&gt;-framework&lt;/span&gt; Release-iphonesimulator/GMObjC.framework &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+          &lt;span class=&quot;nt&quot;&gt;-output&lt;/span&gt; GMObjC.xcframework
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;合并后的 GMObjC.xcframework 目录结构如下，包含 arm64 和 x86_64 版本，这和 lipo 操作类似，合并其他平台时操作类似。&lt;/p&gt;
+
+&lt;div class=&quot;language-text highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;GMObjC.xcframework
+├── Info.plist
+├── ios-arm64
+│   └── GMObjC.framework
+└── ios-x86_64-simulator
+    └── GMObjC.framework
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;如果是静态库 .a 文件，则需要用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-library&lt;/code&gt;和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-headers&lt;/code&gt;来指定静态库和头文件。&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;xcodebuild &lt;span class=&quot;nt&quot;&gt;-create-xcframework&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+          &lt;span class=&quot;nt&quot;&gt;-library&lt;/span&gt; Release-iphoneos/GMObjC.a &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+          &lt;span class=&quot;nt&quot;&gt;-headers&lt;/span&gt; Release-iphoneos/include/GMObjC &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+          &lt;span class=&quot;nt&quot;&gt;-library&lt;/span&gt; Release-iphonesimulator/GMObjC.a &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+          &lt;span class=&quot;nt&quot;&gt;-headers&lt;/span&gt; Release-iphonesimulator/include/GMObjC &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+          &lt;span class=&quot;nt&quot;&gt;-output&lt;/span&gt; GMObjC.xcframework
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;使用-xcframework&quot;&gt;使用 XCFramework&lt;/h2&gt;
+
+&lt;p&gt;如何使用 .xcframework 文件，选择当前工程 Target，选择 General 目录下的 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Frameworks,Libraries,and Embedded Content&lt;/code&gt; 拖入 .xcframework 文件即可，和使用 .framework 文件几乎一样。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/posts/xcframework/xcframework2.png&quot; alt=&quot;XCFramework 配置&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;一键编译-xcframework&quot;&gt;一键编译 XCFramework&lt;/h2&gt;
+
+&lt;p&gt;编译 XCFramework 需要使用命令 &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;xcodebuild -create-xcframework&lt;/code&gt;，写成 shell 文件更方便，放在 .xcodeproj 文件同级目录下，填入 scheme 名称，拖入终端回车即可生成。&lt;/p&gt;
+
+&lt;p&gt;脚本只写了 iPhone 真机和模拟器的合并，其他平台类似，自行添加修改即可，查看示例在 &lt;a href=&quot;https://github.com/muzipiao/GMObjC&quot;&gt;GMObjCFramework&lt;/a&gt; 文件夹中，下载后脚本拖入终端运行，可看到生成的 GMObjC.xcframework 在 build 目录下。&lt;/p&gt;
+
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/sh&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# 放在与 .xcodeproj 文件同级目录下，生成结果在 build 目录下&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# 需要编译的 scheme&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;scheme&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;GMObjCFramework&quot;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-z&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$scheme&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$scheme&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
+     &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;请填入 scheme 名称&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;fi
+
+&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;scheme: &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$scheme&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;cd&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;dirname&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;0
+
+xcodebuild archive &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-scheme&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$scheme&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-sdk&lt;/span&gt; iphoneos &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-archivePath&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;archives/ios_devices.xcarchive&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nv&quot;&gt;BUILD_LIBRARY_FOR_DISTRIBUTION&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;YES &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nv&quot;&gt;SKIP_INSTALL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;NO
+
+xcodebuild archive &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-scheme&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$scheme&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-sdk&lt;/span&gt; iphonesimulator &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-archivePath&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;archives/ios_simulators.xcarchive&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nv&quot;&gt;BUILD_LIBRARY_FOR_DISTRIBUTION&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;YES &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nv&quot;&gt;SKIP_INSTALL&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;NO
+
+&lt;span class=&quot;c&quot;&gt;# 优先从 archive 文件夹下读取&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;product_list&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;ls &lt;/span&gt;archives/ios_devices.xcarchive/Products/Library/Frameworks&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;file_name &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$product_list&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;do
+    &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;full_product_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$file_name&lt;/span&gt;
+    &lt;span class=&quot;nb&quot;&gt;break
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;done&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# 读取不到就从 showBuildSettings 读取&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-z&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$full_product_name&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$full_product_name&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
+    &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;name_dict&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;xcodebuild &lt;span class=&quot;nt&quot;&gt;-showBuildSettings&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;grep &lt;/span&gt;FULL_PRODUCT_NAME&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;nv&quot;&gt;full_product_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;name_dict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;#*= &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;fi
+
+&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;product_name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;full_product_name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;%.*&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;
+
+xcodebuild &lt;span class=&quot;nt&quot;&gt;-create-xcframework&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-framework&lt;/span&gt; archives/ios_devices.xcarchive/Products/Library/Frameworks/&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$full_product_name&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-framework&lt;/span&gt; archives/ios_simulators.xcarchive/Products/Library/Frameworks/&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$full_product_name&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-output&lt;/span&gt; build/&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$product_name&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;.xcframework
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+</description>
+        <pubDate>Wed, 06 Jan 2021 00:00:00 +0800</pubDate>
+        <link>http://localhost:4000/2021/01/XCFramework-%E8%A7%A3%E5%86%B3-Xcode-12-%E7%BC%96%E8%AF%91%E6%8A%A5%E9%94%99/</link>
+        <guid isPermaLink="true">http://localhost:4000/2021/01/XCFramework-%E8%A7%A3%E5%86%B3-Xcode-12-%E7%BC%96%E8%AF%91%E6%8A%A5%E9%94%99/</guid>
+        
+        <category>iOS</category>
+        
+        
+      </item>
     
       <item>
         <title>GitHub Actions 监测网站在线</title>
@@ -2608,138 +2758,6 @@ TestProj 是一个简单的库，使用 TestProj 可快速实现什么功能。
         <pubDate>Mon, 09 Jul 2018 00:00:00 +0800</pubDate>
         <link>http://localhost:4000/2018/07/cocoapods-%E5%8F%91%E5%B8%83%E5%BA%93/</link>
         <guid isPermaLink="true">http://localhost:4000/2018/07/cocoapods-%E5%8F%91%E5%B8%83%E5%BA%93/</guid>
-        
-        <category>iOS</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>宏与内联函数</title>
-        <description>&lt;h2 id=&quot;宏与内联函数区别&quot;&gt;宏与内联函数区别&lt;/h2&gt;
-
-&lt;p&gt;在 iOS 开发中宏似乎是不可缺少的，尤其是替换一些重复文本字段时，简单实用。那内联函数呢，如果一些简单却需要频繁调用的函数，不断地有函数入栈，即函数栈，会造成栈空间或栈内存的大量消耗。C++ 语言为了解决这个问题，特别的引入了 inline 修饰符，表示为内联函数，内联扩展是用来消除函数调用时的时间开销。&lt;/p&gt;
-
-&lt;p&gt;宏定义和内联函数有什么区别？对比一下。&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;内联函数在编译时展开，宏在预编译时展开；&lt;/li&gt;
-  &lt;li&gt;内联函数直接嵌入到目标代码中，宏是简单的做文本替换；&lt;/li&gt;
-  &lt;li&gt;内联函数有类型检测、语法判断等功能，而宏没有；&lt;/li&gt;
-  &lt;li&gt;inline函数是函数，宏不是；&lt;/li&gt;
-  &lt;li&gt;宏定义时要注意书写（参数要括起来）否则容易出现歧义，内联函数不会产生歧义。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;宏比较容易理解，而内联函数从源代码层看，有函数的结构，而在编译后，却不具备函数的性质。内联函数不是在调用时发生控制转移，而是在编译时将函数体嵌入在每一个调用处。编译时，类似宏替换，使用函数体替换调用处的函数名。&lt;/p&gt;
-
-&lt;h2 id=&quot;宏&quot;&gt;宏&lt;/h2&gt;
-
-&lt;p&gt;宏会在预编译的时候，将所有出现宏名的地方都替换为宏名对应值。&lt;/p&gt;
-
-&lt;h3 id=&quot;宏定义&quot;&gt;宏定义&lt;/h3&gt;
-
-&lt;p&gt;宏定义时命名一般为全部大写多个单词中使用_隔开或者 k 开头驼峰标识。宏定义分为带参数和不带参数，不带参数的宏较简单，格式为&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;#define 宏名称 宏的值&lt;/code&gt;，带参数的宏格式为&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;#define 宏名(参数列表) 参数表达式&lt;/code&gt;。&lt;/p&gt;
-
-&lt;div class=&quot;language-objc highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;/// 不带参数的宏，宏名称与值之间空格任意&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#define TOTAL_NUM     8
-#define kTotalNum     8
-#define APP_VERSION   @&quot;8.0.0&quot;
-#define GM_PUBKEY     @&quot;SdFTF3Y8fghjklfghjkl56789qpGfxogIDIoa6P47&quot;
-#define HOME_URL      @&quot;https:\/\/www.baidu.com&quot;
-#define kHomeURLCopy  HOME_URL
-&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;/// 带参数的宏较复杂，注意宏名称与()之间不可以有空格&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#define SUM(x,y) (x + y)
-#define PF(x,y)  ((x) * (y))
-&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;/// 用于终止宏定义的作用范围&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#undef TOTAL_NUM
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;注意点：&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;宏名与()之间不可以有空格；&lt;/li&gt;
-  &lt;li&gt;参数列表中不可以有数据类型；&lt;/li&gt;
-  &lt;li&gt;一般情况下参数表达式中的所有成员及结果都需要加上()；&lt;/li&gt;
-  &lt;li&gt;若运算比较复杂还是使用函数。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;宏条件编译&quot;&gt;宏条件编译&lt;/h3&gt;
-
-&lt;p&gt;因宏展开发生在预编译阶段，所以使用宏条件编译，可以读取不同的配置，比如区分测试环境和生产环境。&lt;/p&gt;
-
-&lt;div class=&quot;language-objc highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;/// #if 条件判断，当判断条件 &amp;gt; 0 时成立&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#define kDebugSwitch 1
-#if kDebugSwitch
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&quot;此时判断条件 kDebugSwitch 的值 &amp;gt; 0&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#else
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&quot;此时判断条件 kDebugSwitch 的值 &amp;lt;= 0&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#endif
-&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;/// #ifdef 条件判断，当定义了宏，无论宏为任何值，都成立；未定义宏则不成立。&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#define kSW xxx
-#ifdef kSW
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;@“此时宏&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kSW&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;定义存在，不管&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kSW&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;为任何值或者无值”&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#else
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NSLog&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;@“此时宏&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;kSW&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;未定义”&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#endif
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;内联函数&quot;&gt;内联函数&lt;/h2&gt;
-
-&lt;p&gt;内联函数是 C++ 中的一种特殊函数，它可以像普通函数一样被调用，但是在调用时并不通过函数调用的机制，而是通过将函数体直接插入调用处来实现的，这样可以大大减少由函数调用带来的开销，从而提高程序的运行效率。一般来说 inline 用于定义类的成员函数。&lt;/p&gt;
-
-&lt;h3 id=&quot;内联函数特点&quot;&gt;内联函数特点&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;内联函数可声名在任何文件中，但不适用复杂的逻辑，以空间换取速度，因为内联函数会在任何调用它的地方展开，复杂代码会使代码膨胀（复制代码）；&lt;/li&gt;
-  &lt;li&gt;不能包含复杂的结构控制语句例如 while、switch，并且内联函数本身不能是直接递归函数（自己内部还调用自己的函数）。如果包含复杂的结构控制语句，则视为普通函数。原因可能是复杂结构语句展开后会占用过多栈空间；&lt;/li&gt;
-  &lt;li&gt;inline 字段必须与函数体放在一起才能成为内联函数，声名时放在一起不起作用。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;内联函数定义&quot;&gt;内联函数定义&lt;/h3&gt;
-
-&lt;p&gt;内联函数的使用比较简单，只需要在声明或者定义函数时在头部加上inline关键字即可，格式如下:&lt;/p&gt;
-
-&lt;div class=&quot;language-objc highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kr&quot;&gt;inline&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;返回值类型&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;函数&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;函数参数&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;/// 此处定义函数体&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;具体示例，定义不同内联函数。&lt;/p&gt;
-
-&lt;div class=&quot;language-objc highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;/// 将尺寸转换为像素&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;inline&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;CGFloat&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;TransToPixel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;CGFloat&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;UIScreen&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;mainScreen&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;scale&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;/// 字符串判空&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;inline&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NSString&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Nullable&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;AdvoidStr&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NSString&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Nullable&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;length&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;@&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;/// 读取语言配置的示例&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;inline&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NSDictionary&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Nullable&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;ReadDebugConfig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NSString&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_Nullable&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NSDictionary&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;configDict&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;dispatch_once_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;onceToken&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;dispatch_once&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;onceToken&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;^&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;configDict&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;@{&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&quot;zh&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&quot;zh.plist&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;@&quot;en&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&quot;en.plist&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-&lt;span class=&quot;s&quot;&gt;@&quot;fr&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;@&quot;fr.plist&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;configDict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;configDict&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-</description>
-        <pubDate>Fri, 22 Jun 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/06/%E5%AE%8F%E4%B8%8E%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/06/%E5%AE%8F%E4%B8%8E%E5%86%85%E8%81%94%E5%87%BD%E6%95%B0/</guid>
         
         <category>iOS</category>
         

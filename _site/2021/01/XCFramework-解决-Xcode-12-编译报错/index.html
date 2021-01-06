@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>XCFramework 解决 Xcode 12 编译报错</title>
+  <meta name="description" content="我们先看一个 Xcode 12 编译时的常见错误，GMObjC.framework 同时包含 x86_64 arm64 架构，在 Xcode 12 之前的版本，编译时并不会报错，但现在却报错如下：">
+  <meta name="author" content="leopardpan">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="XCFramework 解决 Xcode 12 编译报错">
+  <meta name="twitter:description" content="我们先看一个 Xcode 12 编译时的常见错误，GMObjC.framework 同时包含 x86_64 arm64 架构，在 Xcode 12 之前的版本，编译时并不会报错，但现在却报错如下：">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="XCFramework 解决 Xcode 12 编译报错">
+  <meta property="og:description" content="我们先看一个 Xcode 12 编译时的常见错误，GMObjC.framework 同时包含 x86_64 arm64 架构，在 Xcode 12 之前的版本，编译时并不会报错，但现在却报错如下：">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//libs.baidu.com/fontawesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2021/01/XCFramework-%E8%A7%A3%E5%86%B3-Xcode-12-%E7%BC%96%E8%AF%91%E6%8A%A5%E9%94%99/">
+  <link rel="alternate" type="application/rss+xml" title="cocoafei" href="http://localhost:4000/feed.xml">
+
+<!-- 百度统计 -->
+  
+
+<!-- google 统计 -->
+  
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.png')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">            
+            <a href="/#blog" title="前往 cocoafei 的主页" class="blog-button">
+                <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                <div class="info">
+                    <div class="info-back">
+                        <h2> 
+                            
+                                cocoafei
+                            
+                        </h2>
+                        <p>
+                           
+                                iOS / Python
+                            
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for cocoafei" class="blog-button">cocoafei</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">个人站</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">欢迎来到我的Blog~</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                  <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                  <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+                  <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>          
+        </div>
+
+
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-clear"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">XCFramework 解决 Xcode 12 编译报错</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px" style="vertical-align:middle;"/> 
+      <time datetime="2021-01-06 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date" style="vertical-align:middle;">2021-01-06</time>
+    </p>  
+    </div>
+  </header>
+
+  <section class="post">
+    <p>我们先看一个 Xcode 12 编译时的常见错误，GMObjC.framework 同时包含 <code class="language-plaintext highlighter-rouge">x86_64 arm64</code> 架构，在 Xcode 12 之前的版本，编译时并不会报错，但现在却报错如下：</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 当在真机运行时，编译报错
+xx.xcodeproj Building for iOS, but the linked and embedded framework 'GMObjC.framework' was built for iOS + iOS Simulator.
+# 当在模拟器运行时，编译报错
+xx.xcodeproj Building for iOS Simulator, but the linked and embedded framework 'GMObjC.framework' was built for iOS + iOS Simulator.
+</code></pre></div></div>
+
+<p>很明显，新版本 Xcode 在使用包含多架构的库时会报错。从 stackoverflow 很容易找到解决方案，在工程的 <code class="language-plaintext highlighter-rouge">Build Settings -&gt; Excluded Architectures</code> 依次添加编译对应架构时，需要排除的架构。</p>
+
+<p>以包含 <code class="language-plaintext highlighter-rouge">x86_64 arm64</code> 架构的 GMObjC.framework 为例，在编译模拟器时，需要移除 arm64 架构；同理编译真机时，需要移除 x86_64 架构。选择 <code class="language-plaintext highlighter-rouge">Excluded Architectures</code>，点击加号”➕“，依次添加<code class="language-plaintext highlighter-rouge">Any iOS Simulator</code> 值为 arm64，<code class="language-plaintext highlighter-rouge">Any iOS</code> 值为 x86_64，再次编译即可通过。</p>
+
+<p><img src="/images/posts/xcframework/xcframework1.png" alt="Xcode 12 报错解决" /></p>
+
+<p>那 Xcode 为什么会编译报错呢，而之前不会。和 UIWebView、UIAlertView 类似，苹果在督促我们开发者放弃旧类型，使用新类型 XCFramework。</p>
+
+<h2 id="xcframework-是什么">XCFramework 是什么</h2>
+
+<p>首先回顾一下 iOS 开发中的静态库和动态库。</p>
+
+<ul>
+  <li>静态库(.a/.framework)：链接时完整地拷贝至可执行文件中，被多次使用就有多份冗余拷贝；</li>
+  <li>动态库(.dylib/.tbd/.framework)：程序运行时由系统动态加载到内存，系统动态库可被多个程序共享。</li>
+</ul>
+
+<p>XCFramework 是苹果新出的库类型，在 Xcode 11 及 cocoapods 1.9 以上版本被支持，与普通动态库/静态库最大的区别是将<strong>多个平台</strong>的二进制库，捆绑到一个可分发的<code class="language-plaintext highlighter-rouge">.xcframework</code>捆绑包中，支持所有的苹果平台和架构。</p>
+
+<p>这里的关键词是<strong>多个平台</strong>（iOS, macOS, tvOS, watchOS, iPadOS, carPlayOS），我们使用的普通动态库/静态库属于<code class="language-plaintext highlighter-rouge">fat file</code>，仅仅是包含多个架构，如<code class="language-plaintext highlighter-rouge">armv7 armv7s arm64 arm64e x86_64</code>等，而 XCFramework 可以包含 iOS 设备，iOS 模拟器和 Mac Catalyst 等多个平台的二进制库。</p>
+
+<p>苹果引入 XCFramework 支持所有苹果平台，以支持苹果想实现<strong>大一统</strong>的规划，而且 XCFramework 编译的 Swift 库，使用者不再需要使用相同 Xcode 版本编译器（使用 Swift 库实现组件化的开发者应该深有感触），对比使用 .framework 格式，使用 .xcframework 格式 APP 包大小和启动速度都有提升。</p>
+
+<h2 id="制作-xcframework">制作 XCFramework</h2>
+
+<p>制作 XCFramework 很简单，通过<code class="language-plaintext highlighter-rouge">xcodebuild -create-xcframework</code>命令即可完成，我通过合并 GMObjC 库的模拟器和真机版本来演示。</p>
+
+<p>当前文件夹下有编译好的 GMObjC.framework 分别是真机版本和模拟器版本。</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.
+├── Release-iphoneos
+│   ├── 0CD1FB8D-9D63-3092-B68B-2E579A306D3F.bcsymbolmap
+│   ├── GMObjC.framework
+│   └── GMObjC.framework.dSYM
+└── Release-iphonesimulator
+    ├── GMObjC.framework
+    └── GMObjC.framework.dSYM
+</code></pre></div></div>
+
+<p>通过<code class="language-plaintext highlighter-rouge">xcodebuild -create-xcframework</code>命令来合并为 XCFramework。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 创建合并包 GMObjC.xcframework</span>
+xcodebuild <span class="nt">-create-xcframework</span> <span class="nt">-framework</span> Release-iphoneos/GMObjC.framework <span class="nt">-framework</span> Release-iphonesimulator/GMObjC.framework <span class="nt">-output</span> GMObjC.xcframework
+<span class="c"># 或者换行展示更清晰</span>
+xcodebuild <span class="nt">-create-xcframework</span> <span class="se">\</span>
+          <span class="nt">-framework</span> Release-iphoneos/GMObjC.framework <span class="se">\</span>
+          <span class="nt">-framework</span> Release-iphonesimulator/GMObjC.framework <span class="se">\</span>
+          <span class="nt">-output</span> GMObjC.xcframework
+</code></pre></div></div>
+
+<p>合并后的 GMObjC.xcframework 目录结构如下，包含 arm64 和 x86_64 版本，这和 lipo 操作类似，合并其他平台时操作类似。</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GMObjC.xcframework
+├── Info.plist
+├── ios-arm64
+│   └── GMObjC.framework
+└── ios-x86_64-simulator
+    └── GMObjC.framework
+</code></pre></div></div>
+
+<p>如果是静态库 .a 文件，则需要用<code class="language-plaintext highlighter-rouge">-library</code>和<code class="language-plaintext highlighter-rouge">-headers</code>来指定静态库和头文件。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xcodebuild <span class="nt">-create-xcframework</span> <span class="se">\</span>
+          <span class="nt">-library</span> Release-iphoneos/GMObjC.a <span class="se">\</span>
+          <span class="nt">-headers</span> Release-iphoneos/include/GMObjC <span class="se">\</span>
+          <span class="nt">-library</span> Release-iphonesimulator/GMObjC.a <span class="se">\</span>
+          <span class="nt">-headers</span> Release-iphonesimulator/include/GMObjC <span class="se">\</span>
+          <span class="nt">-output</span> GMObjC.xcframework
+</code></pre></div></div>
+
+<h2 id="使用-xcframework">使用 XCFramework</h2>
+
+<p>如何使用 .xcframework 文件，选择当前工程 Target，选择 General 目录下的 <code class="language-plaintext highlighter-rouge">Frameworks,Libraries,and Embedded Content</code> 拖入 .xcframework 文件即可，和使用 .framework 文件几乎一样。</p>
+
+<p><img src="/images/posts/xcframework/xcframework2.png" alt="XCFramework 配置" /></p>
+
+<h2 id="一键编译-xcframework">一键编译 XCFramework</h2>
+
+<p>编译 XCFramework 需要使用命令 <code class="language-plaintext highlighter-rouge">xcodebuild -create-xcframework</code>，写成 shell 文件更方便，放在 .xcodeproj 文件同级目录下，填入 scheme 名称，拖入终端回车即可生成。</p>
+
+<p>脚本只写了 iPhone 真机和模拟器的合并，其他平台类似，自行添加修改即可，查看示例在 <a href="https://github.com/muzipiao/GMObjC">GMObjCFramework</a> 文件夹中，下载后脚本拖入终端运行，可看到生成的 GMObjC.xcframework 在 build 目录下。</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/sh</span>
+<span class="c"># 放在与 .xcodeproj 文件同级目录下，生成结果在 build 目录下</span>
+
+<span class="c"># 需要编译的 scheme</span>
+<span class="nv">scheme</span><span class="o">=</span><span class="s2">"GMObjCFramework"</span>
+
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$scheme</span><span class="s2">"</span> <span class="o">]</span> <span class="o">||</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$scheme</span><span class="s2">"</span> <span class="o">=</span> <span class="s2">""</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+     </span><span class="nb">echo</span> <span class="s2">"请填入 scheme 名称"</span>
+<span class="k">fi
+
+</span><span class="nb">echo</span> <span class="s2">"scheme: </span><span class="nv">$scheme</span><span class="s2">"</span>
+<span class="nb">cd</span> <span class="s2">"</span><span class="si">$(</span><span class="nb">dirname</span> <span class="s2">"</span><span class="nv">$0</span><span class="s2">"</span><span class="si">)</span><span class="s2">"</span> <span class="o">||</span> <span class="nb">exit </span>0
+
+xcodebuild archive <span class="se">\</span>
+    <span class="nt">-scheme</span> <span class="s2">"</span><span class="nv">$scheme</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">-sdk</span> iphoneos <span class="se">\</span>
+    <span class="nt">-archivePath</span> <span class="s2">"archives/ios_devices.xcarchive"</span> <span class="se">\</span>
+    <span class="nv">BUILD_LIBRARY_FOR_DISTRIBUTION</span><span class="o">=</span>YES <span class="se">\</span>
+    <span class="nv">SKIP_INSTALL</span><span class="o">=</span>NO
+
+xcodebuild archive <span class="se">\</span>
+    <span class="nt">-scheme</span> <span class="s2">"</span><span class="nv">$scheme</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">-sdk</span> iphonesimulator <span class="se">\</span>
+    <span class="nt">-archivePath</span> <span class="s2">"archives/ios_simulators.xcarchive"</span> <span class="se">\</span>
+    <span class="nv">BUILD_LIBRARY_FOR_DISTRIBUTION</span><span class="o">=</span>YES <span class="se">\</span>
+    <span class="nv">SKIP_INSTALL</span><span class="o">=</span>NO
+
+<span class="c"># 优先从 archive 文件夹下读取</span>
+<span class="nv">product_list</span><span class="o">=</span><span class="si">$(</span><span class="nb">ls </span>archives/ios_devices.xcarchive/Products/Library/Frameworks<span class="si">)</span>
+<span class="k">for </span>file_name <span class="k">in</span> <span class="nv">$product_list</span>
+<span class="k">do
+    </span><span class="nv">full_product_name</span><span class="o">=</span><span class="nv">$file_name</span>
+    <span class="nb">break
+</span><span class="k">done</span>
+
+<span class="c"># 读取不到就从 showBuildSettings 读取</span>
+<span class="k">if</span> <span class="o">[</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$full_product_name</span><span class="s2">"</span> <span class="o">]</span> <span class="o">||</span> <span class="o">[</span> <span class="s2">"</span><span class="nv">$full_product_name</span><span class="s2">"</span> <span class="o">=</span> <span class="s2">""</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+    </span><span class="nv">name_dict</span><span class="o">=</span><span class="si">$(</span>xcodebuild <span class="nt">-showBuildSettings</span> | <span class="nb">grep </span>FULL_PRODUCT_NAME<span class="si">)</span>
+    <span class="nv">full_product_name</span><span class="o">=</span><span class="k">${</span><span class="nv">name_dict</span><span class="p">#*= </span><span class="k">}</span>
+<span class="k">fi
+
+</span><span class="nv">product_name</span><span class="o">=</span><span class="k">${</span><span class="nv">full_product_name</span><span class="p">%.*</span><span class="k">}</span>
+
+xcodebuild <span class="nt">-create-xcframework</span> <span class="se">\</span>
+    <span class="nt">-framework</span> archives/ios_devices.xcarchive/Products/Library/Frameworks/<span class="s2">"</span><span class="nv">$full_product_name</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">-framework</span> archives/ios_simulators.xcarchive/Products/Library/Frameworks/<span class="s2">"</span><span class="nv">$full_product_name</span><span class="s2">"</span> <span class="se">\</span>
+    <span class="nt">-output</span> build/<span class="s2">"</span><span class="nv">$product_name</span><span class="s2">"</span>.xcframework
+</code></pre></div></div>
+
+
+  </section>
+</article>
+
+<section>
+
+    <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+    <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2020/12/GitHub-Actions-%E7%9B%91%E6%B5%8B%E7%BD%91%E7%AB%99%E5%9C%A8%E7%BA%BF/" data-toggle="tooltip"
+                data-placement="top" title="GitHub Actions 监测网站在线">上一篇： <span>GitHub Actions 监测网站在线</span>
+            </a>
+        </li>
+        
+        
+    </ul>
+</section>
+<section class="post-comments">
+
+</section>
+
+
+            <section class="footer">
+    <footer>
+        <div class = "footer_div">
+            <nav class="cover-navigation navigation--social">
+                <ul class="navigation">
+                    
+                    
+                    <!-- Github -->
+                    <li class="navigation__item_social">
+                        <a href="https://github.com/muzipiao" title="@muzipiao 的 Github" target="_blank">
+                            <div class="footer-social-icon" style="background-image:url(/images/github.png);"></div>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    
+                    
+                    <!-- Zhihu -->
+                    <li class="navigation__item_social">
+                        <a href="https://juejin.im/user/5b2f1c51f265da59ad439f69" title="@5b2f1c51f265da59ad439f69" target="_blank">
+                            <div class="footer-social-icon" style="background-image:url(/images/juejin.png);"></div>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <!-- Email -->
+                    <li class="navigation__item_social">
+                        <a href="mailto:lifei_zdjl@126.com" title="Contact me">
+                            <div class="footer-social-icon" style="background-image:url(/images/email.png);"></div>
+                        </a>
+                    </li>
+                    
+                    
+                    <!-- RSS -->
+                    <li class="navigation__item_social">
+                        <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+                            <div class="footer-social-icon" style="background-image:url(/images/rss.png);"></div>
+                            <span class="label">RSS</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </nav>
+        </div>
+        <div><br><br></div>
+        <div class="footer__copyright" >
+            <br>
+            <span>©2020&nbsp;cocoafei&nbsp;</span>
+            <img src="/images/beian.png"/>
+            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010702002032" target="_blank">京公网安备 11010702002032号</a>
+            <span>&nbsp;</span>
+            <a href="http://beian.miit.gov.cn/" target="_blank">京ICP备2020033870号</a>
+        </div>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>
