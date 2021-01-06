@@ -203,9 +203,9 @@ xx.xcodeproj Building for iOS Simulator, but the linked and embedded framework '
 xcodebuild <span class="nt">-create-xcframework</span> <span class="nt">-framework</span> Release-iphoneos/GMObjC.framework <span class="nt">-framework</span> Release-iphonesimulator/GMObjC.framework <span class="nt">-output</span> GMObjC.xcframework
 <span class="c"># 或者换行展示更清晰</span>
 xcodebuild <span class="nt">-create-xcframework</span> <span class="se">\</span>
-          <span class="nt">-framework</span> Release-iphoneos/GMObjC.framework <span class="se">\</span>
-          <span class="nt">-framework</span> Release-iphonesimulator/GMObjC.framework <span class="se">\</span>
-          <span class="nt">-output</span> GMObjC.xcframework
+           <span class="nt">-framework</span> Release-iphoneos/GMObjC.framework <span class="se">\</span>
+           <span class="nt">-framework</span> Release-iphonesimulator/GMObjC.framework <span class="se">\</span>
+           <span class="nt">-output</span> GMObjC.xcframework
 </code></pre></div></div>
 
 <p>合并后的 GMObjC.xcframework 目录结构如下，包含 arm64 和 x86_64 版本，这和 lipo 操作类似，合并其他平台时操作类似。</p>
@@ -221,11 +221,11 @@ xcodebuild <span class="nt">-create-xcframework</span> <span class="se">\</span>
 <p>如果是静态库 .a 文件，则需要用<code class="language-plaintext highlighter-rouge">-library</code>和<code class="language-plaintext highlighter-rouge">-headers</code>来指定静态库和头文件。</p>
 
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xcodebuild <span class="nt">-create-xcframework</span> <span class="se">\</span>
-          <span class="nt">-library</span> Release-iphoneos/GMObjC.a <span class="se">\</span>
-          <span class="nt">-headers</span> Release-iphoneos/include/GMObjC <span class="se">\</span>
-          <span class="nt">-library</span> Release-iphonesimulator/GMObjC.a <span class="se">\</span>
-          <span class="nt">-headers</span> Release-iphonesimulator/include/GMObjC <span class="se">\</span>
-          <span class="nt">-output</span> GMObjC.xcframework
+           <span class="nt">-library</span> Release-iphoneos/GMObjC.a <span class="se">\</span>
+           <span class="nt">-headers</span> Release-iphoneos/include/GMObjC <span class="se">\</span>
+           <span class="nt">-library</span> Release-iphonesimulator/GMObjC.a <span class="se">\</span>
+           <span class="nt">-headers</span> Release-iphonesimulator/include/GMObjC <span class="se">\</span>
+           <span class="nt">-output</span> GMObjC.xcframework
 </code></pre></div></div>
 
 <h2 id="使用-xcframework">使用 XCFramework</h2>

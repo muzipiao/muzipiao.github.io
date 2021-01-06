@@ -5,8 +5,8 @@
     <description>欢迎来到我的Blog~</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 06 Jan 2021 19:40:00 +0800</pubDate>
-    <lastBuildDate>Wed, 06 Jan 2021 19:40:00 +0800</lastBuildDate>
+    <pubDate>Wed, 06 Jan 2021 19:48:58 +0800</pubDate>
+    <lastBuildDate>Wed, 06 Jan 2021 19:48:58 +0800</lastBuildDate>
     <generator>Jekyll v4.1.1</generator>
     
       <item>
@@ -64,9 +64,9 @@ xx.xcodeproj Building for iOS Simulator, but the linked and embedded framework '
 xcodebuild &lt;span class=&quot;nt&quot;&gt;-create-xcframework&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-framework&lt;/span&gt; Release-iphoneos/GMObjC.framework &lt;span class=&quot;nt&quot;&gt;-framework&lt;/span&gt; Release-iphonesimulator/GMObjC.framework &lt;span class=&quot;nt&quot;&gt;-output&lt;/span&gt; GMObjC.xcframework
 &lt;span class=&quot;c&quot;&gt;# 或者换行展示更清晰&lt;/span&gt;
 xcodebuild &lt;span class=&quot;nt&quot;&gt;-create-xcframework&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;-framework&lt;/span&gt; Release-iphoneos/GMObjC.framework &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;-framework&lt;/span&gt; Release-iphonesimulator/GMObjC.framework &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;-output&lt;/span&gt; GMObjC.xcframework
+           &lt;span class=&quot;nt&quot;&gt;-framework&lt;/span&gt; Release-iphoneos/GMObjC.framework &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+           &lt;span class=&quot;nt&quot;&gt;-framework&lt;/span&gt; Release-iphonesimulator/GMObjC.framework &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+           &lt;span class=&quot;nt&quot;&gt;-output&lt;/span&gt; GMObjC.xcframework
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;合并后的 GMObjC.xcframework 目录结构如下，包含 arm64 和 x86_64 版本，这和 lipo 操作类似，合并其他平台时操作类似。&lt;/p&gt;
@@ -82,11 +82,11 @@ xcodebuild &lt;span class=&quot;nt&quot;&gt;-create-xcframework&lt;/span&gt; &lt
 &lt;p&gt;如果是静态库 .a 文件，则需要用&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-library&lt;/code&gt;和&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-headers&lt;/code&gt;来指定静态库和头文件。&lt;/p&gt;
 
 &lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;xcodebuild &lt;span class=&quot;nt&quot;&gt;-create-xcframework&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;-library&lt;/span&gt; Release-iphoneos/GMObjC.a &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;-headers&lt;/span&gt; Release-iphoneos/include/GMObjC &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;-library&lt;/span&gt; Release-iphonesimulator/GMObjC.a &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;-headers&lt;/span&gt; Release-iphonesimulator/include/GMObjC &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
-          &lt;span class=&quot;nt&quot;&gt;-output&lt;/span&gt; GMObjC.xcframework
+           &lt;span class=&quot;nt&quot;&gt;-library&lt;/span&gt; Release-iphoneos/GMObjC.a &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+           &lt;span class=&quot;nt&quot;&gt;-headers&lt;/span&gt; Release-iphoneos/include/GMObjC &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+           &lt;span class=&quot;nt&quot;&gt;-library&lt;/span&gt; Release-iphonesimulator/GMObjC.a &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+           &lt;span class=&quot;nt&quot;&gt;-headers&lt;/span&gt; Release-iphonesimulator/include/GMObjC &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+           &lt;span class=&quot;nt&quot;&gt;-output&lt;/span&gt; GMObjC.xcframework
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;使用-xcframework&quot;&gt;使用 XCFramework&lt;/h2&gt;

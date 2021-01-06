@@ -60,9 +60,9 @@ XCFramework 是苹果新出的库类型，在 Xcode 11 及 cocoapods 1.9 以上�
 xcodebuild -create-xcframework -framework Release-iphoneos/GMObjC.framework -framework Release-iphonesimulator/GMObjC.framework -output GMObjC.xcframework
 # 或者换行展示更清晰
 xcodebuild -create-xcframework \
-          -framework Release-iphoneos/GMObjC.framework \
-          -framework Release-iphonesimulator/GMObjC.framework \
-          -output GMObjC.xcframework
+           -framework Release-iphoneos/GMObjC.framework \
+           -framework Release-iphonesimulator/GMObjC.framework \
+           -output GMObjC.xcframework
 ```
 
 合并后的 GMObjC.xcframework 目录结构如下，包含 arm64 和 x86_64 版本，这和 lipo 操作类似，合并其他平台时操作类似。
@@ -80,11 +80,11 @@ GMObjC.xcframework
 
 ```shell
 xcodebuild -create-xcframework \
-          -library Release-iphoneos/GMObjC.a \
-          -headers Release-iphoneos/include/GMObjC \
-          -library Release-iphonesimulator/GMObjC.a \
-          -headers Release-iphonesimulator/include/GMObjC \
-          -output GMObjC.xcframework
+           -library Release-iphoneos/GMObjC.a \
+           -headers Release-iphoneos/include/GMObjC \
+           -library Release-iphonesimulator/GMObjC.a \
+           -headers Release-iphonesimulator/include/GMObjC \
+           -output GMObjC.xcframework
 ```
 
 ## 使用 XCFramework
