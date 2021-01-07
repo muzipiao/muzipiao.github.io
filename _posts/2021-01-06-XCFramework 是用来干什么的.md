@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "XCFramework 解决 Xcode 12 编译报错"
+title: "XCFramework 是用来干什么的"
 date: 2021-01-06
-description: "XCFramework 解决 Xcode 12 编译报错"
+description: "XCFramework 是用来干什么的"
 tag: iOS
 --- 
 
