@@ -3,11 +3,11 @@
   <channel>
     <title>cocoafei</title>
     <description>欢迎来到我的Blog~</description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Thu, 07 Jan 2021 16:45:20 +0800</pubDate>
-    <lastBuildDate>Thu, 07 Jan 2021 16:45:20 +0800</lastBuildDate>
-    <generator>Jekyll v4.1.1</generator>
+    <link>https://cocoafei.top/</link>
+    <atom:link href="https://cocoafei.top/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Fri, 08 Jan 2021 14:56:24 +0800</pubDate>
+    <lastBuildDate>Fri, 08 Jan 2021 14:56:24 +0800</lastBuildDate>
+    <generator>Jekyll v4.2.0</generator>
     
       <item>
         <title>XCFramework 是用来干什么的</title>
@@ -151,8 +151,8 @@ xcodebuild &lt;span class=&quot;nt&quot;&gt;-create-xcframework&lt;/span&gt; &lt
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 </description>
         <pubDate>Wed, 06 Jan 2021 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2021/01/XCFramework-%E6%98%AF%E7%94%A8%E6%9D%A5%E5%B9%B2%E4%BB%80%E4%B9%88%E7%9A%84/</link>
-        <guid isPermaLink="true">http://localhost:4000/2021/01/XCFramework-%E6%98%AF%E7%94%A8%E6%9D%A5%E5%B9%B2%E4%BB%80%E4%B9%88%E7%9A%84/</guid>
+        <link>https://cocoafei.top/2021/01/XCFramework-%E6%98%AF%E7%94%A8%E6%9D%A5%E5%B9%B2%E4%BB%80%E4%B9%88%E7%9A%84/</link>
+        <guid isPermaLink="true">https://cocoafei.top/2021/01/XCFramework-%E6%98%AF%E7%94%A8%E6%9D%A5%E5%B9%B2%E4%BB%80%E4%B9%88%E7%9A%84/</guid>
         
         <category>iOS</category>
         
@@ -473,8 +473,8 @@ python ./email_status.py &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span
 &lt;p&gt;&lt;a href=&quot;http://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html&quot;&gt;示例-GitHub Actions&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 24 Dec 2020 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2020/12/GitHub-Actions-%E7%9B%91%E6%B5%8B%E7%BD%91%E7%AB%99%E5%9C%A8%E7%BA%BF/</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/12/GitHub-Actions-%E7%9B%91%E6%B5%8B%E7%BD%91%E7%AB%99%E5%9C%A8%E7%BA%BF/</guid>
+        <link>https://cocoafei.top/2020/12/GitHub-Actions-%E7%9B%91%E6%B5%8B%E7%BD%91%E7%AB%99%E5%9C%A8%E7%BA%BF/</link>
+        <guid isPermaLink="true">https://cocoafei.top/2020/12/GitHub-Actions-%E7%9B%91%E6%B5%8B%E7%BD%91%E7%AB%99%E5%9C%A8%E7%BA%BF/</guid>
         
         <category>GitHub</category>
         
@@ -541,8 +541,8 @@ python ./email_status.py &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span
 &lt;p&gt;&lt;img src=&quot;/images/posts/phone_oauth/phone_oauth1.png&quot; alt=&quot;一键登录授权&quot; /&gt;&lt;/p&gt;
 </description>
         <pubDate>Fri, 09 Oct 2020 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2020/10/iOS-%E6%89%8B%E6%9C%BA%E5%8F%B7%E4%B8%80%E9%94%AE%E7%99%BB%E5%BD%95/</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/10/iOS-%E6%89%8B%E6%9C%BA%E5%8F%B7%E4%B8%80%E9%94%AE%E7%99%BB%E5%BD%95/</guid>
+        <link>https://cocoafei.top/2020/10/iOS-%E6%89%8B%E6%9C%BA%E5%8F%B7%E4%B8%80%E9%94%AE%E7%99%BB%E5%BD%95/</link>
+        <guid isPermaLink="true">https://cocoafei.top/2020/10/iOS-%E6%89%8B%E6%9C%BA%E5%8F%B7%E4%B8%80%E9%94%AE%E7%99%BB%E5%BD%95/</guid>
         
         <category>iOS</category>
         
@@ -728,8 +728,8 @@ git config &lt;span class=&quot;nt&quot;&gt;--global&lt;/span&gt; &lt;span class
 
 </description>
         <pubDate>Sat, 08 Aug 2020 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2020/08/%E5%BC%80%E5%8F%91%E8%80%85%E5%BF%AB%E9%80%9F%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E6%8C%87%E5%8D%97/</link>
-        <guid isPermaLink="true">http://localhost:4000/2020/08/%E5%BC%80%E5%8F%91%E8%80%85%E5%BF%AB%E9%80%9F%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E6%8C%87%E5%8D%97/</guid>
+        <link>https://cocoafei.top/2020/08/%E5%BC%80%E5%8F%91%E8%80%85%E5%BF%AB%E9%80%9F%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E6%8C%87%E5%8D%97/</link>
+        <guid isPermaLink="true">https://cocoafei.top/2020/08/%E5%BC%80%E5%8F%91%E8%80%85%E5%BF%AB%E9%80%9F%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E6%8C%87%E5%8D%97/</guid>
         
         <category>镜像源</category>
         
@@ -1325,8 +1325,8 @@ sonar.swift.tailor.config=--no-color --max-line-length=100 --max-file-length=500
 &lt;/ul&gt;
 </description>
         <pubDate>Sun, 01 Dec 2019 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2019/12/SonarQube-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%89%AB%E6%8F%8F/</link>
-        <guid isPermaLink="true">http://localhost:4000/2019/12/SonarQube-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%89%AB%E6%8F%8F/</guid>
+        <link>https://cocoafei.top/2019/12/SonarQube-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%89%AB%E6%8F%8F/</link>
+        <guid isPermaLink="true">https://cocoafei.top/2019/12/SonarQube-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%89%AB%E6%8F%8F/</guid>
         
         <category>SonarQube</category>
         
@@ -1648,8 +1648,8 @@ sonar.swift.tailor.config=--no-color --max-line-length=100 --max-file-length=500
 &lt;p&gt;如果您觉得有所帮助，请在 &lt;a href=&quot;https://github.com/muzipiao/GMObjC&quot;&gt;GitHub GMObjC&lt;/a&gt; 上赏个Star ⭐️，您的鼓励是我前进的动力。&lt;/p&gt;
 </description>
         <pubDate>Thu, 08 Aug 2019 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2019/08/iOS-%E4%BD%BF%E7%94%A8-SM2-SM4-%E5%8A%A0%E8%A7%A3%E5%AF%86-SM2-%E7%AD%BE%E5%90%8D%E9%AA%8C%E7%AD%BE%E5%8F%8A-SM3-%E6%91%98%E8%A6%81/</link>
-        <guid isPermaLink="true">http://localhost:4000/2019/08/iOS-%E4%BD%BF%E7%94%A8-SM2-SM4-%E5%8A%A0%E8%A7%A3%E5%AF%86-SM2-%E7%AD%BE%E5%90%8D%E9%AA%8C%E7%AD%BE%E5%8F%8A-SM3-%E6%91%98%E8%A6%81/</guid>
+        <link>https://cocoafei.top/2019/08/iOS-%E4%BD%BF%E7%94%A8-SM2-SM4-%E5%8A%A0%E8%A7%A3%E5%AF%86-SM2-%E7%AD%BE%E5%90%8D%E9%AA%8C%E7%AD%BE%E5%8F%8A-SM3-%E6%91%98%E8%A6%81/</link>
+        <guid isPermaLink="true">https://cocoafei.top/2019/08/iOS-%E4%BD%BF%E7%94%A8-SM2-SM4-%E5%8A%A0%E8%A7%A3%E5%AF%86-SM2-%E7%AD%BE%E5%90%8D%E9%AA%8C%E7%AD%BE%E5%8F%8A-SM3-%E6%91%98%E8%A6%81/</guid>
         
         <category>iOS</category>
         
@@ -1723,8 +1723,8 @@ sonar.swift.tailor.config=--no-color --max-line-length=100 --max-file-length=500
 &lt;a href=&quot;http://docs.getui.com/getui/mobile/ios/api/&quot;&gt;个推文档 - 角标控制&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 25 Jun 2019 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2019/06/iOS-%E5%A6%82%E4%BD%95%E5%87%86%E7%A1%AE%E6%98%BE%E7%A4%BA%E8%A7%92%E6%A0%87/</link>
-        <guid isPermaLink="true">http://localhost:4000/2019/06/iOS-%E5%A6%82%E4%BD%95%E5%87%86%E7%A1%AE%E6%98%BE%E7%A4%BA%E8%A7%92%E6%A0%87/</guid>
+        <link>https://cocoafei.top/2019/06/iOS-%E5%A6%82%E4%BD%95%E5%87%86%E7%A1%AE%E6%98%BE%E7%A4%BA%E8%A7%92%E6%A0%87/</link>
+        <guid isPermaLink="true">https://cocoafei.top/2019/06/iOS-%E5%A6%82%E4%BD%95%E5%87%86%E7%A1%AE%E6%98%BE%E7%A4%BA%E8%A7%92%E6%A0%87/</guid>
         
         <category>iOS</category>
         
@@ -2268,8 +2268,8 @@ url 中必须填写 https 开头的 plist 文件下载地址，plist 文件中�
 &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://stackoverflow.com/questions/20127138/apache-2-4-configuration-for-ssl-not-working&lt;/code&gt;&lt;/p&gt;
 </description>
         <pubDate>Sat, 10 Nov 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/11/%E8%87%AA%E5%BB%BA%E5%B1%80%E5%9F%9F%E7%BD%91-OTA-%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/11/%E8%87%AA%E5%BB%BA%E5%B1%80%E5%9F%9F%E7%BD%91-OTA-%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
+        <link>https://cocoafei.top/2018/11/%E8%87%AA%E5%BB%BA%E5%B1%80%E5%9F%9F%E7%BD%91-OTA-%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
+        <guid isPermaLink="true">https://cocoafei.top/2018/11/%E8%87%AA%E5%BB%BA%E5%B1%80%E5%9F%9F%E7%BD%91-OTA-%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
         
         <category>iOS</category>
         
@@ -2543,8 +2543,8 @@ url 中必须填写 https 开头的 plist 文件下载地址，plist 文件中�
 &lt;p&gt;http://blog.leichunfeng.com/blog/2017/02/20/talking-about-the-decompression-of-the-image-in-ios/#jtss-tsina&lt;/p&gt;
 </description>
         <pubDate>Thu, 25 Oct 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/10/%E8%AE%B0%E4%B8%80%E4%BA%9B%E5%8D%B0%E8%B1%A1%E6%B7%B1%E5%88%BB%E7%9A%84-Bug/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/10/%E8%AE%B0%E4%B8%80%E4%BA%9B%E5%8D%B0%E8%B1%A1%E6%B7%B1%E5%88%BB%E7%9A%84-Bug/</guid>
+        <link>https://cocoafei.top/2018/10/%E8%AE%B0%E4%B8%80%E4%BA%9B%E5%8D%B0%E8%B1%A1%E6%B7%B1%E5%88%BB%E7%9A%84-Bug/</link>
+        <guid isPermaLink="true">https://cocoafei.top/2018/10/%E8%AE%B0%E4%B8%80%E4%BA%9B%E5%8D%B0%E8%B1%A1%E6%B7%B1%E5%88%BB%E7%9A%84-Bug/</guid>
         
         <category>iOS</category>
         
@@ -2756,8 +2756,8 @@ TestProj 是一个简单的库，使用 TestProj 可快速实现什么功能。
 &lt;/ul&gt;
 </description>
         <pubDate>Mon, 09 Jul 2018 00:00:00 +0800</pubDate>
-        <link>http://localhost:4000/2018/07/cocoapods-%E5%8F%91%E5%B8%83%E5%BA%93/</link>
-        <guid isPermaLink="true">http://localhost:4000/2018/07/cocoapods-%E5%8F%91%E5%B8%83%E5%BA%93/</guid>
+        <link>https://cocoafei.top/2018/07/cocoapods-%E5%8F%91%E5%B8%83%E5%BA%93/</link>
+        <guid isPermaLink="true">https://cocoafei.top/2018/07/cocoapods-%E5%8F%91%E5%B8%83%E5%BA%93/</guid>
         
         <category>iOS</category>
         
