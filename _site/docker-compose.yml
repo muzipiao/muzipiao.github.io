@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  muzipiao:
+    image: nginx
+    volumes:
+      - /root/muzipiao/nginx.conf:/etc/nginx/nginx.conf
+      - /root/muzipiao/log/nginx:/var/log/nginx
+      - /root/.acme.sh/cocoafei.top:/etc/letsencrypt/live/cocoafei.top
+      - /root/muzipiao/_site:/var/www/cocoafei.top/public
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+

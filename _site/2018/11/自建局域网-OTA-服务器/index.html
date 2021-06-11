@@ -177,19 +177,19 @@
   <li>切换工作目录下：</li>
 </ol>
 
-<p><code class="language-plaintext highlighter-rouge"> cd /etc/apache2 </code></p>
+<p>` cd /etc/apache2 `</p>
 
 <ol>
   <li>备份文件，只需要执行一次：</li>
 </ol>
 
-<p><code class="language-plaintext highlighter-rouge"> sudo cp httpd.conf httpd.conf.bak </code></p>
+<p>` sudo cp httpd.conf httpd.conf.bak `</p>
 
 <ol>
   <li>如果操作出现错误！可以使用命令，恢复备份的 httpd.conf 文件：</li>
 </ol>
 
-<p><code class="language-plaintext highlighter-rouge"> sudo cp httpd.conf.bak httpd.conf </code></p>
+<p>` sudo cp httpd.conf.bak httpd.conf `</p>
 
 <h4 id="13-通过-xcode-或者-vim-修改系统文件">1.3 通过 Xcode 或者 vim 修改系统文件</h4>
 
@@ -307,7 +307,7 @@ qualified domain name, using LFdeMacBook-Pro.local. Set the
 
 <p>如果想解决此报错，可再次编辑 httpd.conf 文件</p>
 
-<p><code class="language-plaintext highlighter-rouge"> sudo vim httpd.conf </code></p>
+<p>` sudo vim httpd.conf `</p>
 
 <p>将下面的#号注释去掉，并修改（约221行）</p>
 

@@ -5,8 +5,8 @@
     <description>欢迎来到我的Blog~</description>
     <link>https://cocoafei.top/</link>
     <atom:link href="https://cocoafei.top/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 12 Jun 2021 01:07:29 +0800</pubDate>
-    <lastBuildDate>Sat, 12 Jun 2021 01:07:29 +0800</lastBuildDate>
+    <pubDate>Sat, 12 Jun 2021 03:11:56 +0800</pubDate>
+    <lastBuildDate>Sat, 12 Jun 2021 03:11:56 +0800</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
       <item>
@@ -1760,19 +1760,19 @@ sonar.swift.tailor.config=--no-color --max-line-length=100 --max-file-length=500
   &lt;li&gt;切换工作目录下：&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt; cd /etc/apache2 &lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;` cd /etc/apache2 `&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;备份文件，只需要执行一次：&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt; sudo cp httpd.conf httpd.conf.bak &lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;` sudo cp httpd.conf httpd.conf.bak `&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;如果操作出现错误！可以使用命令，恢复备份的 httpd.conf 文件：&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt; sudo cp httpd.conf.bak httpd.conf &lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;` sudo cp httpd.conf.bak httpd.conf `&lt;/p&gt;
 
 &lt;h4 id=&quot;13-通过-xcode-或者-vim-修改系统文件&quot;&gt;1.3 通过 Xcode 或者 vim 修改系统文件&lt;/h4&gt;
 
@@ -1890,7 +1890,7 @@ qualified domain name, using LFdeMacBook-Pro.local. Set the
 
 &lt;p&gt;如果想解决此报错，可再次编辑 httpd.conf 文件&lt;/p&gt;
 
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt; sudo vim httpd.conf &lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;` sudo vim httpd.conf `&lt;/p&gt;
 
 &lt;p&gt;将下面的#号注释去掉，并修改（约221行）&lt;/p&gt;
 
