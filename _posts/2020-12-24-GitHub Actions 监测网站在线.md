@@ -46,7 +46,7 @@ Notice 工作流程的实现，除了设置触发条件外，主要通过引用�
 实现思路：
 
 1. 添加一个工作流程 (workflow)，并设置定时触发（每隔 15 分钟）此工作流程；
-2. 在工作流程中使用 curl 命令检查 cocoafei.top 的 HTTP 请求状态码；
+2. 在工作流程中使用 curl 命令检查 muzipiao.github.io 的 HTTP 请求状态码；
 3. 使用 python 脚本判断状态码，如果不是 200 或 301 就发送邮件通知，是的话忽略。
 
 流程图：
@@ -64,8 +64,8 @@ curl 功能很强大，我们判断网站是否在线，只需要使用 curl 查
 * -w %{http_code} 控制额外输出
 
 ```shell
-# 这里表示静默获取网站 cocoafei.top 的 HTTP 请求状态码，最多查询 15s
-curl -I -m 15 -s -w "%{http_code}\n" -o /dev/null  cocoafei.top
+# 这里表示静默获取网站 muzipiao.github.io 的 HTTP 请求状态码，最多查询 15s
+curl -I -m 15 -s -w "%{http_code}\n" -o /dev/null  muzipiao.github.io
 ```
 
 ![curl 查询结果](/images/posts/github_actions/curl_result.png)
@@ -104,7 +104,7 @@ mail_pass = str(sys.argv[2])
 # curl 网站返回的状态码
 status_code = int(sys.argv[3])
 
-# cocoafei.top 使用重定向域名，因此会返回 301，表示网站正常，不用发送邮件
+# muzipiao.github.io 使用重定向域名，因此会返回 301，表示网站正常，不用发送邮件
 if status_code == 301 or status_code == 200:
     print("网站状态正常" + str(status_code))
     sys.exit(0)
@@ -114,13 +114,13 @@ sender = mail_user
 # 接收邮箱，多个邮箱使用逗号隔开，eg. [1234@qq.com, 5678@126.com]
 receivers = [mail_user]
 # 邮件正文文字
-message = MIMEText('curl cocoafei.top 状态码:' + str(status_code), 'plain', 'utf-8')
+message = MIMEText('curl muzipiao.github.io 状态码:' + str(status_code), 'plain', 'utf-8')
 # 发件人名称，eg. 发件人：GithubActions <actions@github.com>
 message['From'] = "GithubActions <actions@github.com>"
 # 收件人名称，eg. 收件人：lifei
-message['To'] = "lifei<cocoafei.top>"
+message['To'] = "lifei<muzipiao.github.io>"
 # 邮件标题
-message['Subject'] = 'cocoafei.top 网络故障'
+message['Subject'] = 'muzipiao.github.io 网络故障'
 
 try:
     smtpObj = smtplib.SMTP()
@@ -164,8 +164,8 @@ GitHub 只要发现 `.github/workflows` 目录里面有.yml文件，就会自动
 如本次定时检查网站是否在线的 yml 文件，不用监听 push/pull 请求触发，定时触发，每 15 分钟执行一次 curl 命令，并将返回的 HTTP 状态码存储在变量 status_code，将发送邮件的邮箱账号、密码和status_code 的值传入 python 脚本中，如果不是 200/301 就发送通知邮件。
 
 ```shell
-# 获取 cocoafei.top 的 HTTP 状态码，并将返回的 HTTP 状态码存储在变量 status_code
-export status_code=$(curl -I -m 15 -s -w "%{http_code}\n" -o /dev/null  cocoafei.top)
+# 获取 muzipiao.github.io 的 HTTP 状态码，并将返回的 HTTP 状态码存储在变量 status_code
+export status_code=$(curl -I -m 15 -s -w "%{http_code}\n" -o /dev/null  muzipiao.github.io)
 # 将发送邮件的邮箱账号、密码和status_code 传入 Python 脚本，判断是否需要发送邮件
 python ./email_status.py {% raw %}${{secrets.MAIL_USERNAME}}{% endraw %} {% raw %}${{secrets.MAIL_PASSWORD}}{% endraw %} $status_code
 ```
@@ -174,7 +174,7 @@ python ./email_status.py {% raw %}${{secrets.MAIL_USERNAME}}{% endraw %} {% raw 
 
 ```yml
 # 工作流程 (workflow) 名称
-name: cocoafei.top
+name: muzipiao.github.io
 
 # 触发条件
 on:
@@ -194,10 +194,10 @@ jobs:
       # 第一步是获取源码，引用现成的检出 action，将代码检出到虚拟机上
       - uses: actions/checkout@v2
       
-      # 运行一组 shell 名称，获取 cocoafei.top 的网站状态，并判断是否需要发送邮件
-      - name: Get cocoafei.top response status code.
+      # 运行一组 shell 名称，获取 muzipiao.github.io 的网站状态，并判断是否需要发送邮件
+      - name: Get muzipiao.github.io response status code.
         run: |
-          export status_code=$(curl -I -m 15 -s -w "%{http_code}\n" -o /dev/null  cocoafei.top)
+          export status_code=$(curl -I -m 15 -s -w "%{http_code}\n" -o /dev/null  muzipiao.github.io)
           python ./email_status.py {% raw %}${{secrets.MAIL_USERNAME}}{% endraw %} {% raw %}${{secrets.MAIL_PASSWORD}}{% endraw %} $status_code
 
 ```
@@ -207,7 +207,7 @@ jobs:
 可以通过 push 或 pull 请求事件触发工作流，或定时触发工作流，并可指定分支。
 
 ```yml
-name: cocoafei.top
+name: muzipiao.github.io
 # 此工作流程的触发条件
 on:
   # push 或 pull 请求事件触发工作流，且仅针对 master 分支

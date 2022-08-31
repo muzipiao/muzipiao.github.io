@@ -3,11 +3,11 @@
   <channel>
     <title>cocoafei</title>
     <description>欢迎来到我的Blog~</description>
-    <link>https://cocoafei.top/</link>
-    <atom:link href="https://cocoafei.top/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 13 Jul 2021 20:14:35 +0800</pubDate>
-    <lastBuildDate>Tue, 13 Jul 2021 20:14:35 +0800</lastBuildDate>
-    <generator>Jekyll v4.2.0</generator>
+    <link>http://localhost:4000/</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Wed, 31 Aug 2022 13:22:36 +0800</pubDate>
+    <lastBuildDate>Wed, 31 Aug 2022 13:22:36 +0800</lastBuildDate>
+    <generator>Jekyll v4.2.2</generator>
     
       <item>
         <title>XCFramework 是用来干什么的</title>
@@ -151,8 +151,8 @@ xcodebuild &lt;span class=&quot;nt&quot;&gt;-create-xcframework&lt;/span&gt; &lt
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 </description>
         <pubDate>Wed, 06 Jan 2021 00:00:00 +0800</pubDate>
-        <link>https://cocoafei.top/2021/01/XCFramework-%E6%98%AF%E7%94%A8%E6%9D%A5%E5%B9%B2%E4%BB%80%E4%B9%88%E7%9A%84/</link>
-        <guid isPermaLink="true">https://cocoafei.top/2021/01/XCFramework-%E6%98%AF%E7%94%A8%E6%9D%A5%E5%B9%B2%E4%BB%80%E4%B9%88%E7%9A%84/</guid>
+        <link>http://localhost:4000/2021/01/XCFramework-%E6%98%AF%E7%94%A8%E6%9D%A5%E5%B9%B2%E4%BB%80%E4%B9%88%E7%9A%84/</link>
+        <guid isPermaLink="true">http://localhost:4000/2021/01/XCFramework-%E6%98%AF%E7%94%A8%E6%9D%A5%E5%B9%B2%E4%BB%80%E4%B9%88%E7%9A%84/</guid>
         
         <category>iOS</category>
         
@@ -200,7 +200,7 @@ xcodebuild &lt;span class=&quot;nt&quot;&gt;-create-xcframework&lt;/span&gt; &lt
 
 &lt;ol&gt;
   &lt;li&gt;添加一个工作流程 (workflow)，并设置定时触发（每隔 15 分钟）此工作流程；&lt;/li&gt;
-  &lt;li&gt;在工作流程中使用 curl 命令检查 cocoafei.top 的 HTTP 请求状态码；&lt;/li&gt;
+  &lt;li&gt;在工作流程中使用 curl 命令检查 muzipiao.github.io 的 HTTP 请求状态码；&lt;/li&gt;
   &lt;li&gt;使用 python 脚本判断状态码，如果不是 200 或 301 就发送邮件通知，是的话忽略。&lt;/li&gt;
 &lt;/ol&gt;
 
@@ -220,8 +220,8 @@ xcodebuild &lt;span class=&quot;nt&quot;&gt;-create-xcframework&lt;/span&gt; &lt
   &lt;li&gt;-w %{http_code} 控制额外输出&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# 这里表示静默获取网站 cocoafei.top 的 HTTP 请求状态码，最多查询 15s&lt;/span&gt;
-curl &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 15 &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-w&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;%{http_code}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; /dev/null  cocoafei.top
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# 这里表示静默获取网站 muzipiao.github.io 的 HTTP 请求状态码，最多查询 15s&lt;/span&gt;
+curl &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 15 &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-w&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;%{http_code}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; /dev/null  muzipiao.github.io
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;&lt;img src=&quot;/images/posts/github_actions/curl_result.png&quot; alt=&quot;curl 查询结果&quot; /&gt;&lt;/p&gt;
@@ -259,7 +259,7 @@ curl &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; &lt;span class=&quot;nt&qu
 &lt;span class=&quot;c1&quot;&gt;# curl 网站返回的状态码
 &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;status_code&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;argv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;])&lt;/span&gt;
 
-&lt;span class=&quot;c1&quot;&gt;# cocoafei.top 使用重定向域名，因此会返回 301，表示网站正常，不用发送邮件
+&lt;span class=&quot;c1&quot;&gt;# muzipiao.github.io 使用重定向域名，因此会返回 301，表示网站正常，不用发送邮件
 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;status_code&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;301&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;or&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;status_code&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
     &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;网站状态正常&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;status_code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;sys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
@@ -269,13 +269,13 @@ curl &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; &lt;span class=&quot;nt&qu
 &lt;span class=&quot;c1&quot;&gt;# 接收邮箱，多个邮箱使用逗号隔开，eg. [1234@qq.com, 5678@126.com]
 &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;receivers&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mail_user&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
 &lt;span class=&quot;c1&quot;&gt;# 邮件正文文字
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;message&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MIMEText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'curl cocoafei.top 状态码:'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;status_code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'plain'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'utf-8'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;message&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;MIMEText&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'curl muzipiao.github.io 状态码:'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;status_code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'plain'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'utf-8'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;c1&quot;&gt;# 发件人名称，eg. 发件人：GithubActions &amp;lt;actions@github.com&amp;gt;
 &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'From'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;GithubActions &amp;lt;actions@github.com&amp;gt;&quot;&lt;/span&gt;
 &lt;span class=&quot;c1&quot;&gt;# 收件人名称，eg. 收件人：lifei
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'To'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;lifei&amp;lt;cocoafei.top&amp;gt;&quot;&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'To'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;lifei&amp;lt;muzipiao.github.io&amp;gt;&quot;&lt;/span&gt;
 &lt;span class=&quot;c1&quot;&gt;# 邮件标题
-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Subject'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'cocoafei.top 网络故障'&lt;/span&gt;
+&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'Subject'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;'muzipiao.github.io 网络故障'&lt;/span&gt;
 
 &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
     &lt;span class=&quot;n&quot;&gt;smtpObj&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;smtplib&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SMTP&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
@@ -325,8 +325,8 @@ curl &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; &lt;span class=&quot;nt&qu
 
 &lt;p&gt;如本次定时检查网站是否在线的 yml 文件，不用监听 push/pull 请求触发，定时触发，每 15 分钟执行一次 curl 命令，并将返回的 HTTP 状态码存储在变量 status_code，将发送邮件的邮箱账号、密码和status_code 的值传入 python 脚本中，如果不是 200/301 就发送通知邮件。&lt;/p&gt;
 
-&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# 获取 cocoafei.top 的 HTTP 状态码，并将返回的 HTTP 状态码存储在变量 status_code&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;status_code&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;curl &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 15 &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-w&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;%{http_code}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; /dev/null  cocoafei.top&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;
+&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;# 获取 muzipiao.github.io 的 HTTP 状态码，并将返回的 HTTP 状态码存储在变量 status_code&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;export &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;status_code&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;curl &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-m&lt;/span&gt; 15 &lt;span class=&quot;nt&quot;&gt;-s&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-w&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;%{http_code}&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-o&lt;/span&gt; /dev/null  muzipiao.github.io&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;
 &lt;span class=&quot;c&quot;&gt;# 将发送邮件的邮箱账号、密码和status_code 传入 Python 脚本，判断是否需要发送邮件&lt;/span&gt;
 python ./email_status.py &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{secrets.MAIL_USERNAME&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{secrets.MAIL_PASSWORD&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$status_code&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -334,7 +334,7 @@ python ./email_status.py &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span
 &lt;p&gt;监测网站的完整 yml 文件如下，可参考下方注释理解。&lt;/p&gt;
 
 &lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# 工作流程 (workflow) 名称&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;cocoafei.top&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;muzipiao.github.io&lt;/span&gt;
 
 &lt;span class=&quot;c1&quot;&gt;# 触发条件&lt;/span&gt;
 &lt;span class=&quot;na&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
@@ -354,10 +354,10 @@ python ./email_status.py &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span
       &lt;span class=&quot;c1&quot;&gt;# 第一步是获取源码，引用现成的检出 action，将代码检出到虚拟机上&lt;/span&gt;
       &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;actions/checkout@v2&lt;/span&gt;
       
-      &lt;span class=&quot;c1&quot;&gt;# 运行一组 shell 名称，获取 cocoafei.top 的网站状态，并判断是否需要发送邮件&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Get cocoafei.top response status code.&lt;/span&gt;
+      &lt;span class=&quot;c1&quot;&gt;# 运行一组 shell 名称，获取 muzipiao.github.io 的网站状态，并判断是否需要发送邮件&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Get muzipiao.github.io response status code.&lt;/span&gt;
         &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;|&lt;/span&gt;
-          &lt;span class=&quot;s&quot;&gt;export status_code=$(curl -I -m 15 -s -w &quot;%{http_code}\n&quot; -o /dev/null  cocoafei.top)&lt;/span&gt;
+          &lt;span class=&quot;s&quot;&gt;export status_code=$(curl -I -m 15 -s -w &quot;%{http_code}\n&quot; -o /dev/null  muzipiao.github.io)&lt;/span&gt;
           &lt;span class=&quot;s&quot;&gt;python ./email_status.py ${{secrets.MAIL_USERNAME}} ${{secrets.MAIL_PASSWORD}} $status_code&lt;/span&gt;
 
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
@@ -366,7 +366,7 @@ python ./email_status.py &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span
 
 &lt;p&gt;可以通过 push 或 pull 请求事件触发工作流，或定时触发工作流，并可指定分支。&lt;/p&gt;
 
-&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;cocoafei.top&lt;/span&gt;
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;muzipiao.github.io&lt;/span&gt;
 &lt;span class=&quot;c1&quot;&gt;# 此工作流程的触发条件&lt;/span&gt;
 &lt;span class=&quot;na&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
   &lt;span class=&quot;c1&quot;&gt;# push 或 pull 请求事件触发工作流，且仅针对 master 分支&lt;/span&gt;
@@ -473,8 +473,8 @@ python ./email_status.py &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span
 &lt;p&gt;&lt;a href=&quot;http://www.ruanyifeng.com/blog/2019/09/getting-started-with-github-actions.html&quot;&gt;示例-GitHub Actions&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Thu, 24 Dec 2020 00:00:00 +0800</pubDate>
-        <link>https://cocoafei.top/2020/12/GitHub-Actions-%E7%9B%91%E6%B5%8B%E7%BD%91%E7%AB%99%E5%9C%A8%E7%BA%BF/</link>
-        <guid isPermaLink="true">https://cocoafei.top/2020/12/GitHub-Actions-%E7%9B%91%E6%B5%8B%E7%BD%91%E7%AB%99%E5%9C%A8%E7%BA%BF/</guid>
+        <link>http://localhost:4000/2020/12/GitHub-Actions-%E7%9B%91%E6%B5%8B%E7%BD%91%E7%AB%99%E5%9C%A8%E7%BA%BF/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/12/GitHub-Actions-%E7%9B%91%E6%B5%8B%E7%BD%91%E7%AB%99%E5%9C%A8%E7%BA%BF/</guid>
         
         <category>GitHub</category>
         
@@ -541,8 +541,8 @@ python ./email_status.py &lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span
 &lt;p&gt;&lt;img src=&quot;/images/posts/phone_oauth/phone_oauth1.png&quot; alt=&quot;一键登录授权&quot; /&gt;&lt;/p&gt;
 </description>
         <pubDate>Fri, 09 Oct 2020 00:00:00 +0800</pubDate>
-        <link>https://cocoafei.top/2020/10/iOS-%E6%89%8B%E6%9C%BA%E5%8F%B7%E4%B8%80%E9%94%AE%E7%99%BB%E5%BD%95/</link>
-        <guid isPermaLink="true">https://cocoafei.top/2020/10/iOS-%E6%89%8B%E6%9C%BA%E5%8F%B7%E4%B8%80%E9%94%AE%E7%99%BB%E5%BD%95/</guid>
+        <link>http://localhost:4000/2020/10/iOS-%E6%89%8B%E6%9C%BA%E5%8F%B7%E4%B8%80%E9%94%AE%E7%99%BB%E5%BD%95/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/10/iOS-%E6%89%8B%E6%9C%BA%E5%8F%B7%E4%B8%80%E9%94%AE%E7%99%BB%E5%BD%95/</guid>
         
         <category>iOS</category>
         
@@ -728,8 +728,8 @@ git config &lt;span class=&quot;nt&quot;&gt;--global&lt;/span&gt; &lt;span class
 
 </description>
         <pubDate>Sat, 08 Aug 2020 00:00:00 +0800</pubDate>
-        <link>https://cocoafei.top/2020/08/%E5%BC%80%E5%8F%91%E8%80%85%E5%BF%AB%E9%80%9F%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E6%8C%87%E5%8D%97/</link>
-        <guid isPermaLink="true">https://cocoafei.top/2020/08/%E5%BC%80%E5%8F%91%E8%80%85%E5%BF%AB%E9%80%9F%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E6%8C%87%E5%8D%97/</guid>
+        <link>http://localhost:4000/2020/08/%E5%BC%80%E5%8F%91%E8%80%85%E5%BF%AB%E9%80%9F%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E6%8C%87%E5%8D%97/</link>
+        <guid isPermaLink="true">http://localhost:4000/2020/08/%E5%BC%80%E5%8F%91%E8%80%85%E5%BF%AB%E9%80%9F%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83%E6%8C%87%E5%8D%97/</guid>
         
         <category>镜像源</category>
         
@@ -1325,8 +1325,8 @@ sonar.swift.tailor.config=--no-color --max-line-length=100 --max-file-length=500
 &lt;/ul&gt;
 </description>
         <pubDate>Sun, 01 Dec 2019 00:00:00 +0800</pubDate>
-        <link>https://cocoafei.top/2019/12/SonarQube-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%89%AB%E6%8F%8F/</link>
-        <guid isPermaLink="true">https://cocoafei.top/2019/12/SonarQube-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%89%AB%E6%8F%8F/</guid>
+        <link>http://localhost:4000/2019/12/SonarQube-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%89%AB%E6%8F%8F/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/12/SonarQube-%E8%87%AA%E5%8A%A8%E5%8C%96%E6%89%AB%E6%8F%8F/</guid>
         
         <category>SonarQube</category>
         
@@ -1409,7 +1409,7 @@ sonar.swift.tailor.config=--no-color --max-line-length=100 --max-file-length=500
 
 &lt;h2 id=&quot;sm2-算法原理&quot;&gt;&lt;a id=&quot;3_0&quot;&gt;&lt;/a&gt;SM2 算法原理&lt;/h2&gt;
 
-&lt;p&gt;SM2 算法是国密标准的非对称算法标准，基于ecc（Elliptic Curves Cryptography，椭圆曲线密码编码学）的扩展。提起非对称加密，自然想到了 RSA，对极大整数做因数分解的难度决定了RSA算法的可靠性（&lt;a href=&quot;http://cocoafei.top/2016/12/iOS-%E7%AB%AF-RSA-%E5%8A%A0%E5%AF%86/&quot;&gt;RSA 算法理解&lt;/a&gt;），这是 RSA 安全的基础。那国密加解密的算法基础是什么？首先我们先理解一下椭圆曲线。&lt;/p&gt;
+&lt;p&gt;SM2 算法是国密标准的非对称算法标准，基于ecc（Elliptic Curves Cryptography，椭圆曲线密码编码学）的扩展。提起非对称加密，自然想到了 RSA，对极大整数做因数分解的难度决定了RSA算法的可靠性（&lt;a href=&quot;https://muzipiao.github.io/2016/12/iOS-%E7%AB%AF-RSA-%E5%8A%A0%E5%AF%86/&quot;&gt;RSA 算法理解&lt;/a&gt;），这是 RSA 安全的基础。那国密加解密的算法基础是什么？首先我们先理解一下椭圆曲线。&lt;/p&gt;
 
 &lt;h3 id=&quot;sm2-椭圆曲线&quot;&gt;SM2 椭圆曲线&lt;/h3&gt;
 
@@ -1648,8 +1648,8 @@ sonar.swift.tailor.config=--no-color --max-line-length=100 --max-file-length=500
 &lt;p&gt;如果您觉得有所帮助，请在 &lt;a href=&quot;https://github.com/muzipiao/GMObjC&quot;&gt;GitHub GMObjC&lt;/a&gt; 上赏个Star ⭐️，您的鼓励是我前进的动力。&lt;/p&gt;
 </description>
         <pubDate>Thu, 08 Aug 2019 00:00:00 +0800</pubDate>
-        <link>https://cocoafei.top/2019/08/iOS-%E4%BD%BF%E7%94%A8-SM2-SM4-%E5%8A%A0%E8%A7%A3%E5%AF%86-SM2-%E7%AD%BE%E5%90%8D%E9%AA%8C%E7%AD%BE%E5%8F%8A-SM3-%E6%91%98%E8%A6%81/</link>
-        <guid isPermaLink="true">https://cocoafei.top/2019/08/iOS-%E4%BD%BF%E7%94%A8-SM2-SM4-%E5%8A%A0%E8%A7%A3%E5%AF%86-SM2-%E7%AD%BE%E5%90%8D%E9%AA%8C%E7%AD%BE%E5%8F%8A-SM3-%E6%91%98%E8%A6%81/</guid>
+        <link>http://localhost:4000/2019/08/iOS-%E4%BD%BF%E7%94%A8-SM2-SM4-%E5%8A%A0%E8%A7%A3%E5%AF%86-SM2-%E7%AD%BE%E5%90%8D%E9%AA%8C%E7%AD%BE%E5%8F%8A-SM3-%E6%91%98%E8%A6%81/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/08/iOS-%E4%BD%BF%E7%94%A8-SM2-SM4-%E5%8A%A0%E8%A7%A3%E5%AF%86-SM2-%E7%AD%BE%E5%90%8D%E9%AA%8C%E7%AD%BE%E5%8F%8A-SM3-%E6%91%98%E8%A6%81/</guid>
         
         <category>iOS</category>
         
@@ -1723,8 +1723,8 @@ sonar.swift.tailor.config=--no-color --max-line-length=100 --max-file-length=500
 &lt;a href=&quot;http://docs.getui.com/getui/mobile/ios/api/&quot;&gt;个推文档 - 角标控制&lt;/a&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 25 Jun 2019 00:00:00 +0800</pubDate>
-        <link>https://cocoafei.top/2019/06/iOS-%E5%A6%82%E4%BD%95%E5%87%86%E7%A1%AE%E6%98%BE%E7%A4%BA%E8%A7%92%E6%A0%87/</link>
-        <guid isPermaLink="true">https://cocoafei.top/2019/06/iOS-%E5%A6%82%E4%BD%95%E5%87%86%E7%A1%AE%E6%98%BE%E7%A4%BA%E8%A7%92%E6%A0%87/</guid>
+        <link>http://localhost:4000/2019/06/iOS-%E5%A6%82%E4%BD%95%E5%87%86%E7%A1%AE%E6%98%BE%E7%A4%BA%E8%A7%92%E6%A0%87/</link>
+        <guid isPermaLink="true">http://localhost:4000/2019/06/iOS-%E5%A6%82%E4%BD%95%E5%87%86%E7%A1%AE%E6%98%BE%E7%A4%BA%E8%A7%92%E6%A0%87/</guid>
         
         <category>iOS</category>
         
@@ -2268,8 +2268,8 @@ url 中必须填写 https 开头的 plist 文件下载地址，plist 文件中�
 &lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://stackoverflow.com/questions/20127138/apache-2-4-configuration-for-ssl-not-working&lt;/code&gt;&lt;/p&gt;
 </description>
         <pubDate>Sat, 10 Nov 2018 00:00:00 +0800</pubDate>
-        <link>https://cocoafei.top/2018/11/%E8%87%AA%E5%BB%BA%E5%B1%80%E5%9F%9F%E7%BD%91-OTA-%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
-        <guid isPermaLink="true">https://cocoafei.top/2018/11/%E8%87%AA%E5%BB%BA%E5%B1%80%E5%9F%9F%E7%BD%91-OTA-%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
+        <link>http://localhost:4000/2018/11/%E8%87%AA%E5%BB%BA%E5%B1%80%E5%9F%9F%E7%BD%91-OTA-%E6%9C%8D%E5%8A%A1%E5%99%A8/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/11/%E8%87%AA%E5%BB%BA%E5%B1%80%E5%9F%9F%E7%BD%91-OTA-%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
         
         <category>iOS</category>
         
@@ -2543,8 +2543,8 @@ url 中必须填写 https 开头的 plist 文件下载地址，plist 文件中�
 &lt;p&gt;http://blog.leichunfeng.com/blog/2017/02/20/talking-about-the-decompression-of-the-image-in-ios/#jtss-tsina&lt;/p&gt;
 </description>
         <pubDate>Thu, 25 Oct 2018 00:00:00 +0800</pubDate>
-        <link>https://cocoafei.top/2018/10/%E8%AE%B0%E4%B8%80%E4%BA%9B%E5%8D%B0%E8%B1%A1%E6%B7%B1%E5%88%BB%E7%9A%84-Bug/</link>
-        <guid isPermaLink="true">https://cocoafei.top/2018/10/%E8%AE%B0%E4%B8%80%E4%BA%9B%E5%8D%B0%E8%B1%A1%E6%B7%B1%E5%88%BB%E7%9A%84-Bug/</guid>
+        <link>http://localhost:4000/2018/10/%E8%AE%B0%E4%B8%80%E4%BA%9B%E5%8D%B0%E8%B1%A1%E6%B7%B1%E5%88%BB%E7%9A%84-Bug/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/10/%E8%AE%B0%E4%B8%80%E4%BA%9B%E5%8D%B0%E8%B1%A1%E6%B7%B1%E5%88%BB%E7%9A%84-Bug/</guid>
         
         <category>iOS</category>
         
@@ -2756,8 +2756,8 @@ TestProj 是一个简单的库，使用 TestProj 可快速实现什么功能。
 &lt;/ul&gt;
 </description>
         <pubDate>Mon, 09 Jul 2018 00:00:00 +0800</pubDate>
-        <link>https://cocoafei.top/2018/07/cocoapods-%E5%8F%91%E5%B8%83%E5%BA%93/</link>
-        <guid isPermaLink="true">https://cocoafei.top/2018/07/cocoapods-%E5%8F%91%E5%B8%83%E5%BA%93/</guid>
+        <link>http://localhost:4000/2018/07/cocoapods-%E5%8F%91%E5%B8%83%E5%BA%93/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018/07/cocoapods-%E5%8F%91%E5%B8%83%E5%BA%93/</guid>
         
         <category>iOS</category>
         
