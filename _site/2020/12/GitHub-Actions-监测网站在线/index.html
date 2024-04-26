@@ -226,57 +226,57 @@ curl <span class="nt">-I</span> <span class="nt">-m</span> 15 <span class="nt">-
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python
 # coding=UTF-8
 </span>
-<span class="kn">import</span> <span class="nn">os</span><span class="p">,</span> <span class="n">sys</span>
-<span class="kn">import</span> <span class="nn">smtplib</span>
-<span class="kn">from</span> <span class="nn">email.mime.text</span> <span class="kn">import</span> <span class="n">MIMEText</span>
+<span class="kn">import</span> <span class="n">os</span><span class="p">,</span> <span class="n">sys</span>
+<span class="kn">import</span> <span class="n">smtplib</span>
+<span class="kn">from</span> <span class="n">email.mime.text</span> <span class="kn">import</span> <span class="n">MIMEText</span>
 
-<span class="s">"""
+<span class="sh">"""</span><span class="s">
 参数 1 SMTP 服务器的用户名，发送邮箱名称
 参数 2 SMTP 服务器的密码，发送邮箱授权码（注意非邮箱原密码）
 参数 3 curl 网站返回的状态码，如 200
-"""</span>
-<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"参数个数错误"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)))</span>
-    <span class="n">sys</span><span class="p">.</span><span class="nb">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class="sh">"""</span>
+<span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">参数个数错误</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)))</span>
+    <span class="n">sys</span><span class="p">.</span><span class="nf">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="c1"># SMTP 服务器名称
-</span><span class="n">mail_host</span> <span class="o">=</span> <span class="s">"smtp.qq.com"</span>
+</span><span class="n">mail_host</span> <span class="o">=</span> <span class="sh">"</span><span class="s">smtp.qq.com</span><span class="sh">"</span>
 <span class="c1"># SMTP 服务器的用户名
-</span><span class="n">mail_user</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</span><span class="n">mail_user</span> <span class="o">=</span> <span class="nf">str</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 <span class="c1"># SMTP 服务器的密码
-</span><span class="n">mail_pass</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+</span><span class="n">mail_pass</span> <span class="o">=</span> <span class="nf">str</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
 <span class="c1"># curl 网站返回的状态码
-</span><span class="n">status_code</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+</span><span class="n">status_code</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
 
 <span class="c1"># muzipiao.github.io 使用重定向域名，因此会返回 301，表示网站正常，不用发送邮件
 </span><span class="k">if</span> <span class="n">status_code</span> <span class="o">==</span> <span class="mi">301</span> <span class="ow">or</span> <span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"网站状态正常"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">status_code</span><span class="p">))</span>
-    <span class="n">sys</span><span class="p">.</span><span class="nb">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">网站状态正常</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">status_code</span><span class="p">))</span>
+    <span class="n">sys</span><span class="p">.</span><span class="nf">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="c1"># 发送邮箱，这里自己给自己发送一封邮件
 </span><span class="n">sender</span> <span class="o">=</span> <span class="n">mail_user</span>
 <span class="c1"># 接收邮箱，多个邮箱使用逗号隔开，eg. [1234@qq.com, 5678@126.com]
 </span><span class="n">receivers</span> <span class="o">=</span> <span class="p">[</span><span class="n">mail_user</span><span class="p">]</span>
 <span class="c1"># 邮件正文文字
-</span><span class="n">message</span> <span class="o">=</span> <span class="n">MIMEText</span><span class="p">(</span><span class="s">'curl muzipiao.github.io 状态码:'</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">status_code</span><span class="p">),</span> <span class="s">'plain'</span><span class="p">,</span> <span class="s">'utf-8'</span><span class="p">)</span>
+</span><span class="n">message</span> <span class="o">=</span> <span class="nc">MIMEText</span><span class="p">(</span><span class="sh">'</span><span class="s">curl muzipiao.github.io 状态码:</span><span class="sh">'</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">status_code</span><span class="p">),</span> <span class="sh">'</span><span class="s">plain</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">utf-8</span><span class="sh">'</span><span class="p">)</span>
 <span class="c1"># 发件人名称，eg. 发件人：GithubActions &lt;actions@github.com&gt;
-</span><span class="n">message</span><span class="p">[</span><span class="s">'From'</span><span class="p">]</span> <span class="o">=</span> <span class="s">"GithubActions &lt;actions@github.com&gt;"</span>
+</span><span class="n">message</span><span class="p">[</span><span class="sh">'</span><span class="s">From</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="sh">"</span><span class="s">GithubActions &lt;actions@github.com&gt;</span><span class="sh">"</span>
 <span class="c1"># 收件人名称，eg. 收件人：lifei
-</span><span class="n">message</span><span class="p">[</span><span class="s">'To'</span><span class="p">]</span> <span class="o">=</span> <span class="s">"lifei&lt;muzipiao.github.io&gt;"</span>
+</span><span class="n">message</span><span class="p">[</span><span class="sh">'</span><span class="s">To</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="sh">"</span><span class="s">lifei&lt;muzipiao.github.io&gt;</span><span class="sh">"</span>
 <span class="c1"># 邮件标题
-</span><span class="n">message</span><span class="p">[</span><span class="s">'Subject'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'muzipiao.github.io 网络故障'</span>
+</span><span class="n">message</span><span class="p">[</span><span class="sh">'</span><span class="s">Subject</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="sh">'</span><span class="s">muzipiao.github.io 网络故障</span><span class="sh">'</span>
 
 <span class="k">try</span><span class="p">:</span>
-    <span class="n">smtpObj</span> <span class="o">=</span> <span class="n">smtplib</span><span class="p">.</span><span class="n">SMTP</span><span class="p">()</span>
+    <span class="n">smtpObj</span> <span class="o">=</span> <span class="n">smtplib</span><span class="p">.</span><span class="nc">SMTP</span><span class="p">()</span>
     <span class="c1"># 链接 SMTP 服务器，QQ 发送邮件服务器：smtp.qq.com，使用SSL，端口号465或587
-</span>    <span class="n">smtpObj</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="n">mail_host</span><span class="p">,</span> <span class="mi">587</span><span class="p">)</span>
+</span>    <span class="n">smtpObj</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">mail_host</span><span class="p">,</span> <span class="mi">587</span><span class="p">)</span>
     <span class="c1"># 登录 SMTP 服务器
-</span>    <span class="n">smtpObj</span><span class="p">.</span><span class="n">login</span><span class="p">(</span><span class="n">mail_user</span><span class="p">,</span><span class="n">mail_pass</span><span class="p">)</span>
+</span>    <span class="n">smtpObj</span><span class="p">.</span><span class="nf">login</span><span class="p">(</span><span class="n">mail_user</span><span class="p">,</span><span class="n">mail_pass</span><span class="p">)</span>
     <span class="c1"># 发送邮件
-</span>    <span class="n">smtpObj</span><span class="p">.</span><span class="n">sendmail</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">receivers</span><span class="p">,</span> <span class="n">message</span><span class="p">.</span><span class="n">as_string</span><span class="p">())</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"邮件发送成功，网站状态码："</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">status_code</span><span class="p">))</span>
+</span>    <span class="n">smtpObj</span><span class="p">.</span><span class="nf">sendmail</span><span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">receivers</span><span class="p">,</span> <span class="n">message</span><span class="p">.</span><span class="nf">as_string</span><span class="p">())</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">邮件发送成功，网站状态码：</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">status_code</span><span class="p">))</span>
 <span class="k">except</span> <span class="n">smtplib</span><span class="p">.</span><span class="n">SMTPException</span><span class="p">:</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"无法发送邮件，失败原因：</span><span class="se">\n</span><span class="s">"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">smtplib</span><span class="p">.</span><span class="nb">Exception</span><span class="p">))</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">无法发送邮件，失败原因：</span><span class="se">\n</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">smtplib</span><span class="p">.</span><span class="nb">Exception</span><span class="p">))</span>
 </code></pre></div></div>
 
 <h2 id="添加-actions">添加 Actions</h2>

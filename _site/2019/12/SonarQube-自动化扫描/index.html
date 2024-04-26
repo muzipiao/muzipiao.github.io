@@ -404,36 +404,36 @@ http://192.168.1.44/publicrepos/demo3.git
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python
 # coding=UTF-8
 </span>
-<span class="s">'''
+<span class="sh">'''</span><span class="s">
 g_old_branch 创建的模板文件 config.xml 中需要替换的分支名称
 g_old_time 创建的模板文件 config.xml 中需要替换的触发时间
 git_links.txt 组件的 Git 地址，逐行分开
 config.xml 手动创建的一个 Jenkins 任务当做模板
 批量创建完成结果在当前脚本的 xmls 文件夹下
-'''</span>
+</span><span class="sh">'''</span>
 
-<span class="n">g_old_branch</span> <span class="o">=</span> <span class="s">"publicplugingoup/basemapcomponent"</span>
-<span class="n">g_old_time</span> <span class="o">=</span> <span class="s">"H(0-29)/19 * * * *"</span>
+<span class="n">g_old_branch</span> <span class="o">=</span> <span class="sh">"</span><span class="s">publicplugingoup/basemapcomponent</span><span class="sh">"</span>
+<span class="n">g_old_time</span> <span class="o">=</span> <span class="sh">"</span><span class="s">H(0-29)/19 * * * *</span><span class="sh">"</span>
 
-<span class="kn">import</span> <span class="nn">os</span><span class="p">,</span> <span class="n">re</span>
+<span class="kn">import</span> <span class="n">os</span><span class="p">,</span> <span class="n">re</span>
 
 <span class="c1"># 从URL获取分支名称，eg. [publicplugingoup, basemapcomponent]
 </span><span class="k">def</span> <span class="nf">get_branch</span><span class="p">(</span><span class="n">link</span><span class="p">):</span>
-    <span class="n">link_list</span> <span class="o">=</span> <span class="n">link</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">'/'</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">link_list</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+    <span class="n">link_list</span> <span class="o">=</span> <span class="n">link</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">'</span><span class="s">/</span><span class="sh">'</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">link_list</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">[]</span>
     <span class="n">branch_name_git</span> <span class="o">=</span> <span class="n">link_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">branch_group</span> <span class="o">=</span> <span class="n">link_list</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
-    <span class="n">branch_name</span> <span class="o">=</span> <span class="n">branch_name_git</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s">'.'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">branch_name</span> <span class="o">=</span> <span class="n">branch_name_git</span><span class="p">.</span><span class="nf">split</span><span class="p">(</span><span class="sh">'</span><span class="s">.</span><span class="sh">'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">branch_group</span><span class="p">,</span> <span class="n">branch_name</span><span class="p">]</span>
 
 <span class="c1"># 逐行读取文件中的链接
 </span><span class="k">def</span> <span class="nf">read_txt</span><span class="p">(</span><span class="n">txt_path</span><span class="p">):</span>
     <span class="n">links_list</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># 储存行
-</span>    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">txt_path</span><span class="p">):</span>
-        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="n">strip</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">line</span> <span class="o">!=</span> <span class="s">""</span><span class="p">:</span>
-            <span class="n">links_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</span>    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nf">open</span><span class="p">(</span><span class="n">txt_path</span><span class="p">):</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="nf">strip</span><span class="p">(</span><span class="sh">'</span><span class="se">\n</span><span class="sh">'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">line</span> <span class="o">!=</span> <span class="sh">""</span><span class="p">:</span>
+            <span class="n">links_list</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">links_list</span>
 
 <span class="c1"># 根据当前索引顺序算出下一个时间，索引、时间步长、起始小时，起始分钟
@@ -444,54 +444,54 @@ config.xml 手动创建的一个 Jenkins 任务当做模板
     <span class="k">if</span> <span class="n">next_minute</span> <span class="o">&gt;</span> <span class="mi">59</span><span class="p">:</span>
         <span class="n">begin_minute</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="n">next_minute</span> <span class="o">=</span> <span class="n">step</span>
-    <span class="n">next_time</span> <span class="o">=</span> <span class="s">"H("</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">begin_minute</span><span class="p">)</span> <span class="o">+</span> <span class="s">"-"</span> <span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">next_minute</span><span class="p">)</span> <span class="o">+</span> <span class="s">") "</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">next_hour</span><span class="p">)</span> <span class="o">+</span> <span class="s">" * * *"</span>
+    <span class="n">next_time</span> <span class="o">=</span> <span class="sh">"</span><span class="s">H(</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">begin_minute</span><span class="p">)</span> <span class="o">+</span> <span class="sh">"</span><span class="s">-</span><span class="sh">"</span> <span class="o">+</span><span class="nf">str</span><span class="p">(</span><span class="n">next_minute</span><span class="p">)</span> <span class="o">+</span> <span class="sh">"</span><span class="s">) </span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">next_hour</span><span class="p">)</span> <span class="o">+</span> <span class="sh">"</span><span class="s"> * * *</span><span class="sh">"</span>
     <span class="k">return</span> <span class="n">next_time</span>
 
  <span class="c1"># 创建 config.xml 文件，传入链接列表，创建文件的保存路径, config.xml 文件路径
 </span><span class="k">def</span> <span class="nf">create_xml</span><span class="p">(</span><span class="n">links_list</span><span class="p">,</span> <span class="n">xmls_folder</span><span class="p">,</span> <span class="n">config_path</span><span class="p">):</span>
     <span class="n">config_lines</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># 储存行
-</span>    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_path</span><span class="p">):</span>
-        <span class="n">config_lines</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</span>    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nf">open</span><span class="p">(</span><span class="n">config_path</span><span class="p">):</span>
+        <span class="n">config_lines</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
     <span class="c1"># 遍历链接列表
-</span>    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">link</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">links_list</span><span class="p">):</span>
-        <span class="n">branch_group_name</span> <span class="o">=</span> <span class="n">get_branch</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">branch_group_name</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">"链接无效："</span> <span class="o">+</span> <span class="n">link</span><span class="p">)</span>
+</span>    <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">link</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">links_list</span><span class="p">):</span>
+        <span class="n">branch_group_name</span> <span class="o">=</span> <span class="nf">get_branch</span><span class="p">(</span><span class="n">link</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">branch_group_name</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">链接无效：</span><span class="sh">"</span> <span class="o">+</span> <span class="n">link</span><span class="p">)</span>
             <span class="k">continue</span>
         <span class="n">branch_group</span> <span class="o">=</span> <span class="n">branch_group_name</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># 分组名
 </span>        <span class="n">branch_name</span> <span class="o">=</span> <span class="n">branch_group_name</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># 分支名称
 </span>        <span class="c1"># 创建文件保存到以分支名命名的文件夹中
-</span>        <span class="n">branch_folder</span> <span class="o">=</span> <span class="n">xmls_folder</span> <span class="o">+</span> <span class="s">"/"</span> <span class="o">+</span> <span class="n">branch_name</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="n">branch_folder</span><span class="p">):</span>
-            <span class="n">os</span><span class="p">.</span><span class="n">system</span><span class="p">(</span><span class="s">'mkdir '</span> <span class="o">+</span> <span class="n">branch_folder</span><span class="p">)</span>
+</span>        <span class="n">branch_folder</span> <span class="o">=</span> <span class="n">xmls_folder</span> <span class="o">+</span> <span class="sh">"</span><span class="s">/</span><span class="sh">"</span> <span class="o">+</span> <span class="n">branch_name</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">exists</span><span class="p">(</span><span class="n">branch_folder</span><span class="p">):</span>
+            <span class="n">os</span><span class="p">.</span><span class="nf">system</span><span class="p">(</span><span class="sh">'</span><span class="s">mkdir </span><span class="sh">'</span> <span class="o">+</span> <span class="n">branch_folder</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">os</span><span class="p">.</span><span class="n">system</span><span class="p">(</span><span class="s">'rm -rf '</span> <span class="o">+</span> <span class="n">branch_folder</span><span class="p">)</span>
-        <span class="n">config_xml_path</span> <span class="o">=</span> <span class="n">branch_folder</span> <span class="o">+</span> <span class="s">"/config.xml"</span>
+            <span class="n">os</span><span class="p">.</span><span class="nf">system</span><span class="p">(</span><span class="sh">'</span><span class="s">rm -rf </span><span class="sh">'</span> <span class="o">+</span> <span class="n">branch_folder</span><span class="p">)</span>
+        <span class="n">config_xml_path</span> <span class="o">=</span> <span class="n">branch_folder</span> <span class="o">+</span> <span class="sh">"</span><span class="s">/config.xml</span><span class="sh">"</span>
         <span class="c1"># 获取下一个运行的时间, 时间从0点0分开始，每10分钟运行一个组件
-</span>        <span class="n">new_time</span> <span class="o">=</span> <span class="n">get_scm_time</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span>        <span class="n">new_time</span> <span class="o">=</span> <span class="nf">get_scm_time</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="n">config_copy</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">cg_line</span> <span class="ow">in</span> <span class="n">config_lines</span><span class="p">:</span>
             <span class="n">temp_line</span> <span class="o">=</span> <span class="n">cg_line</span>
             <span class="k">if</span> <span class="n">g_old_branch</span> <span class="ow">in</span> <span class="n">temp_line</span><span class="p">:</span>
-                <span class="n">temp_line</span> <span class="o">=</span> <span class="n">temp_line</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="n">g_old_branch</span><span class="p">,</span> <span class="n">branch_group</span> <span class="o">+</span> <span class="s">"/"</span> <span class="o">+</span><span class="n">branch_name</span><span class="p">)</span>
+                <span class="n">temp_line</span> <span class="o">=</span> <span class="n">temp_line</span><span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="n">g_old_branch</span><span class="p">,</span> <span class="n">branch_group</span> <span class="o">+</span> <span class="sh">"</span><span class="s">/</span><span class="sh">"</span> <span class="o">+</span><span class="n">branch_name</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">g_old_time</span> <span class="ow">in</span> <span class="n">temp_line</span><span class="p">:</span>
-                <span class="n">temp_line</span> <span class="o">=</span> <span class="n">temp_line</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="n">g_old_time</span><span class="p">,</span> <span class="n">new_time</span><span class="p">)</span>
-            <span class="n">config_copy</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp_line</span><span class="p">)</span>
-        <span class="n">xml_str</span> <span class="o">=</span> <span class="s">""</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">config_copy</span><span class="p">)</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_xml_path</span><span class="p">,</span> <span class="s">'w+'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">f</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">xml_str</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">"已创建"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">+</span> <span class="s">"："</span> <span class="o">+</span> <span class="n">branch_group</span> <span class="o">+</span> <span class="s">"/"</span> <span class="o">+</span> <span class="n">branch_name</span> <span class="o">+</span> <span class="n">new_time</span><span class="p">)</span>
+                <span class="n">temp_line</span> <span class="o">=</span> <span class="n">temp_line</span><span class="p">.</span><span class="nf">replace</span><span class="p">(</span><span class="n">g_old_time</span><span class="p">,</span> <span class="n">new_time</span><span class="p">)</span>
+            <span class="n">config_copy</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">temp_line</span><span class="p">)</span>
+        <span class="n">xml_str</span> <span class="o">=</span> <span class="sh">""</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">config_copy</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nf">open</span><span class="p">(</span><span class="n">config_xml_path</span><span class="p">,</span> <span class="sh">'</span><span class="s">w+</span><span class="sh">'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="p">.</span><span class="nf">write</span><span class="p">(</span><span class="n">xml_str</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">已创建</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">+</span> <span class="sh">"</span><span class="s">：</span><span class="sh">"</span> <span class="o">+</span> <span class="n">branch_group</span> <span class="o">+</span> <span class="sh">"</span><span class="s">/</span><span class="sh">"</span> <span class="o">+</span> <span class="n">branch_name</span> <span class="o">+</span> <span class="n">new_time</span><span class="p">)</span>
 
 <span class="c1"># main
-</span><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="n">xmls_folder</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span> <span class="o">+</span> <span class="s">"/xmls"</span>
-    <span class="k">if</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="n">xmls_folder</span><span class="p">):</span>
-        <span class="n">os</span><span class="p">.</span><span class="n">system</span><span class="p">(</span><span class="s">'rm -rf '</span> <span class="o">+</span> <span class="n">xmls_folder</span><span class="p">)</span>
-    <span class="n">os</span><span class="p">.</span><span class="n">system</span><span class="p">(</span><span class="s">'mkdir '</span> <span class="o">+</span> <span class="n">xmls_folder</span><span class="p">)</span>
-    <span class="n">links_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span><span class="o">+</span> <span class="s">"/git_links.txt"</span>
-    <span class="n">links_list</span> <span class="o">=</span> <span class="n">read_txt</span><span class="p">(</span><span class="n">links_path</span><span class="p">)</span>
-    <span class="n">config_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span><span class="o">+</span> <span class="s">"/config.xml"</span>
-    <span class="n">create_xml</span><span class="p">(</span><span class="n">links_list</span><span class="p">,</span> <span class="n">xmls_folder</span><span class="p">,</span> <span class="n">config_path</span><span class="p">)</span>
+</span><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
+    <span class="n">xmls_folder</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">dirname</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span> <span class="o">+</span> <span class="sh">"</span><span class="s">/xmls</span><span class="sh">"</span>
+    <span class="k">if</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">exists</span><span class="p">(</span><span class="n">xmls_folder</span><span class="p">):</span>
+        <span class="n">os</span><span class="p">.</span><span class="nf">system</span><span class="p">(</span><span class="sh">'</span><span class="s">rm -rf </span><span class="sh">'</span> <span class="o">+</span> <span class="n">xmls_folder</span><span class="p">)</span>
+    <span class="n">os</span><span class="p">.</span><span class="nf">system</span><span class="p">(</span><span class="sh">'</span><span class="s">mkdir </span><span class="sh">'</span> <span class="o">+</span> <span class="n">xmls_folder</span><span class="p">)</span>
+    <span class="n">links_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">dirname</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span><span class="o">+</span> <span class="sh">"</span><span class="s">/git_links.txt</span><span class="sh">"</span>
+    <span class="n">links_list</span> <span class="o">=</span> <span class="nf">read_txt</span><span class="p">(</span><span class="n">links_path</span><span class="p">)</span>
+    <span class="n">config_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">dirname</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span><span class="o">+</span> <span class="sh">"</span><span class="s">/config.xml</span><span class="sh">"</span>
+    <span class="nf">create_xml</span><span class="p">(</span><span class="n">links_list</span><span class="p">,</span> <span class="n">xmls_folder</span><span class="p">,</span> <span class="n">config_path</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h2 id="查找-xcodeproj-和-scheme-脚本">查找 xcodeproj 和 Scheme 脚本</h2>
@@ -501,42 +501,42 @@ config.xml 手动创建的一个 Jenkins 任务当做模板
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/env python
 # coding=UTF-8
 </span>
-<span class="s">'''
+<span class="sh">'''</span><span class="s">
 g_repos_folder 下拉代码，存放组件代码的路径
-'''</span>
+</span><span class="sh">'''</span>
 
-<span class="n">g_repos_folder</span> <span class="o">=</span> <span class="s">"/Desktop/GitJH"</span>
+<span class="n">g_repos_folder</span> <span class="o">=</span> <span class="sh">"</span><span class="s">/Desktop/GitJH</span><span class="sh">"</span>
 
-<span class="kn">import</span> <span class="nn">sys</span><span class="p">,</span> <span class="n">os</span><span class="p">,</span> <span class="n">platform</span>
+<span class="kn">import</span> <span class="n">sys</span><span class="p">,</span> <span class="n">os</span><span class="p">,</span> <span class="n">platform</span>
 
 <span class="c1"># 找到 xcodeproj 工程文件
 </span><span class="k">def</span> <span class="nf">find_project</span><span class="p">(</span><span class="n">branch_dir</span><span class="p">):</span>
-    <span class="n">proj_path</span> <span class="o">=</span> <span class="s">""</span>
-    <span class="k">for</span> <span class="n">home</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="p">.</span><span class="n">walk</span><span class="p">(</span><span class="n">branch_dir</span><span class="p">):</span>
+    <span class="n">proj_path</span> <span class="o">=</span> <span class="sh">""</span>
+    <span class="k">for</span> <span class="n">home</span><span class="p">,</span> <span class="n">dirs</span><span class="p">,</span> <span class="n">files</span> <span class="ow">in</span> <span class="n">os</span><span class="p">.</span><span class="nf">walk</span><span class="p">(</span><span class="n">branch_dir</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">temp_dir</span> <span class="ow">in</span> <span class="n">dirs</span><span class="p">:</span>
-            <span class="n">name_array</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">temp_dir</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">name_array</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">name_array</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">splitext</span><span class="p">(</span><span class="n">temp_dir</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">name_array</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
                 <span class="k">continue</span>
             <span class="n">file_suffix</span> <span class="o">=</span> <span class="n">name_array</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># 获取后缀
-</span>            <span class="k">if</span> <span class="n">file_suffix</span><span class="p">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">".xcodeproj"</span><span class="p">:</span>
-                <span class="n">proj_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">home</span><span class="p">,</span> <span class="n">temp_dir</span><span class="p">)</span>
+</span>            <span class="k">if</span> <span class="n">file_suffix</span><span class="p">.</span><span class="nf">lower</span><span class="p">()</span> <span class="o">==</span> <span class="sh">"</span><span class="s">.xcodeproj</span><span class="sh">"</span><span class="p">:</span>
+                <span class="n">proj_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">home</span><span class="p">,</span> <span class="n">temp_dir</span><span class="p">)</span>
                 <span class="k">break</span>
     <span class="k">return</span> <span class="n">proj_path</span>
 
 <span class="c1"># 获取所有scheme
 </span><span class="k">def</span> <span class="nf">get_schemes</span><span class="p">(</span><span class="n">proj_path</span><span class="p">):</span>
-    <span class="n">proj_folder</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">proj_path</span><span class="p">)</span>
-    <span class="n">xcodebuild_list</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">popen</span><span class="p">(</span><span class="s">'cd '</span> <span class="o">+</span> <span class="n">proj_folder</span> <span class="o">+</span> <span class="s">' &amp;&amp; xcodebuild -list'</span><span class="p">)</span>
+    <span class="n">proj_folder</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">dirname</span><span class="p">(</span><span class="n">proj_path</span><span class="p">)</span>
+    <span class="n">xcodebuild_list</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="nf">popen</span><span class="p">(</span><span class="sh">'</span><span class="s">cd </span><span class="sh">'</span> <span class="o">+</span> <span class="n">proj_folder</span> <span class="o">+</span> <span class="sh">'</span><span class="s"> &amp;&amp; xcodebuild -list</span><span class="sh">'</span><span class="p">)</span>
     <span class="n">scheme_list</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">sch_flag</span> <span class="o">=</span> <span class="bp">False</span> <span class="c1"># 标记找到Scheme
 </span>    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">xcodebuild_list</span><span class="p">:</span>
-        <span class="n">temp_line</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="k">if</span> <span class="s">"Schemes:"</span> <span class="ow">in</span> <span class="n">temp_line</span><span class="p">:</span>
+        <span class="n">temp_line</span> <span class="o">=</span> <span class="n">line</span><span class="p">.</span><span class="nf">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="sh">"</span><span class="s">Schemes:</span><span class="sh">"</span> <span class="ow">in</span> <span class="n">temp_line</span><span class="p">:</span>
             <span class="n">sch_flag</span> <span class="o">=</span> <span class="bp">True</span>
             <span class="k">continue</span>
-        <span class="k">if</span> <span class="n">sch_flag</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">temp_line</span> <span class="o">!=</span> <span class="s">""</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">temp_line</span><span class="p">.</span><span class="n">lower</span><span class="p">().</span><span class="n">endswith</span><span class="p">(</span><span class="s">"bundle"</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="s">" "</span> <span class="ow">in</span> <span class="n">temp_line</span><span class="p">:</span>
-            <span class="n">scheme_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp_line</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">temp_line</span> <span class="o">==</span> <span class="s">""</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sch_flag</span> <span class="o">==</span> <span class="bp">True</span> <span class="ow">and</span> <span class="n">temp_line</span> <span class="o">!=</span> <span class="sh">""</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">temp_line</span><span class="p">.</span><span class="nf">lower</span><span class="p">().</span><span class="nf">endswith</span><span class="p">(</span><span class="sh">"</span><span class="s">bundle</span><span class="sh">"</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="sh">"</span><span class="s"> </span><span class="sh">"</span> <span class="ow">in</span> <span class="n">temp_line</span><span class="p">:</span>
+            <span class="n">scheme_list</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">temp_line</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">temp_line</span> <span class="o">==</span> <span class="sh">""</span><span class="p">:</span>
             <span class="n">sch_flag</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="k">return</span> <span class="n">scheme_list</span>
 
@@ -544,48 +544,48 @@ g_repos_folder 下拉代码，存放组件代码的路径
 </span><span class="k">def</span> <span class="nf">git_clone</span><span class="p">(</span><span class="n">argv_list</span><span class="p">,</span> <span class="n">branch_dir</span><span class="p">):</span>
     <span class="n">branch_group</span> <span class="o">=</span> <span class="n">argv_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># 参数1 分组名称
 </span>    <span class="n">branch_name</span> <span class="o">=</span> <span class="n">argv_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># 参数2 分支名称
-</span>    <span class="n">branch_path</span> <span class="o">=</span> <span class="n">branch_dir</span> <span class="o">+</span> <span class="s">"/"</span> <span class="o">+</span> <span class="n">branch_name</span>
+</span>    <span class="n">branch_path</span> <span class="o">=</span> <span class="n">branch_dir</span> <span class="o">+</span> <span class="sh">"</span><span class="s">/</span><span class="sh">"</span> <span class="o">+</span> <span class="n">branch_name</span>
     <span class="c1"># http://192.168.1.44/publicrepos/demo1.git
-</span>    <span class="n">branch_link</span> <span class="o">=</span> <span class="s">"http://192.168.1.44/"</span> <span class="o">+</span> <span class="n">branch_group</span> <span class="o">+</span> <span class="s">"/"</span> <span class="o">+</span> <span class="n">branch_name</span>  <span class="o">+</span> <span class="s">".git"</span>
-    <span class="n">git_pwd</span> <span class="o">=</span> <span class="s">"cd "</span> <span class="o">+</span> <span class="n">branch_dir</span> <span class="o">+</span><span class="s">" &amp;&amp; git clone "</span> <span class="o">+</span> <span class="n">branch_link</span>
-    <span class="k">if</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">exists</span><span class="p">(</span><span class="n">branch_path</span><span class="p">):</span>
-        <span class="n">git_pwd</span> <span class="o">=</span> <span class="s">"cd "</span> <span class="o">+</span> <span class="n">branch_path</span> <span class="o">+</span><span class="s">" &amp;&amp; git pull origin master"</span>
-    <span class="n">os</span><span class="p">.</span><span class="n">system</span><span class="p">(</span><span class="n">git_pwd</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"拉取："</span> <span class="o">+</span> <span class="n">branch_name</span><span class="p">)</span>
+</span>    <span class="n">branch_link</span> <span class="o">=</span> <span class="sh">"</span><span class="s">http://192.168.1.44/</span><span class="sh">"</span> <span class="o">+</span> <span class="n">branch_group</span> <span class="o">+</span> <span class="sh">"</span><span class="s">/</span><span class="sh">"</span> <span class="o">+</span> <span class="n">branch_name</span>  <span class="o">+</span> <span class="sh">"</span><span class="s">.git</span><span class="sh">"</span>
+    <span class="n">git_pwd</span> <span class="o">=</span> <span class="sh">"</span><span class="s">cd </span><span class="sh">"</span> <span class="o">+</span> <span class="n">branch_dir</span> <span class="o">+</span><span class="sh">"</span><span class="s"> &amp;&amp; git clone </span><span class="sh">"</span> <span class="o">+</span> <span class="n">branch_link</span>
+    <span class="k">if</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">exists</span><span class="p">(</span><span class="n">branch_path</span><span class="p">):</span>
+        <span class="n">git_pwd</span> <span class="o">=</span> <span class="sh">"</span><span class="s">cd </span><span class="sh">"</span> <span class="o">+</span> <span class="n">branch_path</span> <span class="o">+</span><span class="sh">"</span><span class="s"> &amp;&amp; git pull origin master</span><span class="sh">"</span>
+    <span class="n">os</span><span class="p">.</span><span class="nf">system</span><span class="p">(</span><span class="n">git_pwd</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">拉取：</span><span class="sh">"</span> <span class="o">+</span> <span class="n">branch_name</span><span class="p">)</span>
 
 <span class="c1"># 自动化 sonar 扫描
 </span><span class="k">def</span> <span class="nf">auto_sonar</span><span class="p">(</span><span class="n">argvs</span><span class="p">):</span>
-    <span class="n">argv_list</span> <span class="o">=</span> <span class="n">argvs</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">].</span><span class="n">split</span><span class="p">(</span><span class="s">"/"</span><span class="p">)</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">argv_list</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">"Python 参数错误"</span><span class="p">)</span>
+    <span class="n">argv_list</span> <span class="o">=</span> <span class="n">argvs</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">].</span><span class="nf">split</span><span class="p">(</span><span class="sh">"</span><span class="s">/</span><span class="sh">"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">argv_list</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Python 参数错误</span><span class="sh">"</span><span class="p">)</span>
         <span class="k">return</span>
     <span class="n">branch_name</span> <span class="o">=</span> <span class="n">argv_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="c1"># 分支绝对路径
-</span>    <span class="n">branch_dir</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s">'~'</span><span class="p">)</span> <span class="o">+</span> <span class="n">g_repos_folder</span>
-    <span class="n">branch_path</span> <span class="o">=</span> <span class="n">branch_dir</span> <span class="o">+</span> <span class="s">"/"</span> <span class="o">+</span> <span class="n">branch_name</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"分支路径："</span> <span class="o">+</span> <span class="n">branch_path</span><span class="p">)</span>
+</span>    <span class="n">branch_dir</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">expanduser</span><span class="p">(</span><span class="sh">'</span><span class="s">~</span><span class="sh">'</span><span class="p">)</span> <span class="o">+</span> <span class="n">g_repos_folder</span>
+    <span class="n">branch_path</span> <span class="o">=</span> <span class="n">branch_dir</span> <span class="o">+</span> <span class="sh">"</span><span class="s">/</span><span class="sh">"</span> <span class="o">+</span> <span class="n">branch_name</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">分支路径：</span><span class="sh">"</span> <span class="o">+</span> <span class="n">branch_path</span><span class="p">)</span>
     <span class="c1"># 拉取或者clone分支
-</span>    <span class="n">git_clone</span><span class="p">(</span><span class="n">argv_list</span><span class="p">,</span> <span class="n">branch_dir</span><span class="p">)</span>
+</span>    <span class="nf">git_clone</span><span class="p">(</span><span class="n">argv_list</span><span class="p">,</span> <span class="n">branch_dir</span><span class="p">)</span>
     <span class="c1"># 找到工程文件
-</span>    <span class="n">proj_path</span> <span class="o">=</span> <span class="n">find_project</span><span class="p">(</span><span class="n">branch_path</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"工程路径："</span> <span class="o">+</span> <span class="n">proj_path</span><span class="p">)</span>
+</span>    <span class="n">proj_path</span> <span class="o">=</span> <span class="nf">find_project</span><span class="p">(</span><span class="n">branch_path</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">工程路径：</span><span class="sh">"</span> <span class="o">+</span> <span class="n">proj_path</span><span class="p">)</span>
     <span class="c1"># 找到所有scheme
-</span>    <span class="n">scheme_list</span> <span class="o">=</span> <span class="n">get_schemes</span><span class="p">(</span><span class="n">proj_path</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">"scheme 列表："</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">scheme_list</span><span class="p">))</span>
+</span>    <span class="n">scheme_list</span> <span class="o">=</span> <span class="nf">get_schemes</span><span class="p">(</span><span class="n">proj_path</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">scheme 列表：</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">scheme_list</span><span class="p">))</span>
     <span class="c1"># shell 参数，参数1：分支名称；参数2：xcodeproj 文件全路径；参数3：scheme
 </span>    <span class="k">for</span> <span class="n">scheme</span> <span class="ow">in</span> <span class="n">scheme_list</span><span class="p">:</span>
-        <span class="n">sh_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span> <span class="o">+</span> <span class="s">'/run-sonar.sh'</span>
-        <span class="n">os</span><span class="p">.</span><span class="n">system</span><span class="p">(</span><span class="s">"chmod 777 "</span> <span class="o">+</span> <span class="n">sh_path</span><span class="p">)</span>
-        <span class="n">sonar_pwd</span> <span class="o">=</span> <span class="s">'sh '</span><span class="o">+</span> <span class="n">sh_path</span> <span class="o">+</span> <span class="s">' '</span> <span class="o">+</span> <span class="n">branch_name</span> <span class="o">+</span> <span class="s">' '</span> <span class="o">+</span> <span class="n">proj_path</span> <span class="o">+</span> <span class="s">' '</span> <span class="o">+</span> <span class="n">scheme</span>
-        <span class="n">os</span><span class="p">.</span><span class="n">system</span><span class="p">(</span><span class="n">sonar_pwd</span><span class="p">)</span>
+        <span class="n">sh_path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">dirname</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span> <span class="o">+</span> <span class="sh">'</span><span class="s">/run-sonar.sh</span><span class="sh">'</span>
+        <span class="n">os</span><span class="p">.</span><span class="nf">system</span><span class="p">(</span><span class="sh">"</span><span class="s">chmod 777 </span><span class="sh">"</span> <span class="o">+</span> <span class="n">sh_path</span><span class="p">)</span>
+        <span class="n">sonar_pwd</span> <span class="o">=</span> <span class="sh">'</span><span class="s">sh </span><span class="sh">'</span><span class="o">+</span> <span class="n">sh_path</span> <span class="o">+</span> <span class="sh">'</span><span class="s"> </span><span class="sh">'</span> <span class="o">+</span> <span class="n">branch_name</span> <span class="o">+</span> <span class="sh">'</span><span class="s"> </span><span class="sh">'</span> <span class="o">+</span> <span class="n">proj_path</span> <span class="o">+</span> <span class="sh">'</span><span class="s"> </span><span class="sh">'</span> <span class="o">+</span> <span class="n">scheme</span>
+        <span class="n">os</span><span class="p">.</span><span class="nf">system</span><span class="p">(</span><span class="n">sonar_pwd</span><span class="p">)</span>
 
 <span class="c1"># 主程序
-</span><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">"python 参数必须带上 分组/分支名称"</span><span class="p">)</span>
-        <span class="n">sys</span><span class="p">.</span><span class="nb">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">python 参数必须带上 分组/分支名称</span><span class="sh">"</span><span class="p">)</span>
+        <span class="n">sys</span><span class="p">.</span><span class="nf">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">auto_sonar</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        <span class="nf">auto_sonar</span><span class="p">(</span><span class="nf">str</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
 </code></pre></div></div>
 
 <h2 id="oclint-扫描上传-sonarqube-脚本">OCLint 扫描上传 SonarQube 脚本</h2>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <title>Flutter升级AGP&amp;Gradle&amp;Kotlin</title>
+  <meta name="description" content="AGP &amp; Gradle &amp; Kotlin 关系">
+  <meta name="author" content="leopardpan">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Flutter升级AGP&amp;Gradle&amp;Kotlin">
+  <meta name="twitter:description" content="AGP &amp; Gradle &amp; Kotlin 关系">
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Flutter升级AGP&amp;Gradle&amp;Kotlin">
+  <meta property="og:description" content="AGP &amp; Gradle &amp; Kotlin 关系">
+  
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+  <link href="/images/favicon.png" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//libs.baidu.com/fontawesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2024/04/Flutter%E5%8D%87%E7%BA%A7AGP&Gradle&Kotlin/">
+  <link rel="alternate" type="application/rss+xml" title="cocoafei" href="http://localhost:4000/feed.xml">
+
+<!-- 百度统计 -->
+  
+
+<!-- google 统计 -->
+  
+
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">        
+      <div class="nav_container">
+         <nav class="nav-menu-item" style = "float:right">
+            <i class="nav-menu-item">
+              <a href="/#blog" title="" class="blog-button">  博客主页
+              </a>
+            </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/archive" title="archive" class="btn-mobile-menu__icon">
+                      所有文章
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/tags" title="tags" class="btn-mobile-menu__icon">
+                      标签
+                  </a>
+                </i>
+            
+                <i class="nav-menu-item">
+
+                  <a href="/about" title="about" class="btn-mobile-menu__icon">
+                      关于我
+                  </a>
+                </i>
+            
+          </nav>
+      </div>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/images/background-cover.png')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+        <!-- 头像效果-start -->
+        <div class="ih-item circle effect right_to_left">            
+            <a href="/#blog" title="前往 cocoafei 的主页" class="blog-button">
+                <div class="img"><img src="/images/avatar.jpg" alt="img"></div>
+                <div class="info">
+                    <div class="info-back">
+                        <h2> 
+                            
+                                cocoafei
+                            
+                        </h2>
+                        <p>
+                           
+                                iOS / Python
+                            
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- 头像效果-end -->
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="link to homepage for cocoafei" class="blog-button">cocoafei</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">个人站</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">欢迎来到我的Blog~</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="" class="blog-button">博客主页</a></li>
+                
+                  <li class="navigation__item"><a href="/archive" title="archive">所有文章</a></li>
+                
+                  <li class="navigation__item"><a href="/tags" title="tags">标签</a></li>
+                
+                  <li class="navigation__item"><a href="/about" title="about">关于我</a></li>
+                
+              </ul>
+            </nav>
+          </div>          
+        </div>
+
+
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-clear"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <h1 class="post-title">Flutter升级AGP&Gradle&Kotlin</h1>
+    <div class="post-meta">
+      <img src="/images/calendar.png" width="20px" style="vertical-align:middle;"/> 
+      <time datetime="2024-04-25 00:00:00 +0800" itemprop="datePublished" class="post-meta__date date" style="vertical-align:middle;">2024-04-25</time>
+    </p>  
+    </div>
+  </header>
+
+  <section class="post">
+    <h2 id="agp--gradle--kotlin-关系">AGP &amp; Gradle &amp; Kotlin 关系</h2>
+
+<p>跨平台扫盲，不熟悉这几样的同学了解一下。非 Android 开发出身，有总结错误的地方，谢谢指正。</p>
+
+<ol>
+  <li>Android Studio，开发 Android 的 SDK，大家都不陌生，对应 iOS 开发中 Xcode；</li>
+  <li>AGP(Android Gradle Plugin)，用于扩展 Gradle 功能的插件，以支持 Android 项目的构建；</li>
+  <li>Kotlin 开发语言，是一种与 Android 兼容的语言，类似 iOS 开发中的 Swift；</li>
+  <li>不同版本 Android Studio 的 AGP 插件不同，AGP 对应 Gradle 版本不同；</li>
+  <li>Android Studio 升级时可能会升级 AGP，每个 AGP 版本都对应一个兼容的 Gradle 版本范围；</li>
+  <li>Android Studio 会捆绑一个 Kotlin 版本，一般为当前最新稳定版。</li>
+</ol>
+
+<p><strong>具体对应关系可参考官方文档：</strong></p>
+
+<ul>
+  <li><a href="https://developer.android.google.cn/build/releases/gradle-plugin?hl=zh-cn">Android Gradle 插件兼容列表</a></li>
+  <li><a href="https://developer.android.com/build/kotlin-support?hl=zh-cn">Kotlin 版本所需的 D8 和 R8 编译器版本</a></li>
+</ul>
+
+<h2 id="flutter-编译-android-报错">Flutter 编译 Android 报错</h2>
+
+<p>Flutter 升级至 3.19.6 后，编译 Android 报错<code class="language-plaintext highlighter-rouge">Failed to transform kotlin-stdlib-1.9.10.jar</code>，开始以为是 Flutter 的问题，调研发现是 Android Studio 升级导致。</p>
+
+<p><strong>原因：</strong> AGP(Android Gradle Plugin) &amp; Gradle &amp; Kotlin 之间版本有对应的关系，升级 Android Studio，导致 AGP 版本升高，对应兼容的最低 Gradle 版本和 Kotlin 版本也升高，如果项目设置的版本不匹配，就会编译报错。这对于不熟悉 Android 开发和 Gradle 的人来说，解决起来挺麻烦。</p>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">FAILURE:</span> <span class="n">Build</span> <span class="n">failed</span> <span class="n">with</span> <span class="n">an</span> <span class="n">exception</span><span class="o">.</span>
+
+<span class="o">*</span> <span class="n">What</span> <span class="n">went</span> <span class="nl">wrong:</span>
+<span class="n">Execution</span> <span class="n">failed</span> <span class="k">for</span> <span class="n">task</span> <span class="s1">':app:mergeExtDexDebug'</span><span class="o">.</span>
+<span class="o">&gt;</span> <span class="n">Could</span> <span class="n">not</span> <span class="n">resolve</span> <span class="n">all</span> <span class="n">files</span> <span class="k">for</span> <span class="n">configuration</span> <span class="s1">':app:debugRuntimeClasspath'</span><span class="o">.</span>
+   <span class="o">&gt;</span> <span class="n">Failed</span> <span class="n">to</span> <span class="n">transform</span> <span class="n">kotlin</span><span class="o">-</span><span class="n">stdlib</span><span class="o">-</span><span class="mf">1.9</span><span class="o">.</span><span class="mi">10</span><span class="o">.</span><span class="na">jar</span> <span class="o">(</span><span class="n">org</span><span class="o">.</span><span class="na">jetbrains</span><span class="o">.</span><span class="na">kotlin</span><span class="o">:</span><span class="n">kotlin</span><span class="o">-</span><span class="nl">stdlib:</span><span class="mf">1.9</span><span class="o">.</span><span class="mi">10</span><span class="o">)</span> <span class="n">to</span> <span class="n">match</span> <span class="n">attributes</span> <span class="o">{</span><span class="n">artifactType</span><span class="o">=</span><span class="n">android</span><span class="o">-</span><span class="n">dex</span><span class="o">,</span> <span class="n">asm</span><span class="o">-</span><span class="n">transformed</span><span class="o">-</span><span class="n">variant</span><span class="o">=</span><span class="n">NONE</span><span class="o">,</span> <span class="n">dexing</span><span class="o">-</span><span class="n">enable</span><span class="o">-</span><span class="n">desugaring</span><span class="o">=</span><span class="kc">true</span><span class="o">,</span> <span class="n">dexing</span><span class="o">-</span><span class="n">enable</span><span class="o">-</span><span class="n">jacoco</span><span class="o">-</span><span class="n">instrumentation</span><span class="o">=</span><span class="kc">false</span><span class="o">,</span> <span class="n">dexing</span><span class="o">-</span><span class="n">is</span><span class="o">-</span><span class="n">debuggable</span><span class="o">=</span><span class="kc">true</span><span class="o">,</span> <span class="n">dexing</span><span class="o">-</span><span class="n">min</span><span class="o">-</span><span class="n">sdk</span><span class="o">=</span><span class="mi">19</span><span class="o">,</span> <span class="n">org</span><span class="o">.</span><span class="na">gradle</span><span class="o">.</span><span class="na">category</span><span class="o">=</span><span class="n">library</span><span class="o">,</span> <span class="n">org</span><span class="o">.</span><span class="na">gradle</span><span class="o">.</span><span class="na">libraryelements</span><span class="o">=</span><span class="n">jar</span><span class="o">,</span> <span class="n">org</span><span class="o">.</span><span class="na">gradle</span><span class="o">.</span><span class="na">status</span><span class="o">=</span><span class="n">release</span><span class="o">,</span> <span class="n">org</span><span class="o">.</span><span class="na">gradle</span><span class="o">.</span><span class="na">usage</span><span class="o">=</span><span class="n">java</span><span class="o">-</span><span class="n">runtime</span><span class="o">}.</span>
+      <span class="o">&gt;</span> <span class="n">Execution</span> <span class="n">failed</span> <span class="k">for</span> <span class="nl">DexingWithClasspathTransform:</span> <span class="s">/Users/</span><span class="n">lifei</span><span class="s">/.gradle/</span><span class="n">caches</span><span class="s">/transforms-3/</span><span class="mi">29</span><span class="n">afff73df66b7b192e6a6f531b855cf</span><span class="s">/transformed/</span><span class="n">jetified</span><span class="o">-</span><span class="n">kotlin</span><span class="o">-</span><span class="n">stdlib</span><span class="o">-</span><span class="mf">1.9</span><span class="o">.</span><span class="mi">10</span><span class="o">.</span><span class="na">jar</span><span class="o">.</span>
+         <span class="o">&gt;</span> <span class="n">Error</span> <span class="k">while</span> <span class="n">dexing</span><span class="o">.</span>
+
+<span class="o">*</span> <span class="nl">Try:</span>
+<span class="o">&gt;</span> <span class="n">Run</span> <span class="n">with</span> <span class="o">--</span><span class="n">stacktrace</span> <span class="n">option</span> <span class="n">to</span> <span class="n">get</span> <span class="n">the</span> <span class="n">stack</span> <span class="n">trace</span><span class="o">.</span>
+<span class="o">&gt;</span> <span class="n">Run</span> <span class="n">with</span> <span class="o">--</span><span class="n">info</span> <span class="n">or</span> <span class="o">--</span><span class="n">debug</span> <span class="n">option</span> <span class="n">to</span> <span class="n">get</span> <span class="n">more</span> <span class="n">log</span> <span class="n">output</span><span class="o">.</span>
+<span class="o">&gt;</span> <span class="n">Run</span> <span class="n">with</span> <span class="o">--</span><span class="n">scan</span> <span class="n">to</span> <span class="n">get</span> <span class="n">full</span> <span class="n">insights</span><span class="o">.</span>
+
+<span class="o">*</span> <span class="n">Get</span> <span class="n">more</span> <span class="n">help</span> <span class="n">at</span> <span class="nl">https:</span><span class="c1">//help.gradle.org</span>
+
+<span class="n">BUILD</span> <span class="n">FAILED</span> <span class="k">in</span> <span class="mi">10</span><span class="n">m</span> <span class="mi">15</span><span class="n">s</span>
+
+<span class="err">┌─</span> <span class="n">Flutter</span> <span class="n">Fix</span> <span class="err">──────────────────────────────────────────────────────────────┐</span>
+<span class="err">│</span> <span class="o">[!]</span> <span class="n">The</span> <span class="n">shrinker</span> <span class="n">may</span> <span class="n">have</span> <span class="n">failed</span> <span class="n">to</span> <span class="n">optimize</span> <span class="n">the</span> <span class="n">Java</span> <span class="n">bytecode</span><span class="o">.</span>            <span class="err">│</span>
+<span class="err">│</span> <span class="n">To</span> <span class="n">disable</span> <span class="n">the</span> <span class="n">shrinker</span><span class="o">,</span> <span class="n">pass</span> <span class="n">the</span> <span class="err">`</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">shrink</span><span class="err">`</span> <span class="n">flag</span> <span class="n">to</span> <span class="k">this</span> <span class="n">command</span><span class="o">.</span>      <span class="err">│</span>
+<span class="err">│</span> <span class="n">To</span> <span class="n">learn</span> <span class="n">more</span><span class="o">,</span> <span class="nl">see:</span> <span class="nl">https:</span><span class="c1">//developer.android.com/studio/build/shrink-code │</span>
+<span class="err">└────────────────────────────────────────────────────────────────────────────┘</span>
+<span class="nl">Error:</span> <span class="n">Gradle</span> <span class="n">task</span> <span class="n">assembleDebug</span> <span class="n">failed</span> <span class="n">with</span> <span class="n">exit</span> <span class="n">code</span> <span class="mi">1</span>
+</code></pre></div></div>
+
+<h2 id="升级项目-agp">升级项目 AGP</h2>
+
+<p>既然版本不匹配问题，除了降低 Android Studio 版本外，那就是利用 Android Studio 中 AGP 升级助手<code class="language-plaintext highlighter-rouge">AGP Upgrade Assistant...</code>快速升级 AGP。</p>
+
+<ol>
+  <li>以 Android 模式打开 Flutter 项目（把项目的 Android 文件夹拖入 Android Studio），点击<code class="language-plaintext highlighter-rouge">Android Studio -&gt; AGP Upgrade Assistant...</code>；</li>
+  <li>出现一个弹窗，选择<code class="language-plaintext highlighter-rouge">Upgrade Android Gradle Plugin from version 7.4.2 to 8.3.2</code>，选择要升级的版本这里选择<code class="language-plaintext highlighter-rouge">8.3.2</code>；</li>
+  <li>点击<code class="language-plaintext highlighter-rouge">Run selected steps</code>升级即可。</li>
+</ol>
+
+<p><strong>一切顺利=草履虫教程，但可能会出现如下报错：</strong></p>
+
+<p><img src="/images/posts/upgrade-agp/agp1.png" alt="AGP升级报错" /></p>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Namespace</span> <span class="n">not</span> <span class="n">specified</span><span class="o">.</span> <span class="n">Specify</span> <span class="n">a</span> <span class="n">namespace</span> <span class="k">in</span> <span class="n">the</span> <span class="n">module</span><span class="err">'</span><span class="n">s</span> <span class="n">build</span> <span class="n">file</span><span class="o">.</span> <span class="n">See</span> <span class="nl">https:</span><span class="c1">//d.android.com/r/tools/upgrade-assistant/set-namespace for information about setting the namespace.</span>
+
+<span class="n">If</span> <span class="n">you</span><span class="err">'</span><span class="n">ve</span> <span class="n">specified</span> <span class="n">the</span> <span class="kn">package</span> <span class="nn">attribute</span> <span class="k">in</span> <span class="n">the</span> <span class="n">source</span> <span class="n">AndroidManifest</span><span class="o">.</span><span class="na">xml</span><span class="o">,</span> <span class="n">you</span> <span class="n">can</span> <span class="n">use</span> <span class="n">the</span> <span class="n">AGP</span> <span class="n">Upgrade</span> <span class="n">Assistant</span> <span class="n">to</span> <span class="n">migrate</span> <span class="n">to</span> <span class="n">the</span> <span class="n">namespace</span> <span class="n">value</span> <span class="k">in</span> <span class="n">the</span> <span class="n">build</span> <span class="n">file</span><span class="o">.</span> <span class="n">Refer</span> <span class="n">to</span> <span class="nl">https:</span><span class="c1">//d.android.com/r/tools/upgrade-assistant/agp-upgrade-assistant for general information about using the AGP Upgrade Assistant.</span>
+</code></pre></div></div>
+
+<p><strong>解决方案：</strong></p>
+
+<p>这是由于 Android 主工程更新<code class="language-plaintext highlighter-rouge">Android Gradle Plugin 8.0</code>以后会强制要求在每一个 library 模块的 build.gradle 中标明命名空间namespace，如果没有标注会直接抛出异常。我的 Flutter 项目有一个自定义 OpenCV 插件，修改<code class="language-plaintext highlighter-rouge">/plugins/opencv_utils/android/build.gradle</code>添加版本即可。</p>
+
+<div class="language-gradle highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">android</span> <span class="o">{</span>
+    <span class="c1">// 这里添加 namespace，和包名一致即可</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">project</span><span class="o">.</span><span class="na">android</span><span class="o">.</span><span class="na">hasProperty</span><span class="o">(</span><span class="s2">"namespace"</span><span class="o">))</span> <span class="o">{</span>
+        <span class="n">namespace</span> <span class="s1">'com.lf.opencv.opencv_utils'</span>
+    <span class="o">}</span>
+    <span class="n">compileSdkVersion</span> <span class="mi">33</span>
+    <span class="o">......</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>升级 AGP 插件版本至 8.3.2，通过 Git 我们检查更改如下(+号新增-号移除)：</strong></p>
+
+<div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// android/build.gradle 修改了 gradle 插件版本
+<span class="gd">- classpath 'com.android.tools.build:gradle:7.4.2'
+</span><span class="gi">+ classpath 'com.android.tools.build:gradle:8.3.2'
+</span><span class="err">
+</span>// android/gradle.properties 新增如下内容
+<span class="gi">+ android.defaults.buildfeatures.buildconfig=true
++ android.nonTransitiveRClass=false
++ android.nonFinalResIds=false
+</span><span class="err">
+</span>// android/app/src/main/AndroidManifest.xml 移除了 package
+<span class="gd">- &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.xx.yy"&gt;
+</span><span class="gi">+ &lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"&gt;
+</span><span class="err">
+</span>// android/gradle/wrapper/gradle-wrapper.properties 修改了 Gradle 版本
+<span class="gd">- distributionUrl=https\://services.gradle.org/distributions/gradle-7.5-all.zip
+</span><span class="gi">+ distributionUrl=https\://services.gradle.org/distributions/gradle-8.4-all.zip
+</span></code></pre></div></div>
+
+<h2 id="升级-kotlin-版本">升级 Kotlin 版本</h2>
+
+<p>升级完 AGP 后并没有结束，还需要升级 Kotlin 版本，因为不同的 Android Studio 捆绑 Kotlin 版本不同。</p>
+
+<div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 修改 android/build.gradle 文件中版本为 1.9.20
+<span class="gd">- ext.kotlin_version = '1.8.0'
+</span><span class="gi">+ ext.kotlin_version = '1.9.20'
+</span></code></pre></div></div>
+
+<p>修改文件<code class="language-plaintext highlighter-rouge">android/app/build.gradle</code>设置 <strong>minSdkVersion、compileSdkVersion</strong>。<code class="language-plaintext highlighter-rouge">com.xx.yy</code>修改为自己的包名。</p>
+
+<div class="language-gradle highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">android</span> <span class="o">{</span>
+    <span class="n">namespace</span> <span class="s2">"com.xx.yy"</span>
+    <span class="c1">// 设置编译的 SDK 版本为 flutter.compileSdkVersion</span>
+    <span class="n">compileSdkVersion</span> <span class="n">flutter</span><span class="o">.</span><span class="na">compileSdkVersion</span>
+<span class="o">......</span>
+
+<span class="n">defaultConfig</span> <span class="o">{</span>
+    <span class="n">applicationId</span> <span class="s2">"com.xx.yy"</span>
+    <span class="c1">// 设置最小兼容版本为 flutter.minSdkVersion</span>
+    <span class="n">minSdkVersion</span> <span class="n">flutter</span><span class="o">.</span><span class="na">minSdkVersion</span>
+    <span class="n">targetSdkVersion</span> <span class="n">flutter</span><span class="o">.</span><span class="na">targetSdkVersion</span>
+<span class="o">......</span>
+</code></pre></div></div>
+
+<p><strong>如果想查看 Flutter 对应兼容版本。</strong></p>
+
+<div class="language-gradle highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// 修改文件`android/app/build.gradle`，打印 Gradle 和 Flutter 版本</span>
+<span class="n">println</span> <span class="s2">"gradle.gradleVersion: $gradle.gradleVersion"</span>
+<span class="n">println</span> <span class="s2">"android.buildToolsVersion: $android.buildToolsVersion"</span>
+<span class="n">println</span> <span class="s2">"flutter.compileSdkVersion: $flutter.compileSdkVersion"</span>
+<span class="n">println</span> <span class="s2">"flutter.targetSdkVersion: $flutter.targetSdkVersion"</span>
+<span class="n">println</span> <span class="s2">"flutter.minSdkVersion: $flutter.minSdkVersion"</span>
+<span class="n">println</span> <span class="s2">"flutter.ndkVersion: $flutter.ndkVersion"</span>
+
+<span class="n">android</span> <span class="o">{</span>
+<span class="o">......</span>
+</code></pre></div></div>
+
+<p>到这里问题解决，编译通过运行无警告🎉🎉</p>
+
+<h2 id="参考链接">参考链接</h2>
+
+<ul>
+  <li><a href="https://developer.android.com/studio/build/dependencies?hl=zh-cn#groovy">android 添加 build 依赖项</a></li>
+  <li><a href="https://www.cnblogs.com/inexbot/p/17593347.html">Flutter 升级 Gradle 和 Gradle Plugin</a></li>
+  <li><a href="https://github.com/juliansteenbakker/mobile_scanner/issues/729">Failed to transform kotlin-stdlib-1.9.0.jar错误解决</a></li>
+  <li><a href="https://zhuanlan.zhihu.com/p/668428076">Android Studio Gradle 8.0升级记录</a></li>
+  <li><a href="https://developer.android.google.cn/build/releases/gradle-plugin?hl=zh-cn">Android Gradle 插件兼容列表</a></li>
+  <li><a href="https://developer.android.com/build/kotlin-support?hl=zh-cn">Kotlin 版本所需的 D8 和 R8 编译器版本</a></li>
+</ul>
+
+
+  </section>
+</article>
+
+<section>
+
+    <div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';"></div>
+
+    <ul class="pager">
+        
+        <li class="previous">
+            <a href="/2021/01/XCFramework-%E6%98%AF%E7%94%A8%E6%9D%A5%E5%B9%B2%E4%BB%80%E4%B9%88%E7%9A%84/" data-toggle="tooltip"
+                data-placement="top" title="XCFramework 是用来干什么的">上一篇： <span>XCFramework 是用来干什么的</span>
+            </a>
+        </li>
+        
+        
+    </ul>
+</section>
+<section class="post-comments">
+
+</section>
+
+
+            <section class="footer">
+    <footer>
+        <div class = "footer_div">
+            <nav class="cover-navigation navigation--social">
+                <ul class="navigation">
+                    
+                    
+                    <!-- Github -->
+                    <li class="navigation__item_social">
+                        <a href="https://github.com/muzipiao" title="@muzipiao 的 Github" target="_blank">
+                            <div class="footer-social-icon" style="background-image:url(/images/github.png);"></div>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    
+                    
+                    <!-- Zhihu -->
+                    <li class="navigation__item_social">
+                        <a href="https://juejin.im/user/5b2f1c51f265da59ad439f69" title="@5b2f1c51f265da59ad439f69" target="_blank">
+                            <div class="footer-social-icon" style="background-image:url(/images/juejin.png);"></div>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <!-- Email -->
+                    <li class="navigation__item_social">
+                        <a href="mailto:lifei_zdjl@126.com" title="Contact me">
+                            <div class="footer-social-icon" style="background-image:url(/images/email.png);"></div>
+                        </a>
+                    </li>
+                    
+                    
+                    <!-- RSS -->
+                    <li class="navigation__item_social">
+                        <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+                            <div class="footer-social-icon" style="background-image:url(/images/rss.png);"></div>
+                            <span class="label">RSS</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </nav>
+        </div>
+        <div><br><br></div>
+        <div class="footer__copyright" >
+            <br>
+            <span>©2020&nbsp;cocoafei&nbsp;</span>
+            <img src="/images/beian.png"/>
+            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010702002032" target="_blank">京公网安备 11010702002032号</a>
+            <span>&nbsp;</span>
+            <a href="http://beian.miit.gov.cn/" target="_blank">京ICP备2020033870号</a>
+        </div>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+  </body>
+
+</html>
