@@ -25,7 +25,7 @@ mail_pass = str(sys.argv[2])
 # curl 网站返回的状态码
 status_code = int(sys.argv[3])
 
-# cocoafei.top 使用重定向域名，因此会返回 301，表示网站正常，不用发送邮件
+# muzipiao.github.io/ 使用重定向域名，因此会返回 301，表示网站正常，不用发送邮件
 if status_code == 301 or status_code == 200:
     print("网站状态正常" + str(status_code))
     sys.exit(0)
@@ -35,13 +35,13 @@ sender = mail_user
 # 接收邮箱，多个邮箱使用逗号隔开，eg. [1234@qq.com, 5678@126.com]
 receivers = [mail_user]
 # 邮件正文文字
-message = MIMEText('curl cocoafei.top 状态码:' + str(status_code), 'plain', 'utf-8')
+message = MIMEText('curl muzipiao.github.io/ 状态码:' + str(status_code), 'plain', 'utf-8')
 # 发件人名称，eg. 发件人：GithubActions <actions@github.com>
 message['From'] = "GithubActions <actions@github.com>"
 # 收件人名称，eg. 收件人：lifei
-message['To'] = "lifei<cocoafei.top>"
+message['To'] = "lifei<muzipiao.github.io/>"
 # 邮件标题
-message['Subject'] = 'cocoafei.top 网络故障'
+message['Subject'] = 'muzipiao.github.io/ 网络故障'
 
 try:
     smtpObj = smtplib.SMTP()

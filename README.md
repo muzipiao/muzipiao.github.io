@@ -1,6 +1,6 @@
 ## 个人博客
 
-[![cocoafei.top](https://github.com/muzipiao/muzipiao.github.io/workflows/cocoafei.top/badge.svg)](https://cocoafei.top)
+[![muzipiao.github.io/](https://github.com/muzipiao/muzipiao.github.io/workflows/muzipiao.github.io//badge.svg)](https://muzipiao.github.io/)
 
 😁  你好，我是[cocoafei](https://github.com/muzipiao)， 生活在北京，iOS 开发工程师一枚，喜欢研究一些新技术；
 

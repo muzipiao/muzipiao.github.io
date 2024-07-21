@@ -1,5 +1,5 @@
 # 工作流程 (workflow) 名称
-name: cocoafei.top
+name: muzipiao.github.io/
 
 # 触发条件
 on:
@@ -19,8 +19,8 @@ jobs:
       # 第一步是获取源码，引用现成的检出 action，将代码检出到虚拟机上
       - uses: actions/checkout@v2
       
-      # 运行一组 shell 名称，获取 cocoafei.top 的网站状态，并判断是否需要发送邮件
-      - name: Get cocoafei.top response status code.
+      # 运行一组 shell 名称，获取 muzipiao.github.io/ 的网站状态，并判断是否需要发送邮件
+      - name: Get muzipiao.github.io/ response status code.
         run: |
-          export status_code=$(curl -I -m 15 -s -w "%{http_code}\n" -o /dev/null  cocoafei.top)
+          export status_code=$(curl -I -m 15 -s -w "%{http_code}\n" -o /dev/null  muzipiao.github.io/)
           python ./email_status.py ${{secrets.MAIL_USERNAME}} ${{secrets.MAIL_PASSWORD}} $status_code
