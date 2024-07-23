@@ -178,69 +178,69 @@
 
 <h2 id="代码生成高亮待提示控件位置的背景图片">代码生成高亮待提示控件位置的背景图片</h2>
 
-<pre><code class="language-objective-c">
-#pragma mark - 背景图片
-//传入待提示控件的Frame 和切圆角的半径(默认为5)
--(UIImage *)imageWithTipRect:(CGRect)tipRect tipRectRadius:(CGFloat)tipRectRadius{
+<div class="language-objective-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cp">#pragma mark - 背景图片
+</span><span class="c1">//传入待提示控件的Frame 和切圆角的半径(默认为5)</span>
+<span class="k">-</span><span class="p">(</span><span class="n">UIImage</span> <span class="o">*</span><span class="p">)</span><span class="nf">imageWithTipRect</span><span class="p">:(</span><span class="n">CGRect</span><span class="p">)</span><span class="nv">tipRect</span> <span class="nf">tipRectRadius</span><span class="p">:(</span><span class="n">CGFloat</span><span class="p">)</span><span class="nv">tipRectRadius</span><span class="p">{</span>
     
-    //开启当前的图形上下文
-    UIGraphicsBeginImageContextWithOptions([UIScreen mainScreen].bounds.size, NO, 0.0);
+    <span class="c1">//开启当前的图形上下文</span>
+    <span class="n">UIGraphicsBeginImageContextWithOptions</span><span class="p">([</span><span class="n">UIScreen</span> <span class="nf">mainScreen</span><span class="p">].</span><span class="n">bounds</span><span class="p">.</span><span class="n">size</span><span class="p">,</span> <span class="nb">NO</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span>
     
-    // 获取图形上下文，画板
-    CGContextRef cxtRef = UIGraphicsGetCurrentContext();
+    <span class="c1">// 获取图形上下文，画板</span>
+    <span class="n">CGContextRef</span> <span class="n">cxtRef</span> <span class="o">=</span> <span class="n">UIGraphicsGetCurrentContext</span><span class="p">();</span>
     
-    //将提示框增大，并与控件保持中心对齐，默认增大尺寸为切圆角的半径，需要特殊处理改下面尺寸
-    CGFloat plusSize = tipRectRadius;
-    CGRect tipRectPlus = CGRectMake(tipRect.origin.x - plusSize * 0.5, tipRect.origin.y - plusSize * 0.5, tipRect.size.width + plusSize, tipRect.size.height + plusSize);
+    <span class="c1">//将提示框增大，并与控件保持中心对齐，默认增大尺寸为切圆角的半径，需要特殊处理改下面尺寸</span>
+    <span class="n">CGFloat</span> <span class="n">plusSize</span> <span class="o">=</span> <span class="n">tipRectRadius</span><span class="p">;</span>
+    <span class="n">CGRect</span> <span class="n">tipRectPlus</span> <span class="o">=</span> <span class="n">CGRectMake</span><span class="p">(</span><span class="n">tipRect</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">plusSize</span> <span class="o">*</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">,</span> <span class="n">tipRect</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">plusSize</span> <span class="o">*</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">,</span> <span class="n">tipRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">plusSize</span><span class="p">,</span> <span class="n">tipRect</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span> <span class="o">+</span> <span class="n">plusSize</span><span class="p">);</span>
     
-    //绘制提示路径
-    UIBezierPath *tipRectPath = [UIBezierPath bezierPathWithRoundedRect:tipRectPlus cornerRadius:tipRectRadius];
+    <span class="c1">//绘制提示路径</span>
+    <span class="n">UIBezierPath</span> <span class="o">*</span><span class="n">tipRectPath</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIBezierPath</span> <span class="nf">bezierPathWithRoundedRect</span><span class="p">:</span><span class="n">tipRectPlus</span> <span class="nf">cornerRadius</span><span class="p">:</span><span class="n">tipRectRadius</span><span class="p">];</span>
     
-    //绘制蒙版
-    UIBezierPath *screenPath = [UIBezierPath bezierPathWithRect:[UIScreen mainScreen].bounds];
+    <span class="c1">//绘制蒙版</span>
+    <span class="n">UIBezierPath</span> <span class="o">*</span><span class="n">screenPath</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIBezierPath</span> <span class="nf">bezierPathWithRect</span><span class="p">:[</span><span class="n">UIScreen</span> <span class="nf">mainScreen</span><span class="p">].</span><span class="n">bounds</span><span class="p">];</span>
     
-    //填充色，默认为半透明，灰黑色背景；如果设置了自定义颜色，则使用自定义颜色
-    if (self.bgColor) {
-        CGContextSetFillColorWithColor(cxtRef, self.bgColor.CGColor);
-    }else{
-        CGContextSetFillColorWithColor(cxtRef, [UIColor colorWithRed:0.0/255.0 green:0.0/255.0 blue:0.0/255.0 alpha:0.2].CGColor);
-    }
+    <span class="c1">//填充色，默认为半透明，灰黑色背景；如果设置了自定义颜色，则使用自定义颜色</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">bgColor</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">CGContextSetFillColorWithColor</span><span class="p">(</span><span class="n">cxtRef</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">bgColor</span><span class="p">.</span><span class="n">CGColor</span><span class="p">);</span>
+    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+        <span class="n">CGContextSetFillColorWithColor</span><span class="p">(</span><span class="n">cxtRef</span><span class="p">,</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">colorWithRed</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="o">/</span><span class="mi">255</span><span class="p">.</span><span class="mi">0</span> <span class="nf">green</span><span class="p">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="o">/</span><span class="mi">255</span><span class="p">.</span><span class="mi">0</span> <span class="n">blue</span><span class="o">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="o">/</span><span class="mi">255</span><span class="p">.</span><span class="mi">0</span> <span class="n">alpha</span><span class="o">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">2</span><span class="p">].</span><span class="n">CGColor</span><span class="p">);</span>
+    <span class="p">}</span>
     
-    //添加路径到图形上下文
-    CGContextAddPath(cxtRef, tipRectPath.CGPath);
-    CGContextAddPath(cxtRef, screenPath.CGPath);
+    <span class="c1">//添加路径到图形上下文</span>
+    <span class="n">CGContextAddPath</span><span class="p">(</span><span class="n">cxtRef</span><span class="p">,</span> <span class="n">tipRectPath</span><span class="p">.</span><span class="n">CGPath</span><span class="p">);</span>
+    <span class="n">CGContextAddPath</span><span class="p">(</span><span class="n">cxtRef</span><span class="p">,</span> <span class="n">screenPath</span><span class="p">.</span><span class="n">CGPath</span><span class="p">);</span>
     
-    //渲染，选择奇偶模式
-    CGContextDrawPath(cxtRef, kCGPathEOFill);
+    <span class="c1">//渲染，选择奇偶模式</span>
+    <span class="n">CGContextDrawPath</span><span class="p">(</span><span class="n">cxtRef</span><span class="p">,</span> <span class="n">kCGPathEOFill</span><span class="p">);</span>
     
-    //从画布总读取图形
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    //关闭图形上下文
-    UIGraphicsEndImageContext();
+    <span class="c1">//从画布总读取图形</span>
+    <span class="n">UIImage</span> <span class="o">*</span><span class="n">image</span> <span class="o">=</span> <span class="n">UIGraphicsGetImageFromCurrentImageContext</span><span class="p">();</span>
+    <span class="c1">//关闭图形上下文</span>
+    <span class="n">UIGraphicsEndImageContext</span><span class="p">();</span>
     
-    return image;
-}
+    <span class="k">return</span> <span class="n">image</span><span class="p">;</span>
+<span class="p">}</span>
 
-</code></pre>
+</code></pre></div></div>
 
 <h2 id="添加指向新功能的提示图片">添加指向新功能的提示图片</h2>
 
-<pre><code class="language-objective-c">//背景容器
-UIView *bView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-instance.bgView = bView;
+<div class="language-objective-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//背景容器</span>
+<span class="n">UIView</span> <span class="o">*</span><span class="n">bView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIView</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithFrame</span><span class="p">:[</span><span class="n">UIScreen</span> <span class="nf">mainScreen</span><span class="p">].</span><span class="n">bounds</span><span class="p">];</span>
+<span class="n">instance</span><span class="p">.</span><span class="n">bgView</span> <span class="o">=</span> <span class="n">bView</span><span class="p">;</span>
 
-//添加展示背景图片的图层
-UIImageView *maskImageView = [[UIImageView alloc]initWithFrame:[UIScreen mainScreen].bounds];
-[bView addSubview:maskImageView];
+<span class="c1">//添加展示背景图片的图层</span>
+<span class="n">UIImageView</span> <span class="o">*</span><span class="n">maskImageView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIImageView</span> <span class="nf">alloc</span><span class="p">]</span><span class="nf">initWithFrame</span><span class="p">:[</span><span class="n">UIScreen</span> <span class="nf">mainScreen</span><span class="p">].</span><span class="n">bounds</span><span class="p">];</span>
+<span class="p">[</span><span class="n">bView</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">maskImageView</span><span class="p">];</span>
 
-//添加指向新功能的提示图片
-UIImageView *tipImageView = [[UIImageView alloc]initWithFrame:CGRectZero];
-[bView addSubview:tipImageView];
+<span class="c1">//添加指向新功能的提示图片</span>
+<span class="n">UIImageView</span> <span class="o">*</span><span class="n">tipImageView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">UIImageView</span> <span class="nf">alloc</span><span class="p">]</span><span class="nf">initWithFrame</span><span class="p">:</span><span class="n">CGRectZero</span><span class="p">];</span>
+<span class="p">[</span><span class="n">bView</span> <span class="nf">addSubview</span><span class="p">:</span><span class="n">tipImageView</span><span class="p">];</span>
 
-//添加至Windows，展示在最上面
-[[UIApplication sharedApplication].delegate.window addSubview: bView];
+<span class="c1">//添加至Windows，展示在最上面</span>
+<span class="p">[[</span><span class="n">UIApplication</span> <span class="nf">sharedApplication</span><span class="p">].</span><span class="n">delegate</span><span class="p">.</span><span class="n">window</span> <span class="nf">addSubview</span><span class="p">:</span> <span class="n">bView</span><span class="p">];</span>
         
-</code></pre>
+</code></pre></div></div>
 
 <p><strong>NOTE:</strong> 以上代码主要提供一个思路，您可能有更好的方法，欢迎指导。</p>
 
@@ -261,17 +261,17 @@ UIImageView *tipImageView = [[UIImageView alloc]initWithFrame:CGRectZero];
 
 <h3 id="api-接口">API 接口</h3>
 
-<pre><code class="language-objective-c">//定义为单例
-+(instancetype)shareGuide;
+<div class="language-objective-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//定义为单例</span>
+<span class="k">+</span><span class="p">(</span><span class="n">instancetype</span><span class="p">)</span><span class="n">shareGuide</span><span class="p">;</span>
 
-/**
+<span class="cm">/**
 创建遮罩提示层
 @param beGuidedViews 数组存入需要高亮的控件
 @param prefixName 提示图片的前缀，例如preName0前缀为preName,图片按照此格式命名
-*/
--(void)addGuideViews:(NSArray *)beGuidedViews imagePrefixName:(NSString *)prefixName;
+*/</span>
+<span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addGuideViews</span><span class="p">:(</span><span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">beGuidedViews</span> <span class="nf">imagePrefixName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">prefixName</span><span class="p">;</span>
         
-</code></pre>
+</code></pre></div></div>
 
 <h2 id="完整代码">完整代码</h2>
 
@@ -285,21 +285,21 @@ UIImageView *tipImageView = [[UIImageView alloc]initWithFrame:CGRectZero];
 
 <p>假设提示图片依次命名为arrow0，arrow1，arrow2，arrow3…</p>
 
-<pre><code class="language-objective-c">#import "GuideMask.h"
-//创建提示
-GuideMask *mask = [GuideMask shareGuide];
-//将待提示的View和提示小图片名称导入
-[mask addGuideViews:@[self.richTextBtn,self.dateBtn,self.refreshBtn,self.fmdbBtn] imagePrefixName:@"arrow"];
-</code></pre>
+<div class="language-objective-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import "GuideMask.h"
+</span><span class="c1">//创建提示</span>
+<span class="n">GuideMask</span> <span class="o">*</span><span class="n">mask</span> <span class="o">=</span> <span class="p">[</span><span class="n">GuideMask</span> <span class="nf">shareGuide</span><span class="p">];</span>
+<span class="c1">//将待提示的View和提示小图片名称导入</span>
+<span class="p">[</span><span class="n">mask</span> <span class="nf">addGuideViews</span><span class="p">:@[</span><span class="n">self</span><span class="p">.</span><span class="n">richTextBtn</span><span class="p">,</span><span class="n">self</span><span class="p">.</span><span class="n">dateBtn</span><span class="p">,</span><span class="n">self</span><span class="p">.</span><span class="n">refreshBtn</span><span class="p">,</span><span class="n">self</span><span class="p">.</span><span class="n">fmdbBtn</span><span class="p">]</span> <span class="nf">imagePrefixName</span><span class="p">:</span><span class="s">@"arrow"</span><span class="p">];</span>
+</code></pre></div></div>
 
 <p>当然你可以自定义背景颜色和透明度，和每张图片的位置，位置分为上，下，左，右，左上，左下，右上，右下，中心对齐，图片全屏覆盖手机等几种，能满足大部分需求。</p>
 
-<pre><code class="language-objective-c">//-------------------------可选----------------
-//指定位置，默认在正下方
-mask.tipImageLocation = @[@(GuideMaskPositionUp),@(GuideMaskPositionDown),@(GuideMaskPositionLeft),@(GuideMaskPositionRight),@(GuideMaskPositionLeftUp),@(GuideMaskPositionRightUp),@(GuideMaskPositionLeftDown),@(GuideMaskPositionRightDown)];
-//背景色
-mask.bgColor = [UIColor colorWithRed:128.0/255.0 green:128.0/255.0 blue:128.0/255.0 alpha:0.7];
-</code></pre>
+<div class="language-objective-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//-------------------------可选----------------</span>
+<span class="c1">//指定位置，默认在正下方</span>
+<span class="n">mask</span><span class="p">.</span><span class="n">tipImageLocation</span> <span class="o">=</span> <span class="p">@[</span><span class="err">@</span><span class="p">(</span><span class="n">GuideMaskPositionUp</span><span class="p">),</span><span class="err">@</span><span class="p">(</span><span class="n">GuideMaskPositionDown</span><span class="p">),</span><span class="err">@</span><span class="p">(</span><span class="n">GuideMaskPositionLeft</span><span class="p">),</span><span class="err">@</span><span class="p">(</span><span class="n">GuideMaskPositionRight</span><span class="p">),</span><span class="err">@</span><span class="p">(</span><span class="n">GuideMaskPositionLeftUp</span><span class="p">),</span><span class="err">@</span><span class="p">(</span><span class="n">GuideMaskPositionRightUp</span><span class="p">),</span><span class="err">@</span><span class="p">(</span><span class="n">GuideMaskPositionLeftDown</span><span class="p">),</span><span class="err">@</span><span class="p">(</span><span class="n">GuideMaskPositionRightDown</span><span class="p">)];</span>
+<span class="c1">//背景色</span>
+<span class="n">mask</span><span class="p">.</span><span class="n">bgColor</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIColor</span> <span class="nf">colorWithRed</span><span class="p">:</span><span class="mi">128</span><span class="p">.</span><span class="mi">0</span><span class="o">/</span><span class="mi">255</span><span class="p">.</span><span class="mi">0</span> <span class="nf">green</span><span class="p">:</span><span class="mi">128</span><span class="p">.</span><span class="mi">0</span><span class="o">/</span><span class="mi">255</span><span class="p">.</span><span class="mi">0</span> <span class="n">blue</span><span class="o">:</span><span class="mi">128</span><span class="p">.</span><span class="mi">0</span><span class="o">/</span><span class="mi">255</span><span class="p">.</span><span class="mi">0</span> <span class="n">alpha</span><span class="o">:</span><span class="mi">0</span><span class="p">.</span><span class="mi">7</span><span class="p">];</span>
+</code></pre></div></div>
 
 <p>如果您觉得有所帮助，请在<a href="https://github.com/muzipiao/GuideMask">GitHub GuideMaskDemo</a>上赏个Star ⭐️，您的鼓励是我前进的动力！</p>
 
@@ -353,7 +353,7 @@ mask.bgColor = [UIColor colorWithRed:128.0/255.0 green:128.0/255.0 blue:128.0/25
                     
                     <!-- Zhihu -->
                     <li class="navigation__item_social">
-                        <a href="https://juejin.im/user/5b2f1c51f265da59ad439f69" title="@5b2f1c51f265da59ad439f69" target="_blank">
+                        <a href="https://juejin.cn/user/5b2f1c51f265da59ad439f69" title="@5b2f1c51f265da59ad439f69" target="_blank">
                             <div class="footer-social-icon" style="background-image:url(/images/juejin.png);"></div>
                         </a>
                     </li>
@@ -391,11 +391,7 @@ mask.bgColor = [UIColor colorWithRed:128.0/255.0 green:128.0/255.0 blue:128.0/25
         <div><br><br></div>
         <div class="footer__copyright" >
             <br>
-            <span>©2020&nbsp;cocoafei&nbsp;</span>
-            <img src="/images/beian.png"/>
-            <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010702002032" target="_blank">京公网安备 11010702002032号</a>
-            <span>&nbsp;</span>
-            <a href="http://beian.miit.gov.cn/" target="_blank">京ICP备2020033870号</a>
+            <span>©2024&nbsp;cocoafei&nbsp;</span>
         </div>
     </footer>
 </section>
