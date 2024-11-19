@@ -35,20 +35,20 @@ sender = mail_user
 # 接收邮箱，多个邮箱使用逗号隔开，eg. [1234@qq.com, 5678@126.com]
 receivers = [mail_user]
 # 邮件正文文字
-message = MIMEText('curl muzipiao.github.io/ 状态码:' + str(status_code), 'plain', 'utf-8')
+message = MIMEText("curl muzipiao.github.io/ 状态码:" + str(status_code), "plain", "utf-8")
 # 发件人名称，eg. 发件人：GithubActions <actions@github.com>
-message['From'] = "GithubActions <actions@github.com>"
+message["From"] = "GithubActions <actions@github.com>"
 # 收件人名称，eg. 收件人：lifei
-message['To'] = "lifei<muzipiao.github.io/>"
+message["To"] = "lifei<muzipiao.github.io/>"
 # 邮件标题
-message['Subject'] = 'muzipiao.github.io/ 网络故障'
+message["Subject"] = "muzipiao.github.io/ 网络故障"
 
 try:
     smtpObj = smtplib.SMTP()
     # 链接 SMTP 服务器，QQ 发送邮件服务器：smtp.qq.com，使用SSL，端口号465或587
     smtpObj.connect(mail_host, 587)
     # 登录 SMTP 服务器
-    smtpObj.login(mail_user,mail_pass)
+    smtpObj.login(mail_user, mail_pass)
     # 发送邮件
     smtpObj.sendmail(sender, receivers, message.as_string())
     print("邮件发送成功，网站状态码：" + str(status_code))

@@ -8,9 +8,9 @@ url: "https://muzipiao.github.io/"
 
 # Social
 social:
-    github: muzipiao
-    juejin: 5b2f1c51f265da59ad439f69
-    mail: lifei_zdjl@126.com
+  github: muzipiao
+  juejin: 5b2f1c51f265da59ad439f69
+  mail: lifei_zdjl@126.com
 
 permalink: /:year/:month/:title/
 # Format
@@ -22,16 +22,15 @@ cover_color: clear
 
 # The blog button should not be removed.
 blog_button:
-    title: 博客主页
+  title: 博客主页
 
 # Navigation buttons in the front page.s
 nav:
-    - {title: 所有文章, description: archive, url: '/archive'}   
-    - {title: 标签, description: tags, url: '/tags'}      
-    - {title: 关于我, description: about, url: '/about'}      
-    
+  - { title: 所有文章, description: archive, url: "/archive" }
+  - { title: 标签, description: tags, url: "/tags" }
+  - { title: 关于我, description: about, url: "/about" }
 
 # Pagination  jekyll-sitemap
-gems: [jekyll-paginate,jekyll-sitemap]
+gems: [jekyll-paginate, jekyll-sitemap]
 paginate: 20
 paginate_path: "page/:num/"

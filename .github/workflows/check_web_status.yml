@@ -1,11 +1,11 @@
-# 工作流程 (workflow) 名称
+# 工作流程名称，设置参考(https://docs.github.com/zh/actions)
 name: muzipiao.github.io/
 
 # 触发条件
 on:
-  # 每天每 60 分钟运行一次此工作流
+  # 每天早上 5:30 运行一次此工作流
   schedule:
-    - cron: '*/60 * * * *'
+    - cron: "30 5 * * *"
 
 # 任务，一个工作流程由一个或多个任务 (job) 构成
 jobs:
@@ -17,8 +17,8 @@ jobs:
     # 步骤 (step) 表示将作为任务 (job) 一部分执行的一系列任务
     steps:
       # 第一步是获取源码，引用现成的检出 action，将代码检出到虚拟机上
-      - uses: actions/checkout@v2
-      
+      - uses: actions/checkout@v4
+
       # 运行一组 shell 名称，获取 muzipiao.github.io/ 的网站状态，并判断是否需要发送邮件
       - name: Get muzipiao.github.io/ response status code.
         run: |
